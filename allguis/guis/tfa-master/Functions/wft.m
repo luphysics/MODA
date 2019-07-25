@@ -47,7 +47,7 @@
 %            automatically as described in [1], so that it equals
 %            1/NB of the frequency region containing 50% of the
 %            window function; the default 'auto' is equivalent to 'auto-10'
-% 'f0':value (default = 1)
+% 'f0':value (default = 1/fmin)
 %            window resolution parameter, which determines the tradeoff
 %            between the time and frequency resolutions: the higher it is,
 %            the closer in frequency components can be resolved in WFT,
@@ -190,15 +190,21 @@ if length(fs)>1 || ~isnumeric(fs) || isnan(fs) || ~isfinite(fs) || fs<=0
 end
 
 %Default parameters
-Window='Gaussian'; f0=1;
-fmin=0; fmax=fs/2;
+Window='Gaussian'; 
+
+f0=1;
+fmin=0; 
+fmax=fs/2;
 fstep='auto';
+
 PadMode='predictive';
 RelTol=0.01;
 Preprocess='on';
+
 DispMode='on';
 PlotMode='off';
 CutEdges='off';
+
 %Update if user defined
 vst=1; recflag=1;
 if nargin>2 && isstruct(varargin{1})
@@ -239,6 +245,19 @@ for vn=vst:2:nargin-2
     elseif strcmpi(varargin{vn},'CutEdges'), if ~isempty(varargin{vn+1}), CutEdges=varargin{vn+1}; end
     else error(['There is no Property ''',varargin{vn},'''']);
     end
+end
+
+% Check whether the resolution "fr" was left blank; if so, set it to the
+% correct default.
+frIsBlank = true;
+for vn=vst:2:nargin-2
+    if strcmpi(varargin{vn},"f0")
+        frIsBlank = false;
+    end
+end
+if frIsBlank
+    fr = 1; % default value of fr when left blank.
+    f0 = fr / fmin;
 end
 
 %===========================Window function================================
@@ -603,7 +622,7 @@ end
                 if isnan(wp.fwtmax), wp.fwtmax=fwt(wp.ompeak+10^(-14)); end
             end
             if abs(wp.ompeak)>10^(-12) %center around the peak if needed
-                if ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                     fprintf('The Fourier transform (FT) of the specified window function is not centered around its maximum, which occurs at %f.\n',wp.ompeak)
                     fprintf('Therefore, we consider its modified version shifted in frequency so that the window FT amplitude is now peaked at zero.\n');
@@ -619,7 +638,7 @@ end
             vfun=@(u)fwt(u); xp=wp.ompeak; lim1=wp.xi1; lim2=wp.xi2;
             
             [QQ,wflag,xx,ss]=sqeps(vfun,xp,[lim1,lim2],racc,MIC,...
-                [-8*(2*pi*fs),8*(2*pi*fs)]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                [-8*(2*pi*fs),8*(2*pi*fs)]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             wp.xi1e=ss(1,1); wp.xi2e=ss(1,2); wp.xi1h=ss(2,1); wp.xi2h=ss(2,2);
             if isempty(wp.C)
                 if exist('twf','var') && ~isempty(twf)
@@ -629,7 +648,7 @@ end
                     wp.C=(QQ(1,1)+QQ(1,2))/2;
                 end
             end
-            if wflag==1 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if wflag==1 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                 fprintf('The frequency-domain window function is not well-behaved (e.g. decays very slowly as frequency tends\n');
                 fprintf('to +/- infinity). The integration might be not accurate (and therefore e.g. the calculated frequency \n');
@@ -637,7 +656,7 @@ end
                 fprintf(2,'----------------------------------------------------------------------------------------------------\n');
             end
             
-            if isempty(wp.omg) %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if isempty(wp.omg) %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 wstate=warning('off','all');
                 px1=min([wp.ompeak-xx(1,1),xx(1,2)-wp.ompeak]); px2=min([wp.ompeak-xx(4,1),xx(4,2)-wp.ompeak]);
                 [Y1,errY1]=quadgk(@(u)(u.*fwt(wp.ompeak+u)-u.*fwt(wp.ompeak-u)),0,px1,'MaxIntervalCount',2*MIC,'AbsTol',0,'RelTol',10^(-12));
@@ -651,7 +670,7 @@ end
             
             if isempty(twf) %if time domain form is not known
                 [PP,wflag,xx,ss]=sqeps(@(x)abs(fwt(x)).^2,wp.ompeak,[wp.xi1,wp.xi2],racc,MIC,...
-                    [-8*(2*pi*fs),8*(2*pi*fs)]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                    [-8*(2*pi*fs),8*(2*pi*fs)]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Etot=sum(PP(1,:))/2/pi;
                 
                 CL=2^nextpow2(MIC/8); CT=CL/(2*abs(ss(1,2)-ss(1,1)));
@@ -684,7 +703,7 @@ end
                 Iest2=(1/CT)*sum(abs(Efwt(3:end)-2*Efwt(2:end-1)+Efwt(1:end-2)))/24; %error of integration in frequency
                 Eest=(CT/CL)*sum(Etwf);
                 
-                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                     fprintf(['Cannot accurately invert the specified frequency-domain form of the window function to find its\n',...
                         'time domain form and corresponding characteristics (e.g. cone-of-influence borders).\n',...
@@ -760,7 +779,7 @@ end
             %known (will be needed afterwards, mainly [wp.ompeak])
             if isempty(fwt) %if frequency domain form is not known
                 [PP,wflag,xx,ss]=sqeps(@(x)abs(twf(x)).^2,wp.tpeak,[wp.t1,wp.t2],racc,MIC,...
-                    [-8*L/fs,8*L/fs]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                    [-8*L/fs,8*L/fs]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Etot=sum(PP(1,:));
                 
                 CL=2^nextpow2(MIC/8); CT=2*abs(ss(1,2)-ss(1,1));
@@ -793,7 +812,7 @@ end
                 Iest2=(1/CT)*sum(abs(Efwt(3:end)-2*Efwt(2:end-1)+Efwt(1:end-2)))/24; %error of integration in frequency
                 Eest=(1/CT)*sum(Efwt);
                 
-                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                     fprintf(['Cannot accurately invert the specified time-domain form of the window function to find its\n',...
                         'frequency-domain form and corresponding characteristics (e.g. optimal frequency step ''fstep'').\n',...
@@ -821,11 +840,11 @@ end
                     [~,ipeak]=min(abs(cxi-wp.ompeak));
                     wp.fwtmax=interp1(cxi(ipeak-1:ipeak+1),abs(Cfwt(ipeak-1:ipeak+1)),wp.ompeak,'spline');
                 end
-                if isempty(wp.C) %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if isempty(wp.C) %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     wp.C=pi*twf(0);
                     if isnan(wp.C), wp.C=pi*twf(10^(-14)); end
                 end
-                if isempty(wp.omg) %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if isempty(wp.omg) %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     wp.omg=sum((2*pi/CT)*cxi.*Cfwt)/(2*wp.C);
                 end
                 
@@ -862,7 +881,7 @@ end
                 
                 
                 if abs(wp.ompeak)>10^(-12) %center around the peak
-                    if ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                    if ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                         fprintf('The Fourier transform (FT) of the specified window function is not centered around its maximum, which occurs at %f.\n',wp.ompeak)
                         fprintf('Therefore, we consider its modified version shifted in frequency so that the window FT amplitude is now peaked at zero.\n');
@@ -891,9 +910,9 @@ end
             vfun=@(u)twf(u); xp=wp.tpeak; lim1=wp.t1; lim2=wp.t2;
             
             [QQ,wflag,xx,ss]=sqeps(vfun,xp,[lim1,lim2],racc,MIC,...
-                [-8*L/fs,8*L/fs]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                [-8*L/fs,8*L/fs]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             wp.t1e=ss(1,1); wp.t2e=ss(1,2); wp.t1h=ss(2,1); wp.t2h=ss(2,2);
-            if wflag==1 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if wflag==1 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                 fprintf('The time-domain window function is not well-behaved (e.g. decays very slowly as time tends to +/- infinity).\n');
                 fprintf('The integration might be not accurate (and therefore e.g. cone-of-influence borders).\n');
