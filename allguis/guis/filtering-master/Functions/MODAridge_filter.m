@@ -65,7 +65,10 @@ try
     end
                 %Pre allocate for the cell structures
                 tfsupp = ecurve(WT,freqarr,wopt);
-                [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'ridge');            
+                
+                % Changed from "ridge" to "direct".            
+                [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'direct');
+                
                 handles.recon{j,k} = handles.bands_iamp{j,k}.*cos(handles.bands_iphi{j,k});
                 handles.bands_iphi{j,k} = mod(handles.bands_iphi{j,k},2*pi);
         end
