@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="74.997513"
+   height="5.7010484"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="MODAbanner3.svg">
+  <defs
+     id="defs4">
+    <filter
+       id="filter3012"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       style="color-interpolation-filters:sRGB">
+      <feColorMatrix
+         id="feColorMatrix3014"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter3012-1"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       style="color-interpolation-filters:sRGB">
+      <feColorMatrix
+         id="feColorMatrix3014-7"
+         type="saturate"
+         values="0" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3031-0">
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none"
+         id="rect3033-9"
+         width="49.828564"
+         height="16.3624"
+         x="2.9220474"
+         y="1023.6879" />
+    </clipPath>
+    <filter
+       id="filter3012-1-4"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       style="color-interpolation-filters:sRGB">
+      <feColorMatrix
+         id="feColorMatrix3014-7-8"
+         type="saturate"
+         values="0" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3066">
+      <rect
+         y="1023.5985"
+         x="53.845749"
+         height="16.3624"
+         width="49.828564"
+         id="rect3068"
+         style="fill:#000000;fill-opacity:1;stroke:none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3904">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.53690487;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect3906"
+         width="24.313906"
+         height="23.000002"
+         x="-12.616835"
+         y="937.58295" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.313709"
+     inkscape:cx="76.76528"
+     inkscape:cy="0.50676718"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="mm"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-8.5230713,-1019.0701)">
+    <rect
+       style="opacity:1;fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.15000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect876"
+       width="74.997513"
+       height="5.7010484"
+       x="8.5230713"
+       y="1019.0701" />
+    <g
+       id="g3012"
+       transform="matrix(1.0558824,0,0,1.0747664,-1.4178122,-82.649674)" />
+    <g
+       id="g3040"
+       transform="matrix(0.90067448,0,0,-0.19169842,72.928856,1203.9405)"
+       style="stroke-width:1.95467925">
+      <path
+         clip-path="none"
+         sodipodi:nodetypes="cscccccccccccccccccccsscsccccc"
+         inkscape:connector-curvature="0"
+         id="path232"
+         d="m -71.277657,951.46529 c 0.352992,0.69652 1.873413,2.07503 2.505506,1.92567 0.914435,-0.21606 1.572236,-2.14944 1.83482,-4.03969 2.071779,-12.54453 2.120022,-5.5174 4.566272,-1.87324 1.009306,-0.39617 1.29096,-3.15791 1.642849,-3.70729 2.267035,-5.80283 3.098381,0.57605 4.485997,6.0743 1.303856,4.78635 2.517554,-5.48411 3.968093,-4.28862 1.114261,0.93175 1.110823,8.28952 2.351318,8.17568 2.320285,-0.34718 1.676891,-7.93428 3.101817,-11.73161 0.916419,-1.87844 1.35324,0.13032 1.570491,1.23237 0.305507,1.23489 1.16824,4.09662 1.629337,3.66961 1.068266,-0.36353 1.196743,-2.38742 1.376387,-3.41927 0.959591,-7.24308 1.682202,-8.82607 2.380796,-6.1742 2.617327,15.41662 3.70706,7.08025 5.74007,7.00556 2.06385,3.68668 2.836749,24.14339 5.115077,12.18318 m 0,0 c 1.974805,-15.95677 4.812448,4.61214 7.025103,-0.95402 1.5848,-5.34938 1.956333,-11.81763 3.685474,-11.94348 3.578821,3.98749 3.300935,26.31054 6.432635,13.28846 0.412995,-1.93885 0.876559,-5.61206 1.715474,-4.57026 1.5571348,3.85216 2.2697118,12.03617 3.3860074,10.64124 1.2267281,-5.39061 1.6362998,-10.62442 2.0582289,-12.12904 0.8113744,-2.8934 1.1585493,0.20252 1.8152045,3.66254 0.3401042,1.79206 0.6108956,4.63609 1.394071,4.77986 0.7320266,-0.66094 1.09286893,-3.14526 1.43748589,-5.26328 0.32311411,-1.98585 0.64664612,-3.60041 0.82010857,-4.52572 1.68066164,-6.83931 1.96513444,5.61204 3.21821724,9.18765 0.6509907,2.03875 1.6572302,-1.77686 1.9642809,-2.616 1.9036714,-9.12943 2.1323715,6.02312 3.7285951,4.1884 0.200476,-0.65932 0.5063635,-9.43421 1.9940885,-9.31764"
+         style="display:inline;opacity:0.79680002;fill:none;stroke:#ff7f2a;stroke-width:0.3609924;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <g
+         clip-path="none"
+         id="g3060"
+         style="display:inline;stroke-width:1.95467925"
+         transform="matrix(0.21077322,0,0,0.26992133,-191.48848,898.91359)">
+        <path
+           style="display:inline;fill:none;stroke:#7e7e7e;stroke-width:1.7035892;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 899.78175,192.57739 c 7.03326,-4.23232 15.33967,-0.36777 21.20714,4.63186 11.2115,7.28262 18.58461,15.46829 32.13698,19.45863 3.10356,0.79373 6.44746,0.35344 9.37194,-0.8804"
+           id="path4095"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccc"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="display:inline;fill:none;stroke:#7e7e7e;stroke-width:1.7035892;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 711.55618,144.66043 c 12.23187,-3.28397 21.2543,26.06893 29.42512,33.44354 7.69158,7.27282 18.00401,43.73434 29.50717,39.61531 15.48405,-5.87727 22.99416,-23.7008 39.55316,-27.49846 12.54283,-1.20429 20.18356,5.81666 28.63922,13.3833 7.2021,6.98672 20.77984,33.05346 31.37979,28.22284 13.08175,-5.89321 17.87961,-32.81368 30.41111,-39.54615"
+           id="path212"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccccccc"
+           inkscape:export-filename="C:\Users\ticcinel\Desktop\path4095.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="display:inline;fill:none;stroke:#7e7e7e;stroke-width:1.7035892;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 571.72059,193.27611 c 5.01752,-0.27606 9.44449,-3.05162 13.26466,-6.10417"
+           id="path4110"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc"
+           inkscape:export-filename="C:\Users\ticcinel\Desktop\path4095.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="display:inline;fill:none;stroke:#7e7e7e;stroke-width:1.71632802;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 584.9885,187.12511 c 10.64453,-8.28914 14.77819,-15.75743 28.5408,-19.24418 11.58761,-1.46364 18.99163,2.83215 26.15268,10.40107 7.6798,7.48805 22.19537,17.03961 33.94144,12.81005 15.02405,-5.81073 22.90882,-41.2394 38.29775,-46.4284"
+           id="path214"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="C:\Users\ticcinel\Desktop\path4095.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+      </g>
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4231"
+       style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#aa0000;fill-opacity:1;stroke:none;stroke-width:17.54585075px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.05406265,0,0,0.05406265,61.20241,996.1539)"><flowRegion
+         id="flowRegion4233"
+         style="stroke-width:17.54585075px"><rect
+           id="rect4235"
+           width="634.28571"
+           height="68.571442"
+           x="230"
+           y="490.09"
+           style="fill:#aa0000;stroke-width:17.54585075px" /></flowRegion><flowPara
+         id="flowPara4237"
+         style="font-size:36.99411774px;line-height:1.25;fill:#4d4d4d;stroke-width:17.54585075px">MODA <flowSpan
+   style="font-size:24.66274452px"
+   id="flowSpan72">v1.0</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot868"
+       style="font-style:normal;font-weight:normal;font-size:1.33333337px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#4c4c4c;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(22.031306,1020.4569)"><flowRegion
+         id="flowRegion870"
+         style="font-size:1.33333337px;fill:#4c4c4c;fill-opacity:1"><rect
+           id="rect872"
+           width="62.187504"
+           height="54.187504"
+           x="39.125"
+           y="-8.9005976"
+           style="font-size:1.33333337px;fill:#4c4c4c;fill-opacity:1" /></flowRegion><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.20000005px;font-family:Arial;-inkscape-font-specification:Arial;fill:#4c4c4c;fill-opacity:1"
+         id="flowPara876">Nonlinear and Biomedical Physics Group</flowPara></flowRoot>  </g>
+</svg>
