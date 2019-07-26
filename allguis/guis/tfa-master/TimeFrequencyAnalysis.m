@@ -495,7 +495,9 @@ function intervals_Callback(hObject, eventdata, handles)
                 else
                 end  
                 
-                set(child_handles(i),'xlim',xl);
+                if exist("xl", "var") % Fix bug when xl has not been defined.
+                    set(child_handles(i),'xlim',xl); 
+                end
             end    
         end
     end
