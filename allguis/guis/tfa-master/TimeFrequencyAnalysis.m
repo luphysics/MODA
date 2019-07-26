@@ -465,7 +465,7 @@ function intervals_Callback(hObject, eventdata, handles)
             x = [xl(1) xl(2)];        
             z = ones(1,size(x,2));
             y = intervals(j)*ones(1,size(x,2));
-            plot3(handles.cum_avg,y,x,z,'--k');
+            plot3(handles.cum_avg,y,x,z,'--k','HandleVisibility','off');
             xticks = get(handles.cum_avg,'xtick');
             xticks = unique(sort([xticks intervals]));
             set(handles.cum_avg,'xtick',xticks);            
@@ -668,6 +668,9 @@ ax = copyobj(handles.cum_avg, Fig);
 set(ax,'Units', 'normalized', 'Position', [0.1,0.2,.85,.7]);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.5 0.5]);
 if ~isfield(handles, "p") || isempty(handles.p)
+    if ~isfield(handles, "leg1")
+        handles.leg1={'Mean','Median'};
+    end
     legend(ax,handles.leg1)
 else
     legend(ax,handles.legstat)
