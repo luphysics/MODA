@@ -312,7 +312,8 @@ function xyplot_Callback(hObject, eventdata, handles)
             xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',10);
         end
         handles.leg1={'Mean','Median'}; 
-        legend(handles.cum_avg,handles.leg1,'FontUnits','points','FontSize',10)
+        % legend(handles.cum_avg,handles.leg1,'FontUnits','points','FontSize',10)
+        legend(handles.cum_avg,handles.leg1,'FontSize',10)
         ind=2;
         ls=1;
         sty='-';
@@ -666,7 +667,7 @@ Fig = figure;
 ax = copyobj(handles.cum_avg, Fig);
 set(ax,'Units', 'normalized', 'Position', [0.1,0.2,.85,.7]);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.5 0.5]);
-if isempty(handles.p)
+if ~isfield(handles, "p") || isempty(handles.p)
     legend(ax,handles.leg1)
 else
     legend(ax,handles.legstat)
