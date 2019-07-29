@@ -150,11 +150,16 @@ try
         if getappdata(handles.h,'canceling')
             break;
         end
+        
+        % Number of signals being transformed.
+        if ty==1, count=n; 
+        else, count=1; end
+        
         if handles.calc_type == 1
-            set(handles.status,'String',sprintf('Calculating Wavelet Transform of Signal %d/%d',p,n));
+            set(handles.status,'String',sprintf('Calculating Wavelet Transform of Signal %d/%d',p,count));
             
         else
-            set(handles.status,'String',sprintf('Calculating Windowed Fourier Transform of Signal %d/%d',p,n));
+            set(handles.status,'String',sprintf('Calculating Windowed Fourier Transform of Signal %d/%d',p,count));
             
         end
         wtwrapper;

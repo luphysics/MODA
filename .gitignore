@@ -1,7 +1,6 @@
-# Added manually
-
-# Ignore csv files only in root folder
+# Ignore data files only in root folder
 *.csv 
+*.mat
 
 
 # Created by https://www.gitignore.io/api/matlab
