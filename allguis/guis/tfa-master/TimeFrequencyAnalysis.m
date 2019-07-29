@@ -164,12 +164,24 @@ varargout{1} = handles.output;
    
 function preprocess_Callback(hObject, eventdata, handles)
 
+    % Get the x-limits.
+    lim = csv_to_mvar(get(handles.xlim,"String"));
+    times = handles.time_axis;
+    
+    % Indices between x-limits.
+    indices =  times >= lim(1) & times <= lim(2);
+    
     cla(handles.plot_pp,'reset'); 
     L = size(handles.sig,2);
     signal_selected = get(handles.signal_list, 'Value');
     fs = handles.sampling_freq;
     fmax = str2double(get(handles.max_freq,'String'));
     fmin = str2double(get(handles.min_freq,'String'));
+    
+    % Modify signal to be in correct range; make backup to restore later.
+    sigBackup = zeros(size(handles.sig));
+    sigBackup(:) = handles.sig;
+    handles.sig = handles.sig(indices);
     
         handles.sig_pp = cell(size(handles.sig,1),1);
         for i = 1:size(handles.sig,1)        
@@ -197,12 +209,21 @@ function preprocess_Callback(hObject, eventdata, handles)
             handles.sig_pp{i,1} = ifft(fx)';
 
         end   
+        
+    handles.sig = sigBackup; % Restore full signal.
     
-    %Plotting
+    %%%% Plotting %%%%
     
+    % Plot original signal on preprocessing plot.
     plot(handles.plot_pp,handles.time_axis,handles.sig(signal_selected,:),'color',handles.linecol(1,:));
     hold(handles.plot_pp,'on');
-    plot(handles.plot_pp,handles.time_axis, handles.sig_pp{signal_selected,1},'color',handles.linecol(2,:));
+    
+    % Plot preprocessed signal on preprocessing plot.
+    pp_times = times(indices);
+    pp_sig = handles.sig_pp{signal_selected,1};
+    pp_sig = pp_sig(1:size(find(1 == indices),2));
+    plot(handles.plot_pp, pp_times, pp_sig,'color',handles.linecol(2,:));
+    
     legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',8,'Location','Best','units','normalized');
     xlim(handles.plot_pp,[0,size(handles.sig,2)./fs]);
     set(handles.plot_pp,'FontUnits','points','FontSize',8);
@@ -546,6 +567,10 @@ function refresh_limits_Callback(hObject, eventdata, handles)
     set(handles.xlim,'String',x);
     set(handles.ylim,'String',y);
     set(handles.length,'String',t);
+    
+    % Update values in preprocess plot to reflect the 
+    % preprocessed version of the x-limited signal.
+    preprocess_Callback(hObject, eventdata, handles);
     
 % ---------------------------Zoom Updating--------------------------
 function zoom_in_OffCallback(hObject, eventdata, handles)
