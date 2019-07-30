@@ -418,12 +418,11 @@ function xyplot_Callback(hObject, eventdata, handles)
 
         colormap(handles.plot3d,handles.cmap);
         shading(handles.plot3d,'interp');
-        
+                
         if handles.calc_type == 1
             set(handles.plot3d,'yscale','log');
             set(handles.plot_pow,'yscale','log');
         end
-        
         
         set(handles.plot3d,'ylim',[min(handles.freqarr) max(handles.freqarr)]);
         set(handles.plot3d,'xlim',[handles.time_axis_us(1) handles.time_axis_us(end)]);
@@ -521,8 +520,14 @@ function intervals_Callback(hObject, eventdata, handles)
                 else
                 end  
                 
-                if exist("xl", "var") % Fix bug when xl has not been defined.
-                    set(child_handles(i),'xlim',xl); 
+                % Fix bug where xl has not been defined.
+                if exist("xl", "var")
+                    h = child_handles(i);
+                    
+                    % Fix bug where limits of colorbar are set incorrectly.
+                    if ~isa(h, "matlab.graphics.illustration.ColorBar")
+                        set(h,'xlim',xl);
+                    end
                 end
             end    
         end
