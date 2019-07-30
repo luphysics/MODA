@@ -281,15 +281,19 @@ function signal_list_Callback(hObject, eventdata, handles)
 function wavlet_transform_Callback(hObject, eventdata, handles)
 handles.currsig=[];
 handles=MODATFAcalc(hObject,eventdata,handles,1);
-intervals_Callback(hObject, eventdata, handles)
-xyplot_Callback(hObject, eventdata, handles);
+if ~handles.failed
+    intervals_Callback(hObject, eventdata, handles)
+    xyplot_Callback(hObject, eventdata, handles);
+end
 guidata(hObject,handles); 
     
 function wt_single_Callback(hObject, eventdata, handles)
 handles.currsig=get(handles.signal_list,'Value');
 handles=MODATFAcalc(hObject,eventdata,handles,2);
-intervals_Callback(hObject, eventdata, handles)
-xyplot_Callback(hObject, eventdata, handles);
+if ~handles.failed
+    intervals_Callback(hObject, eventdata, handles)
+    xyplot_Callback(hObject, eventdata, handles);
+end
 
 
 function xyplot_Callback(hObject, eventdata, handles)

@@ -15,6 +15,7 @@ elseif ty==1
 end
 set(handles.save_session,'Enable','on')
 
+handles.failed=false;
 try
     % Obtain parameters from GUI
     fmax = str2double(get(handles.max_freq,'String'));
@@ -28,6 +29,7 @@ try
 
     if (A+0)+(B+0)==2
           errordlg('The bump wavelet requires that f0 > 0.4. Please enter a higher value.','Parameter Error');
+          handles.failed = true;
           set(handles.wt_single,'Enable','on')
           set(handles.wavlet_transform,'Enable','on')
           return;
@@ -35,6 +37,7 @@ try
     
     if fmax>fs/2
           errordlg(['Maximum frequency cannot be higher than the Nyquist frequency. Please enter a value less than or equal to ',num2str(fs/2),' Hz.'],'Parameter Error');
+          handles.failed = true;
           set(handles.wt_single,'Enable','on')
           set(handles.wavlet_transform,'Enable','on')
           return;
@@ -43,6 +46,7 @@ try
     %% Forces user to input minimum frequency for WFT, and changes resolution parameter according to fr/fmin, where fr is the user input resolution    
     if handles.calc_type==2 && isnan(fmin)
           errordlg(['Minimum frequency must be specified for WFT'],'Parameter Error');
+          handles.failed = true;
           set(handles.wt_single,'Enable','on')
           set(handles.wavlet_transform,'Enable','on')
           return;
@@ -52,6 +56,7 @@ try
     
     if isnan(fs)
       errordlg('Sampling frequency must be specified','Parameter Error');
+      handles.failed = true;
     end
     
     if handles.calc_type == 1
@@ -83,6 +88,7 @@ try
     
     if ~isfield(handles,'sig')
       errordlg('Signal not found','Signal Error');
+      handles.failed = true;
     end
     sig = handles.sig;    
     
@@ -117,6 +123,7 @@ try
     if handles.calc_type==1
         if fmin<=1/(length(handles.sig_cut)/fs)
           errordlg(['WT minimum frequency too low. To automatically calculate for minimum possible frequency leave "Min Freq" field blank.'],'Parameter Error'); 
+          handles.failed = true;
           set(handles.wt_single,'Enable','on')
           set(handles.wavlet_transform,'Enable','on')
           return;
@@ -184,6 +191,7 @@ try
     set(handles.save_session,'Enable','on')
 catch e
     errordlg(e.message,'Error');
+    handles.failed = true;
     set(handles.wt_single,'Enable','on')
     set(handles.wavlet_transform,'Enable','on')
     delete(handles.h)
