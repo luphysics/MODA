@@ -1202,7 +1202,7 @@ if FileName==0
     return;
 else
 end
-save_location = strcat(PathName,FileName)
+save_location = strcat(PathName,FileName);
 
 xl = csv_to_mvar(get(handles.xlim,'String'));
 L=xl(2)*handles.wopt.fs - xl(1)*handles.wopt.fs;
@@ -1239,6 +1239,20 @@ else
     Filtered_data.Filtered_phases=handles.extract_phase;
     Filtered_data.Filtered_amplitudes=handles.extract_amp;
 end
+
+% The size of the data; this is used to ensure that every time has a 
+% corresponding frequency, and vice versa.
+dSize = min(size(Filtered_data.Time,2), size(Filtered_data.Ridge_frequency{1},2));
+
+% If there are too many time values, trailing time values will be removed.
+% Trailing "Ridge_*" values will be removed if there are too few time
+% values.
+Filtered_data.Time = Filtered_data.Time(1,1:dSize);
+Filtered_data.Ridge_frequency{1} = Filtered_data.Ridge_frequency{1}(1,1:dSize);
+Filtered_data.Ridge_phase{1} = Filtered_data.Ridge_phase{1}(1,1:dSize);
+Filtered_data.Ridge_amplitude{1} = Filtered_data.Ridge_amplitude{1}(1,1:dSize);
+Filtered_data.Ridge_recon{1} = Filtered_data.Ridge_recon{1}(1,1:dSize);
+
 save(save_location,'Filtered_data');
 catch e
     errordlg(e.message,'Error')

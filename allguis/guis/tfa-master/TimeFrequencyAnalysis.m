@@ -904,7 +904,7 @@ if FileName==0
     return;
 else
 end
-save_location = strcat(PathName,FileName)
+save_location = strcat(PathName,FileName);
 
 xl = csv_to_mvar(get(handles.xlim,'String'));
 L=xl(2)*handles.wopt.fs - xl(1)*handles.wopt.fs;
