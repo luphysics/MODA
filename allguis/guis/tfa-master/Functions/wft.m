@@ -231,6 +231,7 @@ if nargin>2 && isstruct(varargin{1})
     end
     if isfield(copt,'fstepsim') && recflag==1, cvv=copt.fstepsim; if ~isempty(cvv), fstep=cvv; end, end
 end
+
 for vn=vst:2:nargin-2
     if strcmpi(varargin{vn},'Display'), if ~isempty(varargin{vn+1}), DispMode=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'Window'), if ~isempty(varargin{vn+1}), Window=varargin{vn+1}; end
@@ -255,8 +256,17 @@ for vn=vst:2:nargin-2
         frIsBlank = false;
     end
 end
+
+% When this code is called from Python, varargin is a cell
+% array containing one struct. Check if 'f0' is supplied to fix
+% bug where Python version uses default value of 'f0' instead 
+% of that supplied from Python.
+if isstruct(varargin{1})
+    if isfield(varargin{1}, "f0"), frIsBlank = false; end
+end
+
 if frIsBlank
-    fr = 1; % default value of fr when left blank.
+    fr = 1; % Default value of 'fr' when left blank.
     f0 = fr / fmin;
 end
 
