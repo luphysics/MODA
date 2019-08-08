@@ -9,7 +9,7 @@
 %wavelet has been changed to Morlet (despite comments still saying that it
 %is Lognormal).
 %
-%Version 1.01 stable 
+%Version 1.01 stable
 %**************************************************************************
 %*************************** Wavelet Transform ****************************
 %**************************************************************************
@@ -19,7 +19,7 @@
 % Information about these codes (e.g. links to the Video Instructions),
 % as well as other MatLab programs and many more can be found at
 % http://www.physics.lancs.ac.uk/research/nbmphysics/diats/tfr
-% 
+%
 % Related articles:
 % [1] D. Iatsenko, A. Stefanovska and P.V.E. McClintock,
 % "Linear and synchrosqueezed time-frequency representations revisited.
@@ -34,11 +34,11 @@
 %
 % [WT,freq,Optional:wopt]=wt(sig,fs,Optional:'PropertyName',PropertyValue)
 % - calculate wavelet transform [WT] of a signal [sig] sampled at [fs] Hz.
-% 
+%
 % INPUT:
 % sig - signal for which to calculate WT
 % fs  - sampling frequency of the signal
-% 
+%
 % Properties: ({{...}} denotes default)
 % ################################ BASIC ##################################
 % 'fmin':value (default is the minimal frequency for which at least one WT
@@ -87,7 +87,7 @@
 %                    with line denoting the cone of influence
 %          'amp+'  - additionally shows time-averaged WT amplitude
 %          'amp++' - additionally shows 95% range of WT amplitude
-%          'pow','pow+','pow++' - the same but for the WT power (i.e. its 
+%          'pow','pow+','pow++' - the same but for the WT power (i.e. its
 %                                 squared modulus)
 %           IMPORTANT: to avoid plotting huge data (in which case it might
 %           be very slow to render and modify the figure, and MatLab can
@@ -190,7 +190,7 @@
 
 function [WT,freq,varargout] = wt(signal,fs,varargin)
 
-L=length(signal); 
+L=length(signal);
 signal=signal(:);%converts the matrix into a line
 p=1; %WT normalization
 
@@ -251,7 +251,7 @@ for vn=vst:2:nargin-2
     else error(['There is no Property ''',varargin{vn},'''']);
     end
 end
-    
+
 
 
 %========================= Wavelet function ===============================
@@ -371,11 +371,22 @@ end
 %Detrend (subtract third-order polynomial fit) and filter first for usual padding
 if strcmpi(Preprocess,'on') && dflag==0
     %Detrending
-    X=(1:length(signal))'/fs; XM=ones(length(X),4); for pn=1:3, CX=X.^pn; XM(:,pn+1)=(CX-mean(CX))/std(CX); end
-    w=warning('off','all'); signal=signal-XM*(pinv(XM)*signal); warning(w);
+    X=(1:length(signal))'/fs;
+    XM=ones(length(X),4);
+    for pn=1:3,
+        CX=X.^pn;
+        XM(:,pn+1)=(CX-mean(CX))/std(CX);
+    end
+    w=warning('off','all');
+    
+    signal=signal-XM*(pinv(XM)*signal);
+    warning(w);
+    
     %Filtering
     fx=fft(signal,L); % Fourier transform of a signal
-    Nq=ceil((L+1)/2); ff=[(0:Nq-1),-fliplr(1:L-Nq)]*fs/L; ff=ff(:); % frequencies in Fourier transform
+    Nq=ceil((L+1)/2);
+    ff=[(0:Nq-1),-fliplr(1:L-Nq)]*fs/L;
+    ff=ff(:); % frequencies in Fourier transform
     fx(abs(ff)<=max([fmin,fs/L]) | abs(ff)>=fmax)=0; % filter signal in a chosen frequency domain
     signal=ifft(fx);
 end
@@ -612,27 +623,33 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %======================================================================================================================
 %----------------------------------------------------------------------------------------------------------------------
-    % Based on wavelet function in time [twf] and frequency [fwt],
-    % determines wavelet parameters such as constant [Cpsi],
-    % peaks in time [tpeak] and frequency [ompeak],
-    % epsilon-support in frequency [xi1e,xi2e] and in time [t1e,t2e],
-    % 50%-support in frequency [xi1h,xi2h] and time [t1h,t2h],
-    % time-frequency resolution [tfres] (inverse of multiplication of the latter),
-    % and number of voices [nv] (if 'auto') for specified relative accuracy [racc] (=epsilon);
-    % assigns all these values into the wavelet parameters structure [wp].
+% Based on wavelet function in time [twf] and frequency [fwt],
+% determines wavelet parameters such as constant [Cpsi],
+% peaks in time [tpeak] and frequency [ompeak],
+% epsilon-support in frequency [xi1e,xi2e] and in time [t1e,t2e],
+% 50%-support in frequency [xi1h,xi2h] and time [t1h,t2h],
+% time-frequency resolution [tfres] (inverse of multiplication of the latter),
+% and number of voices [nv] (if 'auto') for specified relative accuracy [racc] (=epsilon);
+% assigns all these values into the wavelet parameters structure [wp].
     function parcalc(racc)
         racc=min(racc,1-10^(-6)); %current \epsilon
         ctol=max([racc/1000,10^(-12)]); %parameter of numerical accuracy
         MIC=max([10000,10*L]); %maximum interval count for one-time calculations
-
+        
         %==================================================================
         %Determine values for known frequency and/or time-domain forms
         if ~isempty(fwt) %if the frequency-domain form is known
             wp.fwt=fwt;
             if isempty(wp.ompeak) %peak frequency
-                wp.ompeak=1; if strcmpi(Wavelet,'Morlet'), wp.ompeak=2*pi*f0; end
-                if wp.xi1>0 && isfinite(wp.xi2), wp.ompeak=sqrt(wp.xi1*wp.xi2);
-                elseif isfinite(wp.xi2), wp.ompeak=wp.xi2/2; end
+                wp.ompeak=1;
+                if strcmpi(Wavelet,'Morlet'), wp.ompeak=2*pi*f0; end
+                
+                if wp.xi1>0 && isfinite(wp.xi2),
+                    wp.ompeak=sqrt(wp.xi1*wp.xi2);
+                elseif isfinite(wp.xi2),
+                    wp.ompeak=wp.xi2/2;
+                end
+                
                 if fwt(wp.ompeak)==0 || isnan(fwt(wp.ompeak)) || ~isfinite(fwt(wp.ompeak))
                     cp1=wp.ompeak*exp(-10^(-14)); cp2=wp.ompeak*exp(10^(-14)); kk=1;
                     while kk<10^(28)
@@ -658,7 +675,7 @@ end
             end
             vfun=@(u)conj(fwt(exp(u))); xp=log(wp.ompeak); lim1=log(max([wp.xi1,0])); lim2=log(wp.xi2);
             
-            %Test admissibility %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            %Test admissibility %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             wstate=warning('off','all');
             if wp.xi1<=0, AC=fwt(0); else AC=0; end
             if isnan(AC)
@@ -667,7 +684,7 @@ end
                 while isnan(fwt(cx0)), cx0=cx0*2; end
                 AC=fwt(cx0);
             end
-            if AC>10^(-12) && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if AC>10^(-12) && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                 fprintf(2,'Wavelet does not seem to be admissible (its Fourier transform does not vanish at zero frequency)!\n');
                 fprintf(2,'Parameters estimated from its frequency domain form, e.g. integration constant Cpsi (which is \n');
@@ -679,10 +696,10 @@ end
             warning(wstate);
             
             [QQ,wflag,xx,ss]=sqeps(vfun,xp,[lim1,lim2],racc,MIC,...
-                [log((wp.ompeak/fmax)*fs/L/8),log(8*(wp.ompeak/(fs/L))*fs)]); %¬¬¬¬¬¬¬¬
+                [log((wp.ompeak/fmax)*fs/L/8),log(8*(wp.ompeak/(fs/L))*fs)]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             wp.xi1e=exp(ss(1,1)); wp.xi2e=exp(ss(1,2)); wp.xi1h=exp(ss(2,1)); wp.xi2h=exp(ss(2,2));
-            if isempty(wp.C), wp.C=(QQ(1,1)+QQ(1,2))/2; end %¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-            if isempty(wp.D) %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if isempty(wp.C), wp.C=(QQ(1,1)+QQ(1,2))/2; end %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            if isempty(wp.D) %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 wstate=warning('off','all');
                 [D1,errD1]=quadgk(@(u)conj(fwt(1./u)),1/wp.ompeak,exp(-xx(1,1)),'MaxIntervalCount',2*MIC,'AbsTol',0,'RelTol',10^(-12));
                 [D2,errD2]=quadgk(@(u)-conj(fwt(1./u)),1/wp.ompeak,exp(-xx(1,2)),'MaxIntervalCount',2*MIC,'AbsTol',0,'RelTol',10^(-12));
@@ -690,8 +707,8 @@ end
                 [D4,errD4]=quadgk(@(u)-conj(fwt(1./u)),exp(-xx(1,2)),exp(-xx(4,2)),'MaxIntervalCount',2*MIC,'AbsTol',0,'RelTol',10^(-12));
                 if abs((errD1+errD2+errD3+errD4)/(D1+D2+D3+D4))<10^(-4), wp.D=(wp.ompeak/2)*(D1+D2+D3+D4); else wp.D=Inf; end
                 warning(wstate);
-            end %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-            if wflag==1 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            end %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            if wflag==1 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                 fprintf('The frequency-domain wavelet function is not well-behaved (e.g. decays very slowly as frequency tends to zero\n');
                 fprintf('or infinity). The integration might be not accurate (and therefore e.g. the calculated number-of-voices ''nv'',\n');
@@ -701,7 +718,7 @@ end
             
             if isempty(twf) %if time domain form is not known
                 [PP,wflag,xx,ss]=sqeps(@(x)abs(fwt(x)).^2,wp.ompeak,[max([wp.xi1,0]),wp.xi2],racc,MIC,...
-                    [0,8*(wp.ompeak/(fs/L))*fs]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                    [0,8*(wp.ompeak/(fs/L))*fs]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Etot=sum(PP(1,:))/2/pi;
                 
                 CL=2^nextpow2(MIC/8); CT=CL/(2*abs(ss(1,2)-ss(1,1)));
@@ -734,7 +751,7 @@ end
                 Iest2=(1/CT)*sum(abs(Efwt(3:end)-2*Efwt(2:end-1)+Efwt(1:end-2)))/24; %error of integration in frequency
                 Eest=(CT/CL)*sum(Etwf);
                 
-                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                     fprintf(['Cannot accurately invert the specified frequency-domain form of the wavelet function to find its\n',...
                         'time domain form and corresponding characteristics (e.g. cone-of-influence borders).\n',...
@@ -744,7 +761,7 @@ end
                 
                 Ctwf=Ctwf(1:2*CNq-3); ct=(CT/CL)*(-(CNq-2):CNq-2)'; %make symmetric
                 wp.twf={Ctwf,ct};
-                Ctwf=Ctwf.*exp(-1i*wp.ompeak*ct); %demodulate (wavelet only) %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                Ctwf=Ctwf.*exp(-1i*wp.ompeak*ct); %demodulate (wavelet only) %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 
                 %Estimate general parameters
                 if isempty(wp.tpeak) %peak time
@@ -830,13 +847,13 @@ end
                 if isnan(wp.twfmax), wp.twfmax=twf(wp.tpeak+10^(-14)); end
             end
             
-            %Test admissibility %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            %Test admissibility %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             wstate=warning('off','all');
             AC=quadgk(@(u)-twf(u),wp.tpeak,xx(1,1),'MaxIntervalCount',MIC,'AbsTol',10^(-16),'RelTol',0)+...
                 quadgk(@(u)-twf(u),xx(1,1),xx(4,1),'MaxIntervalCount',MIC,'AbsTol',10^(-16),'RelTol',0)+...
                 quadgk(@(u)twf(u),wp.tpeak,xx(1,2),'MaxIntervalCount',MIC,'AbsTol',10^(-16),'RelTol',0)+...
                 quadgk(@(u)twf(u),xx(1,2),xx(4,2),'MaxIntervalCount',MIC,'AbsTol',10^(-16),'RelTol',0);
-            if AC>10^(-8) && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if AC>10^(-8) && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                 fprintf(2,'Wavelet does not seem to be admissible (its Fourier transform does not vanish at zero frequency)!\n');
                 fprintf(2,'Parameters estimated from its frequency domain form, e.g. integration constant Cpsi (which is \n');
@@ -859,7 +876,7 @@ end
                     [~,imax]=max(abs(Bfwt(ix))); compeak=bxi(ix(imax));
                 end
                 [PP,wflag,xx,ss]=sqeps(@(x)abs(twf(x)).^2,wp.tpeak,[wp.t1,wp.t2],racc,MIC,...
-                    [-8*(2*pi*fmax/compeak)*L/fs,8*(2*pi*fmax/compeak)*L/fs]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                    [-8*(2*pi*fmax/compeak)*L/fs,8*(2*pi*fmax/compeak)*L/fs]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Etot=sum(PP(1,:));
                 
                 CL=2^nextpow2(MIC/8); CT=2*abs(ss(1,2)-ss(1,1));
@@ -892,7 +909,7 @@ end
                 Iest2=(1/CT)*sum(abs(Efwt(3:end)-2*Efwt(2:end-1)+Efwt(1:end-2)))/24; %error of integration in frequency
                 Eest=(1/CT)*sum(Efwt);
                 
-                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if (abs(Etot-Eest)+Iest1+Iest2)/Etot>0.01 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                     fprintf(['Cannot accurately invert the specified time-domain form of the wavelet function to find its\n',...
                         'frequency-domain form and corresponding characteristics (e.g. optimal number-of-voices ''nv'').\n',...
@@ -944,13 +961,13 @@ end
                     [~,ipeak]=min(abs(cxi-wp.ompeak));
                     wp.fwtmax=interp1(cxi(ipeak-1:ipeak+1),abs(Cfwt(ipeak-1:ipeak+1)),wp.ompeak,'spline');
                 end
-                if isempty(wp.C), wp.C=(1/2)*sum(conj(Zfwt).*dbxi); end %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-                if isempty(wp.D) %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                if isempty(wp.C), wp.C=(1/2)*sum(conj(Zfwt).*dbxi); end %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                if isempty(wp.D) %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     wp.D=Inf;
                     if abs(Zfwt(2)/Zfwt(1))>exp(zxi(2)-zxi(1)) %determine if Dpsi is finite, i.e. fwt\sim\xi^(1+a>0) when xi->0
                         wp.D=(wp.ompeak/2)*sum(exp(-zxi).*conj(Zfwt).*dbxi);
                     end
-                end %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                end %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 
                 %Calculate the cumulative integrals
                 CS=CS0+cumsum(Zfwt.*dbxi); CS=[CS0;CS(:)]/CS(end); CS=abs(CS);
@@ -989,9 +1006,9 @@ end
             xp=wp.tpeak; lim1=wp.t1; lim2=wp.t2;
             
             [QQ,wflag,xx,ss]=sqeps(vfun,xp,[lim1,lim2],racc,MIC,...
-                [-8*(2*pi*fmax/wp.ompeak)*L/fs,8*(2*pi*fmax/wp.ompeak)*L/fs]); %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+                [-8*(2*pi*fmax/wp.ompeak)*L/fs,8*(2*pi*fmax/wp.ompeak)*L/fs]); %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             wp.t1e=ss(1,1); wp.t2e=ss(1,2); wp.t1h=ss(2,1); wp.t2h=ss(2,2);
-            if wflag==1 && ~strcmpi(DispMode,'off') %¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+            if wflag==1 && ~strcmpi(DispMode,'off') %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 fprintf(2,'--------------------------------------------- Warning! ---------------------------------------------\n');
                 fprintf('The time-domain wavelet function is not well-behaved (e.g. decays very slowly as time tends to +/- infinity).\n');
                 fprintf('The integration might be not accurate (and therefore e.g. cone-of-influence borders).\n');
@@ -1063,7 +1080,7 @@ if isnan(x2h)
     x2h=fminsearch(@(u)abs(abs(vfun(xp+abs(u))/vmax)-0.5),shp,optimset('TolFun',10^(-12)));
     x2h=xp+abs(x2h)/100;
 end
-    
+
 
 %determine x after which function is always below 10^(-8) of its maximal value (if such point exists), and not only the first crossing
 if isfinite(lim1), tx1=lim1-0.01*(lim1-xp); qv1=(abs(vfun(tx1))+abs(vfun((tx1+lim1)/2))+abs(vfun((tx1+3*lim1)/4)))/abs(vmax); else qv1=NaN; end
@@ -1195,7 +1212,7 @@ end
 warning(wstate); %restore the warning settings
 
 
-    %function for finding the epsilon-supports
+%function for finding the epsilon-supports
     function x0=fz(zv)
         if zv<abs(Q1/Q), cx1=x1m; cq1=Q1+q1m; ra=exp(-1/2); rb=exp(1/2);
         else cx1=x2m; cq1=Q1+q2m; ra=exp(1/2); rb=exp(-1/2); end
@@ -1399,7 +1416,7 @@ end
 % X,Y,XI,YI are all linearly spaced vectors, and the lengths of XI,YI
 % should be the same or smaller than that of X,Y; Z should be real,
 % ideally positive; X and Y correspond to the 2 and 1 dimension of Z, as
-% always. 
+% always.
 
 function ZI = aminterp(X,Y,Z,XI,YI,method)
 

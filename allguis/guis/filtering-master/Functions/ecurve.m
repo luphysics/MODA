@@ -6,7 +6,7 @@
 % Information about these codes (e.g. links to the Video Instructions),
 % as well as other MatLab programs and many more can be found at
 % http://www.physics.lancs.ac.uk/research/nbmphysics/diats/tfr
-% 
+%
 % Related articles:
 % [1] D. Iatsenko, A. Stefanovska and P.V.E. McClintock,
 % "Linear and synchrosqueezed time-frequency representations revisited.
@@ -28,7 +28,7 @@
 %   and its full support (the widest region of unimodal TFR amplitude
 %   around them) from the given time-frequency representation [TFR] of the
 %   signal. TFR can be either WFT or WT.
-% 
+%
 % OUTPUT:
 % tfsupp: 3xL matrix
 %    - extracted time-frequency support of the component, containing
@@ -45,7 +45,7 @@
 %      indices m(t) in [Skel{2}], the corresponding frequencies
 %      \nu_m(t)/2\pi in [Skel{3}], and the respective amplitudes Q_m(t)
 %      in [Skel{4}] (in notations of [3]).
-% 
+%
 % INPUT:
 % TFR: NFxL matrix (rows correspond to frequencies, columns - to time)
 %    - WFT or WT from which to extract [tfsupp]
@@ -151,7 +151,7 @@
 % If the other properties are specified next, they override those in the
 % structure, e.g. /ecurve(TFR,freq,wopt,opt,'Method',2);/ will
 % always use 2nd method, irrespectively to what is specified in [opt].
-% 
+%
 %-------------------------------Examples-----------------------------------
 %
 % [WFT,freq,wopt]=wft(sig,fs); tfsupp=ecurve(WFT,freq,wopt);
@@ -241,7 +241,7 @@ end
 %Determine the frequency resolution
 if min(freq)<=0 || std(diff(freq))<std(diff(log(freq)))
     fres=1; fstep=mean(diff(freq));
-    dfreq=[freq(1)-freq(end:-1:2);freq(end)-freq(end:-1:1)];    
+    dfreq=[freq(1)-freq(end:-1:2);freq(end)-freq(end:-1:1)];
 else
     fres=2; fstep=mean(diff(log(freq)));
     dfreq=[log(freq(1))-log(freq(end:-1:2));log(freq(end))-log(freq(end:-1:1))];
@@ -854,7 +854,7 @@ end
 % X,Y,XI,YI are all linearly spaced vectors, and the lengths of XI,YI
 % should be the same or smaller than that of X,Y; Z should be real,
 % ideally positive; X and Y correspond to the 2 and 1 dimension of Z, as
-% always. 
+% always.
 %--------------------------------------------------------------------------
 function ZI = aminterp(X,Y,Z,XI,YI,method)
 

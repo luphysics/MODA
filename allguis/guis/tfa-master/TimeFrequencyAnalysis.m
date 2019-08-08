@@ -206,7 +206,9 @@ function preprocess_Callback(hObject, eventdata, handles)
             ff=ff(:); 
 
             fx(abs(ff)<=max([fmin,fs/L]) | abs(ff)>=fmax)=0; 
-            handles.sig_pp{i,1} = ifft(fx)';
+            
+            result = ifft(fx)';
+            handles.sig_pp{i,1} = result;
 
         end   
         
