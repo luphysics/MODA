@@ -190,8 +190,6 @@
 
 function [WT,freq,varargout] = wt(signal,fs,varargin)
 
-L=length(signal);
-signal=signal(:);%converts the matrix into a line
 p=1; %WT normalization
 
 if length(fs)>1 || ~isnumeric(fs) || isnan(fs) || ~isfinite(fs) || fs<=0
@@ -234,6 +232,7 @@ if nargin>2 && isstruct(varargin{1})
         wp=copt.wp;
     end
     if isfield(copt,'nvsim') && recflag==1, cvv=copt.nvsim; if ~isempty(cvv), nv=cvv; end, end
+    if isfield(copt,'CachedDataLocation'), cvv=copt.CachedDataLocation; if ~isempty(cvv), CachedDataLocation=cvv; end, end
 end
 
 for vn=vst:2:nargin-2
@@ -248,11 +247,22 @@ for vn=vst:2:nargin-2
     elseif strcmpi(varargin{vn},'Preprocess'), if ~isempty(varargin{vn+1}), Preprocess=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'Plot'), if ~isempty(varargin{vn+1}), PlotMode=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'CutEdges'), if ~isempty(varargin{vn+1}), CutEdges=varargin{vn+1}; end
+    elseif strcmpi(varargin{vn},'CachedDataLocation'), if ~isempty(varargin{vn+1}), CachedDataLocation=varargin{vn+1}; end
     else error(['There is no Property ''',varargin{vn},'''']);
     end
 end
 
+if exist("CachedDataLocation", "var")
+    load(CachedDataLocation, "signal");
+    
+    times = zeros(length(signal),1);
+    for i = 1:length(signal)
+        times(i) = (i-1) / fs;
+    end
+end
 
+L=length(signal);
+signal=signal(:);%converts the matrix into a line
 
 %========================= Wavelet function ===============================
 %[fwt] and [twf] - wavelet function in frequency and time
@@ -589,7 +599,6 @@ if ~strcmpi(PlotMode,'off')
     end
 end
 
-
 if nargout>2
     wopt=struct; %simulation parameters
     wopt.wp=wp; %parameters of the wavelet
@@ -607,6 +616,20 @@ if nargout>2
     wopt.CutEdges=CutEdges;
     
     varargout{1}=wopt;
+end
+
+if exist("CachedDataLocation", "var")
+    transform = WT;
+    
+    ampl = abs(transform);
+    powers = ampl.^2;
+    avg_ampl = mean(ampl,2);
+    avg_pow = mean(powers, 2);
+    
+    save(CachedDataLocation, "transform", "times", "freq", "ampl", "powers", "avg_pow", "avg_ampl");
+    
+    WT = 0;
+    freq = 0;
 end
 
 

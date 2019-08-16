@@ -10,11 +10,11 @@ set(handles.filter_signal,'Enable','off')
 set(handles.ridgecalc,'Enable','off')
 
 %% Set up waitbar
-    handles.h = waitbar(0,'Filtering...',...
-            'CreateCancelBtn',...
-            'setappdata(gcbf,''canceling'',1)');
-    setappdata(handles.h,'canceling',0)
-    guidata(hObject,handles);
+handles.h = waitbar(0,'Filtering...',...
+    'CreateCancelBtn',...
+    'setappdata(gcbf,''canceling'',1)');
+setappdata(handles.h,'canceling',0)
+guidata(hObject,handles);
 
 try
     list=get(handles.interval_list,'String');
@@ -31,51 +31,51 @@ try
             end
         end
     elseif extype==1 %% If ridge extraction is selected
-    % Window type
-    wtypes=get(handles.wind_type,'String');
-    wselect=get(handles.wind_type,'Value');
-    wtype=wtypes{wselect};
-    
-     % Preprocessing input
-    x=get(handles.preprocess,'String'); ind=get(handles.preprocess,'Value'); ppselect=x{ind}; 
-    
-    % Cut edges input
-    x=get(handles.cutedges,'String'); ind=get(handles.cutedges,'Value'); cutselect=x{ind};
-    for j=1:size(handles.sig_cut,1)
-        for k=1:size(list,1)
-            fl=csv_to_mvar(list{k,1});
-           
-    
-    if(isnan(handles.fc))
-         if handles.calc_type == 1
-               [WT,freqarr,wopt]=wt(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
-                'Preprocess',ppselect,'Wavelet',wtype);
-         else
-               [WT,freqarr,wopt]=wft(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
-                'Preprocess',ppselect,'Window',wtype);
-         end
-    else
-         if handles.calc_type == 1
-               [WT,freqarr,wopt]=wt(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
-                'Preprocess',ppselect,'Wavelet',wtype,'f0',handles.fc); 
-         else
-               [WT,freqarr,wopt]=wft(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
-                'Preprocess',ppselect,'Window',wtype,'f0',handles.fc); 
-         end
-    end
+        % Window type
+        wtypes=get(handles.wind_type,'String');
+        wselect=get(handles.wind_type,'Value');
+        wtype=wtypes{wselect};
+        
+        % Preprocessing input
+        x=get(handles.preprocess,'String'); ind=get(handles.preprocess,'Value'); ppselect=x{ind};
+        
+        % Cut edges input
+        x=get(handles.cutedges,'String'); ind=get(handles.cutedges,'Value'); cutselect=x{ind};
+        for j=1:size(handles.sig_cut,1)
+            for k=1:size(list,1)
+                fl=csv_to_mvar(list{k,1});
+                
+                
+                if(isnan(handles.fc))
+                    if handles.calc_type == 1
+                        [WT,freqarr,wopt]=wt(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
+                            'Preprocess',ppselect,'Wavelet',wtype);
+                    else
+                        [WT,freqarr,wopt]=wft(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
+                            'Preprocess',ppselect,'Window',wtype);
+                    end
+                else
+                    if handles.calc_type == 1
+                        [WT,freqarr,wopt]=wt(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
+                            'Preprocess',ppselect,'Wavelet',wtype,'f0',handles.fc);
+                    else
+                        [WT,freqarr,wopt]=wft(handles.sig_cut(j,:),handles.sampling_freq,'fmin',fl(1),'fmax',fl(2),'CutEdges','off',...
+                            'Preprocess',ppselect,'Window',wtype,'f0',handles.fc);
+                    end
+                end
                 %Pre allocate for the cell structures
                 tfsupp = ecurve(WT,freqarr,wopt);
                 
-                % Changed from "ridge" to "direct".            
+                % Changed from "ridge" to "direct".
                 [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'direct');
                 
                 handles.recon{j,k} = handles.bands_iamp{j,k}.*cos(handles.bands_iphi{j,k});
                 handles.bands_iphi{j,k} = mod(handles.bands_iphi{j,k},2*pi);
+            end
+            waitbar(j/size(handles.sig_cut,1),handles.h)
         end
-        waitbar(j/size(handles.sig_cut,1),handles.h)
-    end
-    
-    
+        
+        
     else
         
     end
@@ -90,11 +90,11 @@ try
     set(handles.ridgecalc,'Enable','on')
     
     set(handles.save_filtered_sig_plot,'Enable','on')
-    set(handles.save_ridge_plot,'Enable','on') 
-    set(handles.save_phase_plot,'Enable','on') 
-    set(handles.All_filt_plot,'Enable','on') 
-    set(handles.save_csv,'Enable','on') 
-    set(handles.save_mat,'Enable','on') 
+    set(handles.save_ridge_plot,'Enable','on')
+    set(handles.save_phase_plot,'Enable','on')
+    set(handles.All_filt_plot,'Enable','on')
+    set(handles.save_csv,'Enable','on')
+    set(handles.save_mat,'Enable','on')
     set(handles.save_session,'Enable','on')
     
     
