@@ -475,7 +475,11 @@ if strcmpi(Preprocess,'on') && dflag==1
     w=warning('off','all'); signal=signal-XM*(pinv(XM)*signal); warning(w);
 end
 %Filtering of the padded signal
-Nq=ceil((NL+1)/2); ff=[(0:Nq-1),-fliplr(1:NL-Nq)]*fs/NL; ff=ff(:); % frequencies in Fourier transform
+Nq=ceil((NL+1)/2); 
+
+ff=[(0:Nq-1),-fliplr(1:NL-Nq)]*fs/NL; 
+ff=ff(:); % frequencies in Fourier transform
+
 fx=fft(signal,NL); % Fourier transform of a signal (DON'T set to zero at negative frequencies)
 if strcmpi(Preprocess,'on')
     fx(ff<=max([fmin,fs/L]) | ff>=fmax)=0; % filter signal in a chosen frequency domain
@@ -508,7 +512,9 @@ for sn=1:SN
         end
         fw=(1/fs)*fft(tw); fw=fw(ii);
     end
-    cc=zeros(NL,1); cc(ii)=fx(ii).*fw(:); %convolution in the frequency domain
+    cc=zeros(NL,1); 
+    cc(ii)=fx(ii).*fw(:); %convolution in the frequency domain
+    
     out=((wp.ompeak/(2*pi*freq(sn)))^(1-p))*ifft(cc,NL); % calculate WT at each time
     WT(sn,1:L)=out(1+n1:NL-n2);
     
@@ -676,11 +682,18 @@ end
                 if fwt(wp.ompeak)==0 || isnan(fwt(wp.ompeak)) || ~isfinite(fwt(wp.ompeak))
                     cp1=wp.ompeak*exp(-10^(-14)); cp2=wp.ompeak*exp(10^(-14)); kk=1;
                     while kk<10^(28)
-                        cv1=abs(fwt(cp1)); cv2=abs(fwt(cp2)); kk=kk*2;
+                        cv1=abs(fwt(cp1));
+                        cv2=abs(fwt(cp2)); 
+                        kk=kk*2;
+
                         if isfinite(cv1) && cv1>0, wp.ompeak=cp1; break; end
                         if isfinite(cv2) && cv2>0, wp.ompeak=cp2; break; end
-                        cp1=cp1*exp(-kk*10^(-14)); if cp1<=max([wp.xi1,0]), cp1=(cp1*exp(kk*10^(-14))+max([wp.xi1,0]))/2; end
-                        cp2=cp2*exp(kk*10^(-14)); if cp2>=wp.xi2, cp2=(cp2*exp(-kk*10^(-14))+wp.xi2)/2; end
+
+                        cp1=cp1*exp(-kk*10^(-14)); 
+                        if cp1<=max([wp.xi1,0]), cp1=(cp1*exp(kk*10^(-14))+max([wp.xi1,0]))/2; end
+                            
+                        cp2=cp2*exp(kk*10^(-14)); 
+                        if cp2>=wp.xi2, cp2=(cp2*exp(-kk*10^(-14))+wp.xi2)/2; end
                     end
                     cv=abs(fwt(wp.ompeak));
                     while isnan(cv) || cv==0 %if search failed
@@ -722,6 +735,7 @@ end
                 [log((wp.ompeak/fmax)*fs/L/8),log(8*(wp.ompeak/(fs/L))*fs)]); %��������
             wp.xi1e=exp(ss(1,1)); wp.xi2e=exp(ss(1,2)); wp.xi1h=exp(ss(2,1)); wp.xi2h=exp(ss(2,2));
             if isempty(wp.C), wp.C=(QQ(1,1)+QQ(1,2))/2; end %��������������
+            
             if isempty(wp.D) %���������������������������������������������
                 wstate=warning('off','all');
                 [D1,errD1]=quadgk(@(u)conj(fwt(1./u)),1/wp.ompeak,exp(-xx(1,1)),'MaxIntervalCount',2*MIC,'AbsTol',0,'RelTol',10^(-12));
@@ -746,9 +760,12 @@ end
                 
                 CL=2^nextpow2(MIC/8); CT=CL/(2*abs(ss(1,2)-ss(1,1)));
                 CNq=ceil((CL+1)/2); cxi=(2*pi/CT)*(CNq-CL:CNq-1)'; idm=find(cxi<=max([wp.xi1,0])); idc=find(cxi>max([wp.xi1,0]) & cxi<wp.xi2); idp=find(cxi>=wp.xi2);
-                Cfwt=[zeros(length(idm),1);fwt(cxi(idc));zeros(length(idp),1)]; idnan=find(isnan(Cfwt));
+                Cfwt=[zeros(length(idm),1);fwt(cxi(idc));zeros(length(idp),1)]; 
+                idnan=find(isnan(Cfwt));
                 if ~isempty(idnan), idnorm=find(~isnan(Cfwt)); Cfwt(idnan)=interp1(idnorm,Cfwt(idnorm),idnan,'spline','extrap'); end
-                Ctwf=ifft((CL/CT)*Cfwt([CL-CNq+1:CL,1:CL-CNq])); Ctwf=Ctwf([CNq+1:CL,1:CNq]);
+                Ctwf=ifft((CL/CT)*Cfwt([CL-CNq+1:CL,1:CL-CNq])); 
+                Ctwf=Ctwf([CNq+1:CL,1:CNq]);
+                
                 Etwf=abs(Ctwf).^2; Efwt=abs(Cfwt).^2;
                 Iest1=(CT/CL)*sum(abs(Etwf(3:end)-2*Etwf(2:end-1)+Etwf(1:end-2)))/24; %error of integration in time
                 Iest2=(1/CT)*sum(abs(Efwt(3:end)-2*Efwt(2:end-1)+Efwt(1:end-2)))/24; %error of integration in frequency
@@ -1288,7 +1305,9 @@ DispMode='off'; if nargin>5 && ~isempty(varargin{3}), DispMode=varargin{3}; end
 
 WTol=10^(-8); %tolerance for cutting the weighting
 Y=sig(:); if ~isempty(rw), Y=rw.*Y; end
-L=find(flipud(rw)/max(rw)>=WTol,1,'last'); T=L/fs; t=(0:(L-1))/fs;
+L=find(flipud(rw)/max(rw)>=WTol,1,'last'); 
+T=L/fs; 
+t=(0:(L-1))/fs;
 w=w(end-L+1:end); rw=rw(end-L+1:end); Y=Y(end-L+1:end);
 MaxOrder=min([MaxOrder,floor(L/3)]);
 
