@@ -386,6 +386,8 @@ function delete_set_Callback(hObject, eventdata, handles)
 handles=MODAbayes_intdelete(hObject,eventdata,handles);
 interval_list_1_Callback(hObject, eventdata, handles)
 
+
+% Note: function is never called.
 function interval_list_2_Callback(hObject, eventdata, handles)
 int_select = get(handles.interval_list_2,'Value');
 set(handles.interval_list_1,'Value',int_select);
@@ -423,6 +425,9 @@ if disp_select==1
     set(handles.curr_time,'visible','off');
     set(handles.cf_vid,'Enable','off')
     
+    % Get the current x-limits of the time series plots to use later.
+    xlim_backup = handles.time_series_1.XLim;
+    
     % Clear axes
     child_handles = allchild(handles.plots_pane);
     for i = 1:length(child_handles)
@@ -431,6 +436,11 @@ if disp_select==1
         end
     end
     
+    % Set new x-limits of time series plots to their previous values,
+    % to fix a bug where the signal is cut down to a tiny range after
+    % using "delete parameter set" after a calculation has already been 
+    % attempted.
+    handles.time_series_1.XLim = xlim_backup;
     
     set(handles.scaleon,'visible','off') % Remove match scale option
     set(handles.time_slider,'visible','off') 
@@ -465,7 +475,7 @@ if disp_select==1
             end
         end
     end
-if isfield(handles,'p1')    
+if isfield(handles,'p1') && ~isempty(handles.p1)   
     % Plot phases
         
     plot(handles.phi1_axes, handles.time_axis_cut, handles.p1{sig_select,int_select},'color',handles.linecol(1,:));
