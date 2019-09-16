@@ -357,10 +357,17 @@ try
             else
             end
         else
-            [handles.bispxxx] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:),fs,'handles',handles,'hObject',hObject,'f0',fc,'nv',nv,'fmin',fmin,'fmax',fmax,'num',1,'wbar',1); handles.bispxxx=abs(handles.bispxxx);
-            [handles.bispppp] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',2,'wbar',1); handles.bispppp=abs(handles.bispppp);
-            [handles.bispxpp,handles.freqarr,handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',3,'wbar',1); handles.bispxpp=abs(handles.bispxpp);
-            [handles.bisppxx] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(1,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',4,'wbar',1); handles.bisppxx=abs(handles.bisppxx);
+            [handles.bispxxx] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:),fs,'handles',handles,'hObject',hObject,'f0',fc,'nv',nv,'fmin',fmin,'fmax',fmax,'num',1,'wbar',1); 
+            handles.bispxxx=abs(handles.bispxxx);
+            
+            [handles.bispppp] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',2,'wbar',1); 
+            handles.bispppp=abs(handles.bispppp);
+            
+            [handles.bispxpp,handles.freqarr,handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',3,'wbar',1); 
+            handles.bispxpp=abs(handles.bispxpp);
+            
+            [handles.bisppxx] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(1,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',4,'wbar',1); 
+            handles.bisppxx=abs(handles.bisppxx);
             
             if handles.ns>0
                 
