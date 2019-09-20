@@ -1,4 +1,4 @@
-%Version 1.01 - Last edited by GL - 27/09/2017 
+%Version 1.01 - Last edited by GL - 27/09/2017
 %**************************************************************************
 %***************************** Bayesian GUI ******************************
 %**************************************************************************
@@ -37,11 +37,11 @@ function varargout = Bayesian(varargin)
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 0;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @Bayesian_OpeningFcn, ...
-                   'gui_OutputFcn',  @Bayesian_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @Bayesian_OpeningFcn, ...
+    'gui_OutputFcn',  @Bayesian_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -65,9 +65,9 @@ set(handles.plot_phi1,'Enable','off')
 set(handles.plot_phi2,'Enable','off')
 set(handles.plot_CP,'Enable','off')
 set(handles.plot_phiCS,'Enable','off')
-set(handles.plot_CF,'Enable','off') 
-set(handles.save_csv,'Enable','off') 
-set(handles.save_mat,'Enable','off') 
+set(handles.plot_CF,'Enable','off')
+set(handles.save_csv,'Enable','off')
+set(handles.save_mat,'Enable','off')
 set(handles.cf_vid,'Enable','off')
 set(handles.save_session,'Enable','off')
 guidata(hObject, handles);
@@ -78,11 +78,11 @@ function file_read_Callback(hObject, eventdata, handles)
 % Loads time series data
 %% Load data
 [handles]=MODAread(handles,1);
-if isfield(handles,'sampling_freq')    
+if isfield(handles,'sampling_freq')
     refresh_limits_Callback(hObject, eventdata, handles);
 else
 end
-guidata(hObject,handles); % Pass data overhead  
+guidata(hObject,handles); % Pass data overhead
 
 
 function load_filt_Callback(hObject, eventdata, handles)
@@ -94,7 +94,7 @@ if isfield(handles,'sampling_freq')
     refresh_limits_Callback(hObject, eventdata, handles);
 else
 end
-guidata(hObject,handles); % Pass data overhead  
+guidata(hObject,handles); % Pass data overhead
 
 function load_filt_2_Callback(hObject, eventdata, handles)
 % Loads  2 saved .mat files from filtering GUI, extracts the phases extracted
@@ -105,7 +105,7 @@ if isfield(handles,'sampling_freq')
     refresh_limits_Callback(hObject, eventdata, handles);
 else
 end
-guidata(hObject,handles); % Pass data overhead  
+guidata(hObject,handles); % Pass data overhead
 
 function load_session_Callback(hObject, eventdata, handles)
 
@@ -113,14 +113,14 @@ handles=MODAload;
 
 %---------------------------------------------------------------------------
 
-function varargout = Bayesian_OutputFcn(~,~,handles) 
+function varargout = Bayesian_OutputFcn(~,~,handles)
 varargout{1} = handles.output;
 
 function handles=refresh_limits_Callback(hObject,eventdata,handles)
 %% Updates limits and length in Graph Limits pane
 x = get(handles.time_series_2,'xlim');
 t = x(2) - x(1);
-xstr = strcat([num2str(x(1)),', ',num2str(x(2))]); 
+xstr = strcat([num2str(x(1)),', ',num2str(x(2))]);
 
 xl = x.*handles.sampling_freq;
 
@@ -135,16 +135,16 @@ set(handles.xlim,'String',xstr);
 set(handles.length,'String',t);
 signal_list_Callback(hObject, eventdata, handles)
 
-guidata(hObject,handles); % Pass data overhead 
+guidata(hObject,handles); % Pass data overhead
 
 function signal_list_Callback(hObject, eventdata, handles)
-% Selecting signal pair in signal list   
-sig_select = get(handles.signal_list, 'Value');        
+% Selecting signal pair in signal list
+sig_select = get(handles.signal_list, 'Value');
 plot(handles.time_series_1, handles.time_axis_cut, handles.sig_cut(sig_select,:),'color',handles.linecol(1,:));
 xl = csv_to_mvar(get(handles.xlim, 'String'));
 xlim(handles.time_series_1, xl);
 plot(handles.time_series_2, handles.time_axis_cut, handles.sig_cut(sig_select+size(handles.sig,1)/2,:),'color',handles.linecol(1,:));
-xlim(handles.time_series_2, xl);        
+xlim(handles.time_series_2, xl);
 xlabel(handles.time_series_2, 'Time (s)');
 ylabel(handles.time_series_1,'Sig 1');
 ylabel(handles.time_series_2,'Sig 2');
@@ -156,7 +156,7 @@ if isfield(handles,'p1') % Update all plots if the data exist
     %xyplot_Callback(hObject, eventdata, handles);
     interval_list_1_Callback(hObject, eventdata, handles)
 else
-drawnow;
+    drawnow;
 end
 
 
@@ -191,7 +191,7 @@ ws = str2double(get(handles.window_size,'String')); % Window size in seconds
 
 % Default window size if no input from user (currently 10x longest period)
 if isnan(ws)
-    ws = 10/min([handles.int1(handles.c,:) handles.int2(handles.c,:)]); 
+    ws = 10/min([handles.int1(handles.c,:) handles.int2(handles.c,:)]);
 end
 
 handles.winds(handles.c,:)=ws;
@@ -220,23 +220,23 @@ handles.confidence_level(handles.c,:)=str2double(get(handles.alphasig,'String'))
 
 if isfield(handles,'pinput')
     fl = sprintf('%.3f,%.3f | %.2f | %.2f | %.2f | %d | %d | %d',min(str2num(handles.int1)),max(str2num(handles.int1)),ws,handles.ovr(handles.c,:),...
-    handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
+        handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
     f2 = sprintf('%.3f,%.3f | %.2f | %.2f | %.2f | %d | %d | %d',min(str2num(handles.int2)),max(str2num(handles.int2)),ws,handles.ovr(handles.c,:),...
-    handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
+        handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
 else
     fl = sprintf('%.3f,%.3f | %.2f | %.2f | %.2f | %d | %d | %d',min(handles.int1(handles.c,:)),max(handles.int1(handles.c,:)),ws,handles.ovr(handles.c,:),...
-    handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
+        handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
     f2 = sprintf('%.3f,%.3f | %.2f | %.2f | %.2f | %d | %d | %d',min(handles.int2(handles.c,:)),max(handles.int2(handles.c,:)),ws,handles.ovr(handles.c,:),...
-    handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
+        handles.pr(handles.c,:),handles.forder(handles.c,:),handles.ns(handles.c,:),handles.confidence_level(handles.c,:));
 end
 
 list = get(handles.interval_list_1,'String');
 list{end+1,1} = fl;
-set(handles.interval_list_1,'String',list);      
+set(handles.interval_list_1,'String',list);
 
 list = get(handles.interval_list_2,'String');
 list{end+1,1} = f2;
-set(handles.interval_list_2,'String',list); 
+set(handles.interval_list_2,'String',list);
 
 
 guidata(hObject, handles);
@@ -245,7 +245,7 @@ function calculate_Callback(hObject, eventdata, handles)
 % Executes on 'Calculate'. Calculates dynamical Bayesian inference
 x = get(handles.time_series_2,'xlim');
 t = x(2) - x(1);
-xstr = strcat([num2str(x(1)),', ',num2str(x(2))]); 
+xstr = strcat([num2str(x(1)),', ',num2str(x(2))]);
 
 xl = x.*handles.sampling_freq;
 
@@ -266,14 +266,14 @@ try
     drawnow;
     
     handles.h = waitbar(0,'Calculating DBI...',...
-            'CreateCancelBtn',...
-            'setappdata(gcbf,''canceling'',1)');
+        'CreateCancelBtn',...
+        'setappdata(gcbf,''canceling'',1)');
     setappdata(handles.h,'canceling',0)
     guidata(hObject,handles);
     N=size(handles.sig,1)/2;
     
     for k=1:handles.c % This is for the interval loop
-   
+        
         win=handles.winds(k);
         pr=handles.pr(k);
         ovr=handles.ovr(k);
@@ -281,92 +281,92 @@ try
         ns=handles.ns(k);
         signif=handles.confidence_level(k);
         
-    
-    for j=1:size(handles.sig,1)/2
-        if getappdata(handles.h,'canceling')
-            break;
-        end
         
-        if isfield(handles,'pinput')
-            phi1=handles.sig_cut(j,:);
-            phi2=handles.sig_cut(j+N,:);
-            handles.p1{j,k}=phi1;
-            handles.p2{j,k}=phi2;
-        else 
-            [handles.bands{j,k},~] = loop_butter(handles.sig_cut(j,:),handles.int1(k,:),handles.sampling_freq);
-            phi1=angle(hilbert(handles.bands{j,k}));
-            [handles.bands{j+N,k},~] = loop_butter(handles.sig_cut(j+N,:),handles.int2(k,:),handles.sampling_freq);
-            phi2=angle(hilbert(handles.bands{j+N,k}));
-            handles.p1{j,k}=phi1;
-            handles.p2{j,k}=phi2;
-            
-        end        
-            
-            
-        %% Bayesian inference
-        
-        clear cpl1 cpl2 scpl1 scpl2
-        [handles.tm{j,k},handles.cc{j,k},handles.e{j,k}]=bayes_main(phi1,phi2,win,1/handles.sampling_freq,ovr,pr,0,bn); % Main function
-        for m=1:size(handles.cc{j,k},1)
-            [cpl1(m),cpl2(m)]=dirc(handles.cc{j,k}(m,:),bn); % Direction of coupling
-            [~,~,q21(:,:,m),q12(:,:,m)]=CFprint(handles.cc{j,k}(m,:),bn); % Coupling functions
-        end
-        
-        handles.cpl1{j,k}=cpl1; % Coupling strength from 2 to 1
-        handles.cpl2{j,k}=cpl2; % Coupling strength from 1 to 2
-        handles.cf1{j,k}=q21; % Coupling functions for each time window
-        handles.cf2{j,k}=q12;
-        handles.mcf1{j,k}=squeeze(mean(q21,3)); % Mean coupling function
-        handles.mcf2{j,k}=squeeze(mean(q12,3));
-        
-        
-        
-        %% Surrogates
-        surr1=surrcalc(phi1,ns,'CPP',0,handles.sampling_freq);
-        surr2=surrcalc(phi2,ns,'CPP',0,handles.sampling_freq);
-        
-        
-        for n=1:ns
-            [~,cc_surr{n}]=bayes_main(surr1(n,:),surr2(n,:),win,1/handles.sampling_freq,ovr,pr,1,bn);
-            for idx=1:size(cc_surr{n},1)
-                [scpl1(n,idx),scpl2(n,idx)]=dirc(cc_surr{n}(idx,:),bn);
+        for j=1:size(handles.sig,1)/2
+            if getappdata(handles.h,'canceling')
+                break;
             end
+            
+            if isfield(handles,'pinput')
+                phi1=handles.sig_cut(j,:);
+                phi2=handles.sig_cut(j+N,:);
+                handles.p1{j,k}=phi1;
+                handles.p2{j,k}=phi2;
+            else
+                [handles.bands{j,k},~] = loop_butter(handles.sig_cut(j,:),handles.int1(k,:),handles.sampling_freq);
+                phi1=angle(hilbert(handles.bands{j,k}));
+                [handles.bands{j+N,k},~] = loop_butter(handles.sig_cut(j+N,:),handles.int2(k,:),handles.sampling_freq);
+                phi2=angle(hilbert(handles.bands{j+N,k}));
+                handles.p1{j,k}=phi1;
+                handles.p2{j,k}=phi2;
+                
+            end
+            
+            
+            %% Bayesian inference
+            
+            clear cpl1 cpl2 scpl1 scpl2
+            [handles.tm{j,k},handles.cc{j,k},handles.e{j,k}]=bayes_main(phi1,phi2,win,1/handles.sampling_freq,ovr,pr,0,bn); % Main function
+            for m=1:size(handles.cc{j,k},1)
+                [cpl1(m),cpl2(m)]=dirc(handles.cc{j,k}(m,:),bn); % Direction of coupling
+                [~,~,q21(:,:,m),q12(:,:,m)]=CFprint(handles.cc{j,k}(m,:),bn); % Coupling functions
+            end
+            
+            handles.cpl1{j,k}=cpl1; % Coupling strength from 2 to 1
+            handles.cpl2{j,k}=cpl2; % Coupling strength from 1 to 2
+            handles.cf1{j,k}=q21; % Coupling functions for each time window
+            handles.cf2{j,k}=q12;
+            handles.mcf1{j,k}=squeeze(mean(q21,3)); % Mean coupling function
+            handles.mcf2{j,k}=squeeze(mean(q12,3));
+            
+            
+            
+            %% Surrogates
+            surr1=surrcalc(phi1,ns,'CPP',0,handles.sampling_freq);
+            surr2=surrcalc(phi2,ns,'CPP',0,handles.sampling_freq);
+            
+            
+            for n=1:ns
+                [~,cc_surr{n}]=bayes_main(surr1(n,:),surr2(n,:),win,1/handles.sampling_freq,ovr,pr,1,bn);
+                for idx=1:size(cc_surr{n},1)
+                    [scpl1(n,idx),scpl2(n,idx)]=dirc(cc_surr{n}(idx,:),bn);
+                end
+            end
+            
+            %alph=str2num(get(handles.alphasig,'String'));
+            alph=signif;
+            alph=(1-(alph/100));
+            if floor((ns+1)*alph)==0
+                handles.surr_cpl1{j,k} = max(scpl1);
+                handles.surr_cpl2{j,k} = max(scpl2);
+            else
+                K=floor((ns+1)*alph);
+                s1=sort(scpl1,'descend');
+                s2=sort(scpl2,'descend');
+                handles.surr_cpl1{j,k} = s1(K,:);
+                handles.surr_cpl2{j,k} = s2(K,:);
+                
+            end
+            %         handles.surr_cpl1{j,k}=prctile(scpl1); % Define surrogate threshold here
+            %         handles.surr_cpl2{j,k}=prctile(scpl2);
+            
+            waitbar((j+((size(handles.sig,1)/2)*(k-1)))/(size(handles.sig,1)/2*handles.c),handles.h,...
+                sprintf(['Calculating DBI for signal pair ',num2str(j),', parameter set ',num2str(k)]));
+            guidata(hObject,handles);
+            
         end
         
-        %alph=str2num(get(handles.alphasig,'String'));
-        alph=signif;
-        alph=(1-(alph/100));
-        if floor((ns+1)*alph)==0
-        handles.surr_cpl1{j,k} = max(scpl1);
-        handles.surr_cpl2{j,k} = max(scpl2);
-        else 
-            K=floor((ns+1)*alph);
-            s1=sort(scpl1,'descend');
-            s2=sort(scpl2,'descend');
-            handles.surr_cpl1{j,k} = s1(K,:);
-            handles.surr_cpl2{j,k} = s2(K,:);
-               
-        end
-%         handles.surr_cpl1{j,k}=prctile(scpl1); % Define surrogate threshold here
-%         handles.surr_cpl2{j,k}=prctile(scpl2);
-        
-        waitbar((j+((size(handles.sig,1)/2)*(k-1)))/(size(handles.sig,1)/2*handles.c),handles.h,...
-            sprintf(['Calculating DBI for signal pair ',num2str(j),', parameter set ',num2str(k)]));
-        guidata(hObject,handles);
-        
-    end
-    
     end
     delete(handles.h);
     guidata(hObject,handles);
     set(handles.status,'String','Calculation complete');
     set(handles.calculate,'Enable','on');
-    set(handles.save_csv,'Enable','on') 
-    set(handles.save_mat,'Enable','on')     
+    set(handles.save_csv,'Enable','on')
+    set(handles.save_mat,'Enable','on')
     set(handles.save_session,'Enable','on')
     interval_list_1_Callback(hObject, eventdata, handles)
-    catch e
-    errordlg(e.message,'Error');    
+catch e
+    errordlg(e.message,'Error');
     set(handles.calculate,'Enable','on');
     delete(handles.h)
     rethrow(e)
@@ -402,17 +402,17 @@ int_select=get(handles.interval_list_1,'Value');
 set(handles.interval_list_2,'Value',int_select);
 
 % Remove dashed line markers
-    axes_child = allchild(handles.time_series_1);
-    axes_child2 = allchild(handles.time_series_2);
-    for j = 1:size(axes_child,1)
-        if strcmpi(get(axes_child(j),'Type'),'Line') 
-            line_style = get(axes_child(j),'linestyle');
-            if strcmp(line_style,'--') 
-                delete(axes_child(j)); 
-                delete(axes_child2(j)); 
-            end
+axes_child = allchild(handles.time_series_1);
+axes_child2 = allchild(handles.time_series_2);
+for j = 1:size(axes_child,1)
+    if strcmpi(get(axes_child(j),'Type'),'Line')
+        line_style = get(axes_child(j),'linestyle');
+        if strcmp(line_style,'--')
+            delete(axes_child(j));
+            delete(axes_child2(j));
         end
     end
+end
 
 if disp_select==1
     % Enable plotting from menu of on-screen plots
@@ -438,12 +438,12 @@ if disp_select==1
     
     % Set new x-limits of time series plots to their previous values,
     % to fix a bug where the signal is cut down to a tiny range after
-    % using "delete parameter set" after a calculation has already been 
+    % using "delete parameter set" after a calculation has already been
     % attempted.
     handles.time_series_1.XLim = xlim_backup;
     
     set(handles.scaleon,'visible','off') % Remove match scale option
-    set(handles.time_slider,'visible','off') 
+    set(handles.time_slider,'visible','off')
     set(handles.text23,'visible','off') % Time slider text
     set(handles.CF1,'visible','off');
     set(handles.CF2,'visible','off');
@@ -451,7 +451,7 @@ if disp_select==1
     set(handles.phi2_axes,'visible','on');
     set(handles.coupling_strength_axis,'visible','on');
     uistack(handles.phi1_axes,'top');
-    uistack(handles.phi2_axes,'top');    
+    uistack(handles.phi2_axes,'top');
     uistack(handles.coupling_strength_axis,'top');
     
     % Clear axes
@@ -459,12 +459,12 @@ if disp_select==1
     cla(handles.phi2_axes)
     cla(handles.coupling_strength_axis)
     %linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes...
-        %handles.phi2_axes handles.coupling_strength_axis],'x');
+    %handles.phi2_axes handles.coupling_strength_axis],'x');
     
     
     
     % Removes dashed lines (may be leftover from plotting coupling functions)
-    axes_child1=allchild(handles.time_series_1); 
+    axes_child1=allchild(handles.time_series_1);
     axes_child2=allchild(handles.time_series_2);
     for j=1:size(axes_child1,1)
         if strcmpi(get(axes_child1(j),'Type'),'Line')
@@ -475,37 +475,37 @@ if disp_select==1
             end
         end
     end
-if isfield(handles,'p1') && ~isempty(handles.p1)   
-    % Plot phases
+    if isfield(handles,'p1') && ~isempty(handles.p1)
+        % Plot phases
         
-    plot(handles.phi1_axes, handles.time_axis_cut, handles.p1{sig_select,int_select},'color',handles.linecol(1,:));
-    plot(handles.phi2_axes, handles.time_axis_cut, handles.p2{sig_select,int_select},'color',handles.linecol(1,:));
-    xlim(handles.phi1_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
-    xlim(handles.phi2_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
-    ylabel(handles.phi1_axes,'phi1');
-    ylabel(handles.phi2_axes,'phi2');
-    set(handles.phi1_axes,'xticklabel',[]);
-    set(handles.phi2_axes,'xticklabel',[]);
-    
-    % Plot coupling strength
-    hold(handles.coupling_strength_axis,'on');
-    plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl1{sig_select,int_select},...
-        'color',handles.linecol(1,:),'linewidth',handles.line2width); 
-    plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl2{sig_select,int_select},...
-        'color',handles.linecol(2,:),'linewidth',handles.line2width); 
-    plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl1{sig_select,int_select},...
-        'color',handles.linecol(1,:),'linewidth',handles.line2width,'LineStyle','--'); 
-    plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl2{sig_select,int_select},...
-        'color',handles.linecol(2,:),'linewidth',handles.line2width,'LineStyle','--');
-    handles.leg1={'Data 2 -> 1','Data 1 -> 2','Surr 2 -> 1','Surr 1 -> 2'};
-    legend(handles.coupling_strength_axis,handles.leg1,'orientation','horizontal');
-    xlabel(handles.coupling_strength_axis,'Time (s)');
-    ylabel(handles.coupling_strength_axis,'Coupling Strength'); 
-    xlim(handles.coupling_strength_axis, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
-    linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes handles.phi2_axes handles.coupling_strength_axis],'x'); % Ensures axis limits are identical for both plots
-    
-else
-end
+        plot(handles.phi1_axes, handles.time_axis_cut, handles.p1{sig_select,int_select},'color',handles.linecol(1,:));
+        plot(handles.phi2_axes, handles.time_axis_cut, handles.p2{sig_select,int_select},'color',handles.linecol(1,:));
+        xlim(handles.phi1_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
+        xlim(handles.phi2_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
+        ylabel(handles.phi1_axes,'phi1');
+        ylabel(handles.phi2_axes,'phi2');
+        set(handles.phi1_axes,'xticklabel',[]);
+        set(handles.phi2_axes,'xticklabel',[]);
+        
+        % Plot coupling strength
+        hold(handles.coupling_strength_axis,'on');
+        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl1{sig_select,int_select},...
+            'color',handles.linecol(1,:),'linewidth',handles.line2width);
+        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl2{sig_select,int_select},...
+            'color',handles.linecol(2,:),'linewidth',handles.line2width);
+        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl1{sig_select,int_select},...
+            'color',handles.linecol(1,:),'linewidth',handles.line2width,'LineStyle','--');
+        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl2{sig_select,int_select},...
+            'color',handles.linecol(2,:),'linewidth',handles.line2width,'LineStyle','--');
+        handles.leg1={'Data 2 -> 1','Data 1 -> 2','Surr 2 -> 1','Surr 1 -> 2'};
+        legend(handles.coupling_strength_axis,handles.leg1,'orientation','horizontal');
+        xlabel(handles.coupling_strength_axis,'Time (s)');
+        ylabel(handles.coupling_strength_axis,'Coupling Strength');
+        xlim(handles.coupling_strength_axis, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
+        linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes handles.phi2_axes handles.coupling_strength_axis],'x'); % Ensures axis limits are identical for both plots
+        
+    else
+    end
     
 elseif disp_select==2
     % Disable plots and clear axes
@@ -514,26 +514,26 @@ elseif disp_select==2
     set(handles.plot_phi2,'Enable','off')
     set(handles.plot_CP,'Enable','off')
     set(handles.plot_phiCS,'Enable','off')
-    set(handles.plot_CF,'Enable','on')  
+    set(handles.plot_CF,'Enable','on')
     set(handles.cf_vid,'Enable','on')
     
-%     % Clear axes
-%     linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes...
-%         handles.phi2_axes handles.coupling_strength_axis],'off'); 
-
+    %     % Clear axes
+    %     linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes...
+    %         handles.phi2_axes handles.coupling_strength_axis],'off');
+    
     cla(handles.phi1_axes,'reset');
     set(handles.phi1_axes,'visible','off');
     cla(handles.phi2_axes,'reset');
     set(handles.phi2_axes,'visible','off');
     cla(handles.coupling_strength_axis,'reset');
     set(handles.coupling_strength_axis,'visible','off');
-        
-    cla(handles.CF1);uistack(handles.CF1,'top');set(handles.CF1,'visible','on');    
-    cla(handles.CF2);uistack(handles.CF2,'top');set(handles.CF2,'visible','on');   
     
-    set(handles.scaleon,'visible','on') 
-    set(handles.time_slider,'visible','on') 
-    set(handles.text23,'visible','on') % Time slider text  
+    cla(handles.CF1);uistack(handles.CF1,'top');set(handles.CF1,'visible','on');
+    cla(handles.CF2);uistack(handles.CF2,'top');set(handles.CF2,'visible','on');
+    
+    set(handles.scaleon,'visible','on')
+    set(handles.time_slider,'visible','on')
+    set(handles.text23,'visible','on') % Time slider text
     set(handles.time_slider,'Value',0)
     
     sig_select = get(handles.signal_list, 'Value');
@@ -547,30 +547,30 @@ elseif disp_select==2
     ylabel(handles.time_series_2,'Sig 2');
     set(handles.time_series_1,'xticklabel',[]);
     
-
+    
     % Set up time slider
-
+    
     minval=0;
     maxval=size(handles.tm{sig_select,int_select},2);
     stepsz=[1,5];
     set(handles.time_slider,'Max',maxval);
     set(handles.time_slider,'Min',minval);
     set(handles.time_slider,'SliderStep',stepsz/(maxval-minval));
-
+    
     % Limits for surface plots
     t1=0:0.13:2*pi;t2=0:0.13:2*pi;
     cfmax1=max(max(handles.mcf1{sig_select,int_select}));
     cfmax2=max(max(handles.mcf2{sig_select,int_select}));
-
+    
     if  cfmax1>cfmax2
         handles.cfmax=cfmax1;
     elseif cfmax2>cfmax1
         handles.cfmax=cfmax2;
     end
-
+    
     cfmin1=min(min(handles.mcf1{sig_select,int_select}));
     cfmin2=min(min(handles.mcf2{sig_select,int_select}));
-
+    
     if cfmin1<cfmin2
         handles.cfmin=cfmin1;
     elseif cfmin2<cfmin1
@@ -578,14 +578,14 @@ elseif disp_select==2
     end
     
     % Plot coupling functions
-    set(handles.curr_time,'visible','off'); % Turn off current time for mean plots 
+    set(handles.curr_time,'visible','off'); % Turn off current time for mean plots
     surf(handles.CF1,t1,t2,handles.mcf1{sig_select,int_select},'FaceColor','interp');
     xlabel(handles.CF1,'\phi_1');ylabel(handles.CF1,'\phi_2');zlabel(handles.CF1,'q_1(\phi_1,\phi_2)');
     title(handles.CF1,'Time-averaged CF 2 --> 1');
     view(handles.CF1,[-40 50]);
     colormap(handles.CF1,handles.cmap)
-        
-    surf(handles.CF2,t1,t2,handles.mcf2{sig_select,int_select},'FaceColor','interp');     
+    
+    surf(handles.CF2,t1,t2,handles.mcf2{sig_select,int_select},'FaceColor','interp');
     xlabel(handles.CF2,'\phi_1');ylabel(handles.CF2,'\phi_2');zlabel(handles.CF2,'q_2(\phi_1,\phi_2)');
     title(handles.CF2,'Time-averaged CF 1 --> 2');
     view(handles.CF2,[-40 50]);
@@ -626,18 +626,18 @@ sig_select=get(handles.signal_list,'Value');
 int_select=get(handles.interval_list_1,'Value');
 win=handles.winds(int_select);
 
-    
-    slider_val=round(get(handles.time_slider,'Value'));
+
+slider_val=round(get(handles.time_slider,'Value'));
 if slider_val==0
     % Remove dashed line markers
     axes_child = allchild(handles.time_series_1);
     axes_child2 = allchild(handles.time_series_2);
     for j = 1:size(axes_child,1)
-        if strcmpi(get(axes_child(j),'Type'),'Line') 
+        if strcmpi(get(axes_child(j),'Type'),'Line')
             line_style = get(axes_child(j),'linestyle');
-            if strcmp(line_style,'--') 
-                delete(axes_child(j)); 
-                delete(axes_child2(j)); 
+            if strcmp(line_style,'--')
+                delete(axes_child(j));
+                delete(axes_child2(j));
             end
         end
     end
@@ -646,23 +646,23 @@ if slider_val==0
 else
 end
 
-t1=0:0.13:2*pi;t2=0:0.13:2*pi; 
+t1=0:0.13:2*pi;t2=0:0.13:2*pi;
 q1(1:length(t1),1:length(t1))=0;q2=q1;
 u = handles.cc{sig_select,int_select}(slider_val,:);
-K=length(u)/2;    
+K=length(u)/2;
 
 % Remove dashed line markers
 axes_child = allchild(handles.time_series_1);
 axes_child2 = allchild(handles.time_series_2);
-    for j = 1:size(axes_child,1)
-        if strcmpi(get(axes_child(j),'Type'),'Line') 
-            line_style = get(axes_child(j),'linestyle');
-            if strcmp(line_style,'--') 
-                delete(axes_child(j)); 
-                delete(axes_child2(j)); 
-            end
+for j = 1:size(axes_child,1)
+    if strcmpi(get(axes_child(j),'Type'),'Line')
+        line_style = get(axes_child(j),'linestyle');
+        if strcmp(line_style,'--')
+            delete(axes_child(j));
+            delete(axes_child2(j));
         end
     end
+end
 
 % Update dashed line markers
 yl = get(handles.time_series_1,'ylim');
@@ -675,7 +675,7 @@ hold(handles.time_series_1,'off');
 hold(handles.time_series_2,'on');
 plot(handles.time_series_2,xl,y2,'--','color',[0.8500    0.3250    0.0980],'linewidth',1)
 hold(handles.time_series_2,'off');
-    
+
 yl = get(handles.time_series_1,'ylim');
 y2 = get(handles.time_series_2,'ylim');
 handles.tp2=(handles.tm{sig_select,int_select}(slider_val)+win/2)+handles.time_axis_cut(1);
@@ -685,79 +685,79 @@ plot(handles.time_series_1,xl,yl,'--','color',[0.8500    0.3250    0.0980],'line
 hold(handles.time_series_1,'off');
 hold(handles.time_series_2,'on');
 plot(handles.time_series_2,xl,y2,'--','color',[0.8500    0.3250    0.0980],'linewidth',1)
-hold(handles.time_series_2,'off'); 
+hold(handles.time_series_2,'off');
 
 set(handles.scaleon,'visible','on');
 cfmax1=max(max(handles.cf1{sig_select,int_select}(:,:,slider_val)));
 cfmax2=max(max(handles.cf2{sig_select,int_select}(:,:,slider_val)));
 
-    if  cfmax1>cfmax2
-        handles.cfmax=cfmax1;
-    elseif cfmax2>cfmax1
-        handles.cfmax=cfmax2;
-    end
+if  cfmax1>cfmax2
+    handles.cfmax=cfmax1;
+elseif cfmax2>cfmax1
+    handles.cfmax=cfmax2;
+end
 
-    cfmin1=min(min(handles.cf1{sig_select,int_select}(:,:,slider_val)));
-    cfmin2=min(min(handles.cf2{sig_select,int_select}(:,:,slider_val)));
+cfmin1=min(min(handles.cf1{sig_select,int_select}(:,:,slider_val)));
+cfmin2=min(min(handles.cf2{sig_select,int_select}(:,:,slider_val)));
 
-    if cfmin1<cfmin2
-        handles.cfmin=cfmin1;
-    elseif cfmin2<cfmin1
-        handles.cfmin=cfmin2;
-    end
+if cfmin1<cfmin2
+    handles.cfmin=cfmin1;
+elseif cfmin2<cfmin1
+    handles.cfmin=cfmin2;
+end
 
-    surf(handles.CF1,t1,t2,handles.cf1{sig_select,int_select}(:,:,slider_val),'FaceColor','interp');     
-    surf(handles.CF2,t1,t2,handles.cf2{sig_select,int_select}(:,:,slider_val),'FaceColor','interp'); 
-    xlabel(handles.CF1,'\phi_1');ylabel(handles.CF1,'\phi_2');zlabel(handles.CF1,'q_1(\phi_1,\phi_2)');
-    xlabel(handles.CF2,'\phi_1');ylabel(handles.CF2,'\phi_2');zlabel(handles.CF2,'q_2(\phi_1,\phi_2)');
-    title(handles.CF1,'CF 2 --> 1')
-    title(handles.CF2,'CF 1 --> 2')
-    xlim(handles.CF1,[0 2*pi]);
-    ylim(handles.CF1,[0 2*pi]);
-    xlim(handles.CF2,[0 2*pi]);
-    ylim(handles.CF2,[0 2*pi]);
-   
-    if get(handles.scaleon,'Value')==1
-        set(handles.CF1,'Zlim',[handles.cfmin handles.cfmax])
-        set(handles.CF2,'Zlim',[handles.cfmin handles.cfmax])
-    else
-    end
-    set(handles.curr_time,'visible','on');
-    set(handles.curr_time,'string',[num2str(handles.tp1),' - ',num2str(handles.tp2),' s']);
-    view(handles.CF1,[-40 50]);
-    view(handles.CF2,[-40 50]);
-    guidata(hObject,handles);
-    
-    
+surf(handles.CF1,t1,t2,handles.cf1{sig_select,int_select}(:,:,slider_val),'FaceColor','interp');
+surf(handles.CF2,t1,t2,handles.cf2{sig_select,int_select}(:,:,slider_val),'FaceColor','interp');
+xlabel(handles.CF1,'\phi_1');ylabel(handles.CF1,'\phi_2');zlabel(handles.CF1,'q_1(\phi_1,\phi_2)');
+xlabel(handles.CF2,'\phi_1');ylabel(handles.CF2,'\phi_2');zlabel(handles.CF2,'q_2(\phi_1,\phi_2)');
+title(handles.CF1,'CF 2 --> 1')
+title(handles.CF2,'CF 1 --> 2')
+xlim(handles.CF1,[0 2*pi]);
+ylim(handles.CF1,[0 2*pi]);
+xlim(handles.CF2,[0 2*pi]);
+ylim(handles.CF2,[0 2*pi]);
+
+if get(handles.scaleon,'Value')==1
+    set(handles.CF1,'Zlim',[handles.cfmin handles.cfmax])
+    set(handles.CF2,'Zlim',[handles.cfmin handles.cfmax])
+else
+end
+set(handles.curr_time,'visible','on');
+set(handles.curr_time,'string',[num2str(handles.tp1),' - ',num2str(handles.tp2),' s']);
+view(handles.CF1,[-40 50]);
+view(handles.CF2,[-40 50]);
+guidata(hObject,handles);
+
+
 %% Saving callbacks
 
 function save_csv_Callback(hObject, eventdata, handles)
 try
-Bayes_data.phase1=handles.p1;
-Bayes_data.phase2=handles.p2;
-Bayes_data.sampling_freq=handles.sampling_freq;
-Bayes_data.time=handles.time_axis_cut;
-Bayes_data.interval1=handles.int1;
-Bayes_data.interval2=handles.int2;
-Bayes_data.surrnum=handles.ns;
-Bayes_data.confidence_level=handles.confidence_level;
-Bayes_data.Bayes_win=handles.winds;
-Bayes_data.overlap=handles.ovr;
-Bayes_data.propagation_const=handles.pr;
-Bayes_data.Fourier_base=handles.forder;
-Bayes_data.Bayestime=handles.tm;
-% Bayes_data.Bayes_inferred=handles.cc;
-% Bayes_data.Bayes_noise=handles.e;
-Bayes_data.coupling_strength_2to1=handles.cpl1;
-Bayes_data.coupling_strength_1to2=handles.cpl2;
-Bayes_data.coupling_function_2to1=handles.cf1;
-Bayes_data.coupling_function_1to2=handles.cf2;
-Bayes_data.mean_cfunc_2to1=handles.mcf1;
-Bayes_data.mean_cfunc_1to2=handles.mcf2;
-Bayes_data.surrogate_coupling_strength_2to1=handles.surr_cpl1;
-Bayes_data.surrogate_coupling_strength_1to2=handles.surr_cpl2;
-
-csvsavefolder(Bayes_data)
+    Bayes_data.phase1=handles.p1;
+    Bayes_data.phase2=handles.p2;
+    Bayes_data.sampling_freq=handles.sampling_freq;
+    Bayes_data.time=handles.time_axis_cut;
+    Bayes_data.interval1=handles.int1;
+    Bayes_data.interval2=handles.int2;
+    Bayes_data.surrnum=handles.ns;
+    Bayes_data.confidence_level=handles.confidence_level;
+    Bayes_data.Bayes_win=handles.winds;
+    Bayes_data.overlap=handles.ovr;
+    Bayes_data.propagation_const=handles.pr;
+    Bayes_data.Fourier_base=handles.forder;
+    Bayes_data.Bayestime=handles.tm;
+    % Bayes_data.Bayes_inferred=handles.cc;
+    % Bayes_data.Bayes_noise=handles.e;
+    Bayes_data.coupling_strength_2to1=handles.cpl1;
+    Bayes_data.coupling_strength_1to2=handles.cpl2;
+    Bayes_data.coupling_function_2to1=handles.cf1;
+    Bayes_data.coupling_function_1to2=handles.cf2;
+    Bayes_data.mean_cfunc_2to1=handles.mcf1;
+    Bayes_data.mean_cfunc_1to2=handles.mcf2;
+    Bayes_data.surrogate_coupling_strength_2to1=handles.surr_cpl1;
+    Bayes_data.surrogate_coupling_strength_1to2=handles.surr_cpl2;
+    
+    csvsavefolder(Bayes_data)
 catch e
     errordlg(e.message,'Error')
     rethrow(e)
@@ -767,38 +767,38 @@ end
 % --------------------------------------------------------------------
 function save_mat_Callback(hObject, eventdata, handles)
 try
-[FileName,PathName] = uiputfile('.mat','Save as');
-if FileName==0
-    return;
-else
-end
-save_location = strcat(PathName,FileName);
-
-Bayes_data.phase1=handles.p1;
-Bayes_data.phase2=handles.p2;
-Bayes_data.sampling_freq=handles.sampling_freq;
-Bayes_data.time=handles.time_axis_cut;
-Bayes_data.interval1=handles.int1;
-Bayes_data.interval2=handles.int2;
-Bayes_data.surrnum=handles.ns;
-Bayes_data.confidence_level=handles.confidence_level;
-Bayes_data.Bayes_win=handles.winds;
-Bayes_data.overlap=handles.ovr;
-Bayes_data.propagation_const=handles.pr;
-Bayes_data.Fourier_base=handles.forder;
-Bayes_data.Bayestime=handles.tm;
-% Bayes_data.Bayes_inferred=handles.cc;
-% Bayes_data.Bayes_noise=handles.e;
-Bayes_data.coupling_strength_2to1=handles.cpl1;
-Bayes_data.coupling_strength_1to2=handles.cpl2;
-Bayes_data.coupling_function_2to1=handles.cf1;
-Bayes_data.coupling_function_1to2=handles.cf2;
-Bayes_data.mean_cfunc_2to1=handles.mcf1;
-Bayes_data.mean_cfunc_1to2=handles.mcf2;
-Bayes_data.surrogate_coupling_strength_2to1=handles.surr_cpl1;
-Bayes_data.surrogate_coupling_strength_1to2=handles.surr_cpl2;
-
-save(save_location,'Bayes_data');
+    [FileName,PathName] = uiputfile('.mat','Save as');
+    if FileName==0
+        return;
+    else
+    end
+    save_location = strcat(PathName,FileName);
+    
+    Bayes_data.phase1=handles.p1;
+    Bayes_data.phase2=handles.p2;
+    Bayes_data.sampling_freq=handles.sampling_freq;
+    Bayes_data.time=handles.time_axis_cut;
+    Bayes_data.interval1=handles.int1;
+    Bayes_data.interval2=handles.int2;
+    Bayes_data.surrnum=handles.ns;
+    Bayes_data.confidence_level=handles.confidence_level;
+    Bayes_data.Bayes_win=handles.winds;
+    Bayes_data.overlap=handles.ovr;
+    Bayes_data.propagation_const=handles.pr;
+    Bayes_data.Fourier_base=handles.forder;
+    Bayes_data.Bayestime=handles.tm;
+    % Bayes_data.Bayes_inferred=handles.cc;
+    % Bayes_data.Bayes_noise=handles.e;
+    Bayes_data.coupling_strength_2to1=handles.cpl1;
+    Bayes_data.coupling_strength_1to2=handles.cpl2;
+    Bayes_data.coupling_function_2to1=handles.cf1;
+    Bayes_data.coupling_function_1to2=handles.cf2;
+    Bayes_data.mean_cfunc_2to1=handles.mcf1;
+    Bayes_data.mean_cfunc_1to2=handles.mcf2;
+    Bayes_data.surrogate_coupling_strength_2to1=handles.surr_cpl1;
+    Bayes_data.surrogate_coupling_strength_1to2=handles.surr_cpl2;
+    
+    save(save_location,'Bayes_data');
 catch e
     errordlg(e.message,'Error')
     rethrow(e)
@@ -833,16 +833,16 @@ for j=1:size(c1,3)
     
     cfmax1=max(max(c1(:,:,j)));
     cfmax2=max(max(c2(:,:,j)));
-
+    
     if  cfmax1>cfmax2
         handles.cfmax=cfmax1;
     elseif cfmax2>cfmax1
         handles.cfmax=cfmax2;
     end
-
+    
     cfmin1=min(min(c1(:,:,j)));
     cfmin2=min(min(c2(:,:,j)));
-
+    
     if cfmin1<cfmin2
         handles.cfmin=cfmin1;
     elseif cfmin2<cfmin1
@@ -865,7 +865,7 @@ for j=1:size(c1,3)
     surf(squeeze(c2(:,:,j)))
     title('Oscillator 1 to oscillator 2')
     view([-40 50])
-    set(gca,'fontname','Helvetica','fontsize',12,'Xgrid','off','Ygrid','off')            
+    set(gca,'fontname','Helvetica','fontsize',12,'Xgrid','off','Ygrid','off')
     xlabel('\phi_1');ylabel('\phi_2');zlabel('q_2(\phi_1,\phi_2)');axis tight
     grid on
     if get(handles.scaleon,'Value')==1
@@ -881,7 +881,7 @@ for j=1:size(c1,3)
     text(0.2, 0.2,currt,'fontsize',12,'fontweight','bold')
     set(gca,'nextplot','replacechildren');
     currFrame = getframe(gcf);
-    writeVideo(v,currFrame) 
+    writeVideo(v,currFrame)
     
 end
 close(v)
@@ -906,67 +906,67 @@ mkdir(foldername)
 Nb=size(Bayes_data.interval1,1);
 
 for nn=1:Nb
-comp=nn;
-clear data
-Ns=size(Bayes_data.phase1,1);
-L=length(Bayes_data.Bayestime{1,comp});
-
-
-
-data{1,1}='MODA v1.0 - Dynamical Bayesian Inference';
-data{2,1}=date;
-data{3,1}=[];
-data{4,1}='PARAMETERS';
-data{5,1}='Sampling frequency (Hz)';
-data{5,2}=Bayes_data.sampling_freq;
-data{6,1}='Time start (s)';
-data{6,2}=min(Bayes_data.time);
-data{7,1}='Time end (s)';
-data{7,2}=max(Bayes_data.time);
-
-for n=1
-
-data{8,1}='Overlap';
-data{8,2}=Bayes_data.overlap(comp);
-data{9,1}='Propagation constant';
-data{9,2}=Bayes_data.propagation_const(comp);
-data{10,1}='Fourier basis';
-data{10,2}=Bayes_data.Fourier_base(comp);
-data{11,1}='Number of surrogates';
-data{11,2}=Bayes_data.surrnum(comp);
-data{12,1}='Window size (s)';
-data{12,n+1}=Bayes_data.Bayes_win(comp);
-data{13,1}=['Interval 1'];
-data{13,n+1}=Bayes_data.interval1(comp,:);
-data{14,1}=['Interval 2'];
-data{14,n+1}=Bayes_data.interval2(comp,:);
-data{15,1}='Confidence level';
-data{15,n+1}=Bayes_data.confidence_level(comp,:);
+    comp=nn;
+    clear data
+    Ns=size(Bayes_data.phase1,1);
+    L=length(Bayes_data.Bayestime{1,comp});
+    
+    
+    
+    data{1,1}='MODA v1.0 - Dynamical Bayesian Inference';
+    data{2,1}=date;
+    data{3,1}=[];
+    data{4,1}='PARAMETERS';
+    data{5,1}='Sampling frequency (Hz)';
+    data{5,2}=Bayes_data.sampling_freq;
+    data{6,1}='Time start (s)';
+    data{6,2}=min(Bayes_data.time);
+    data{7,1}='Time end (s)';
+    data{7,2}=max(Bayes_data.time);
+    
+    for n=1
+        
+        data{8,1}='Overlap';
+        data{8,2}=Bayes_data.overlap(comp);
+        data{9,1}='Propagation constant';
+        data{9,2}=Bayes_data.propagation_const(comp);
+        data{10,1}='Fourier basis';
+        data{10,2}=Bayes_data.Fourier_base(comp);
+        data{11,1}='Number of surrogates';
+        data{11,2}=Bayes_data.surrnum(comp);
+        data{12,1}='Window size (s)';
+        data{12,n+1}=Bayes_data.Bayes_win(comp);
+        data{13,1}=['Interval 1'];
+        data{13,n+1}=Bayes_data.interval1(comp,:);
+        data{14,1}=['Interval 2'];
+        data{14,n+1}=Bayes_data.interval2(comp,:);
+        data{15,1}='Confidence level';
+        data{15,n+1}=Bayes_data.confidence_level(comp,:);
         c=n+15;
-end
-
-dstart=c+1;
-
-data{dstart,1}='Time (s)';
-for l=1:L;
-    data{l+dstart,1}=Bayes_data.Bayestime{1,comp}(l);    
-end
-
-for h=1:Ns
-    data{dstart,h*2}=['Subject ',num2str(h),' - 2 to 1'];
-    data{dstart,h*2+1}=['Subject ',num2str(h),' - 1 to 2'];
-    data{dstart,h*2+Ns*2}=['Surrogate ',num2str(h),' - 2 to 1'];
-    data{dstart,h*2+Ns*2+1}=['Surrogate ',num2str(h),' - 1 to 2'];
-    for l=1:L;
-        data{l+dstart,h*2}=Bayes_data.coupling_strength_2to1{h,comp}(l);  
-        data{l+dstart,h*2+1}=Bayes_data.coupling_strength_1to2{h,comp}(l);
-        data{l+dstart,h*2+Ns*2}=Bayes_data.surrogate_coupling_strength_2to1{h,comp}(l);
-        data{l+dstart,h*2+Ns*2+1}=Bayes_data.surrogate_coupling_strength_1to2{h,comp}(l);
     end
-end
-
-cell2csv([foldername,'\Coupling_strength',num2str(nn),'.csv'],data,',');
-
+    
+    dstart=c+1;
+    
+    data{dstart,1}='Time (s)';
+    for l=1:L;
+        data{l+dstart,1}=Bayes_data.Bayestime{1,comp}(l);
+    end
+    
+    for h=1:Ns
+        data{dstart,h*2}=['Subject ',num2str(h),' - 2 to 1'];
+        data{dstart,h*2+1}=['Subject ',num2str(h),' - 1 to 2'];
+        data{dstart,h*2+Ns*2}=['Surrogate ',num2str(h),' - 2 to 1'];
+        data{dstart,h*2+Ns*2+1}=['Surrogate ',num2str(h),' - 1 to 2'];
+        for l=1:L;
+            data{l+dstart,h*2}=Bayes_data.coupling_strength_2to1{h,comp}(l);
+            data{l+dstart,h*2+1}=Bayes_data.coupling_strength_1to2{h,comp}(l);
+            data{l+dstart,h*2+Ns*2}=Bayes_data.surrogate_coupling_strength_2to1{h,comp}(l);
+            data{l+dstart,h*2+Ns*2+1}=Bayes_data.surrogate_coupling_strength_1to2{h,comp}(l);
+        end
+    end
+    
+    cell2csv([foldername,'\Coupling_strength',num2str(nn),'.csv'],data,',');
+    
 end
 
 t1=0:0.13:2*pi;t2=0:0.13:2*pi;
@@ -975,32 +975,32 @@ for b=1:Ns
     for bb=1:Nb
         meanCF1=Bayes_data.mean_cfunc_2to1{b,bb};
         meanCF2=Bayes_data.mean_cfunc_1to2{b,bb};
-%         S=size(Bayes_data.mean_cfunc_2to1{1,1},1);
-%         
-%         M(2:S+1,2:S+1)=meanCF1;
-%         M(2:S+1,2+S+1:S*2+2)=meanCF2;
-%         M(2:S+1,1)=t1;
-%         M(1,2:S+1)=t2;
-%         M(1,2+S+1:S*2+2)=t2;
-%         csvwrite([foldername,'\Mean_CF ',num2str(bb),' - Subject ',num2str(b),'.csv'],M)
-%         
-%     end
-% end
-
-S=size(meanCF1);
-for n=1:length(t1)
-    M{n+1,1}=t1(n);
-    M{1,n+1}=t2(n);
-    M{1,n+2+length(t1)}=t2(n);
-end
-
-for j=1:S(1)
-    for k=1:S(2)
-        M{j+1,k+1}=meanCF1(j,k);
-        M{j+1,k+2+length(t1)}=meanCF2(j,k);
-    end
-end
-cell2csv([foldername,'\Mean_CF ',num2str(bb),' - Subject ',num2str(b),'.csv'],M,',')
+        %         S=size(Bayes_data.mean_cfunc_2to1{1,1},1);
+        %
+        %         M(2:S+1,2:S+1)=meanCF1;
+        %         M(2:S+1,2+S+1:S*2+2)=meanCF2;
+        %         M(2:S+1,1)=t1;
+        %         M(1,2:S+1)=t2;
+        %         M(1,2+S+1:S*2+2)=t2;
+        %         csvwrite([foldername,'\Mean_CF ',num2str(bb),' - Subject ',num2str(b),'.csv'],M)
+        %
+        %     end
+        % end
+        
+        S=size(meanCF1);
+        for n=1:length(t1)
+            M{n+1,1}=t1(n);
+            M{1,n+1}=t2(n);
+            M{1,n+2+length(t1)}=t2(n);
+        end
+        
+        for j=1:S(1)
+            for k=1:S(2)
+                M{j+1,k+1}=meanCF1(j,k);
+                M{j+1,k+2+length(t1)}=meanCF2(j,k);
+            end
+        end
+        cell2csv([foldername,'\Mean_CF ',num2str(bb),' - Subject ',num2str(b),'.csv'],M,',')
     end
 end
 
