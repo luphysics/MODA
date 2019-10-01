@@ -2,7 +2,7 @@
 % code compatible with Dmytro Iatsenko's wt.m
 % author: Aleksandra Pidde a.pidde@gmail.com, a.pidde@lancaster.ac.uk
 
-function [Bisp, freq, opt,wt1,wt2] = bispecWavNew(sig1, sig2, fs, varargin)
+function [Bisp, freq, opt, wt1, wt2] = bispecWavNew(sig1, sig2, fs, varargin)
 % function calculating wavelet bispectrum
 %
 % INPUT:
