@@ -1,5 +1,8 @@
-function [tm,p1,p2,cpl1,cpl2,cf1,cf2,mcf1,mcf2,surr_cpl1,surr_cpl2] = full_bayesian(sig1, sig2, int1, int2, fs, win, pr, ovr, bn, ns, signif)
+function [tm,p1,p2,cpl1,cpl2,cf1,cf2,mcf1,mcf2,surr_cpl1,surr_cpl2] = full_bayesian(sig1, sig2, int11, int12, int21, int22, fs, win, pr, ovr, bn, ns, signif)
 % Created for use in PyMODA.
+
+int1 = [int11, int12];
+int2 = [int21, int22];
 
 [bands1,~] = loop_butter(sig1(:),int1(:),fs);
 phi1=angle(hilbert(bands1));
