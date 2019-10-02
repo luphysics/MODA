@@ -1,6 +1,8 @@
 # Ignore data files only in root folder
 *.csv 
 *.mat
+
+# Ignore folder used for packaging code as Python libraries.
 packages/
 
 
