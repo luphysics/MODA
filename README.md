@@ -5,7 +5,11 @@
 ### Introduction
 
 MODA (Multiscale Oscillatory Dynamics Analysis) is a numerical toolbox developed by the
-[Nonlinear & Biomedical Physics group](https://www.lancaster.ac.uk/physics/research/experimental-condensed-matter/nonlinear-and-biomedical-physics/) at [Lancaster University](https://www.lancaster.ac.uk/physics/) for analysing real-life time-series
+[Nonlinear & Biomedical Physics group](https://www.lancaster.ac.uk/physics/research/experimental-condensed-matter/nonlinear-and-biomedical-physics/) at [Lancaster University](https://www.lancaster.ac.uk/physics/) and the Nonlinear Dynamics and Synergetic Group at the Faculty of Electrical
+Engineering, University of Ljubljana, Slovenia under the supervision of Aneta Stefanovska.
+
+
+MODA is designed for analysing real-life time-series
 that are assumed to be the output of some *a priori* unknown non-autonomous dynamical system,
 and deriving important properties about this dynamical system from the time-series. It includes
 methods both for analysing the recordings of a single signal over time, and for analysing a set
