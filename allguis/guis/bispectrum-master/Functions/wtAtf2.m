@@ -49,7 +49,7 @@ if strcmpi(opt.Preprocess, 'on') && dflag == 1
 end
 
 %Filtering of the padded signal
-Nq = ceil((NL + 1) / 2); 
+Nq = ceil((NL + 1) / 2);
 ff = [(0 : Nq - 1), -fliplr(1 : NL - Nq)] * fs / NL; ff = ff(:); % frequencies in Fourier transform
 fx = fft(sig, NL); fx(ff <= 0) = 0; % Fourier transform of a signal (set to zero at negative frequencies)
 if strcmpi(opt.Preprocess,'on')
@@ -76,7 +76,7 @@ wt = zeros(1, N) * NaN;
 freqwf = ff * opt.wp.ompeak / (2 * pi * fr); %frequencies for the wavelet
 ii = find(freqwf > opt.wp.xi1 / (2 * pi) & freqwf < opt.wp.xi2 / (2 * pi)); %take into account only frequencies within the wavelet support
 if ~isempty(opt.wp.fwt)
-    fw = conj(opt.wp.fwt(2 * pi * freqwf(ii))); 
+    fw = conj(opt.wp.fwt(2 * pi * freqwf(ii)));
     nid = find(isnan(fw) | ~isfinite(fw));
     if ~isempty(nid) %to avoid NaNs due to numerics, e.g. sin(0)/0
         fw(nid) = conj(opt.wp.fwt(2 * pi * freqwf(ii(nid)) + 1e-14));
@@ -85,9 +85,9 @@ if ~isempty(opt.wp.fwt)
 else
     twav = (1 / fs) * [-(1 : ceil((NL - 1) / 2)) + 1, NL + 1 -(ceil((NL - 1) / 2) + 1 : NL)]';
     timewf = (2 * pi * fr / opt.wp.ompeak) * twav;
-    jj = find(timewf > opt.wp.t1 & timewf < opt.wp.t2); 
+    jj = find(timewf > opt.wp.t1 & timewf < opt.wp.t2);
     tw = zeros(NL, 1); %take into account only times within the wavelet support
-    tw(jj) = conj(opt.wp.twf(timewf(jj))); 
+    tw(jj) = conj(opt.wp.twf(timewf(jj)));
     nid = find(isnan(tw) | ~isfinite(tw));
     if ~isempty(nid) %to avoid NaNs due to numerics, e.g. sin(0)/0
         tw(nid) = conj(opt.wp.twf(timewf(nid) + 1e-14));
@@ -100,23 +100,23 @@ out = ((opt.wp.ompeak / (2 * pi * fr))^(1-p)) * ifft(cc, NL); % calculate WT at 
 wt(1 : L) = out(1 + n1 : NL - n2);
 
 if strcmpi(opt.CutEdges,'on')
-    wt(1 : coib1) = nan; 
-    wt(end - coib2 : end) = nan; 
+    wt(1 : coib1) = nan;
+    wt(end - coib2 : end) = nan;
 end
 end
 
 function [newSig, fx, ff] = preprocess(sig, N, fs, fmin, fmax)
 % Detrending
-X = (1 : length(sig))' / fs; XM = ones(length(X), 4); 
+X = (1 : length(sig))' / fs; XM = ones(length(X), 4);
 for pn = 1 : 3
-    CX = X .^ pn; 
-    XM(:, pn + 1) = (CX - mean(CX)) / std(CX); 
+    CX = X .^ pn;
+    XM(:, pn + 1) = (CX - mean(CX)) / std(CX);
 end
 w = warning('off', 'all'); sig = sig - XM * (pinv(XM) * sig); warning(w);
 
 % Filtering
 fx = fft(sig, N); % Fourier transform of a signal
-Nq = ceil((N + 1) / 2); 
+Nq = ceil((N + 1) / 2);
 ff = [(0 : Nq - 1), -fliplr(1 : N - Nq)] * fs / N; ff = ff(:); % frequencies in Fourier transform
 fx(abs(ff) <= max([fmin, fs / N]) | abs(ff) >= fmax) = 0; % filter signal in a chosen frequency domain
 newSig = ifft(fx);
