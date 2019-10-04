@@ -1,6 +1,7 @@
-% This is a copy of bispecWavNew which doesn't cause errors as a Python
-% library because it does not return a struct.
-function [Bisp, freq, wt1, wt2] = bispecWavPython(sig1, sig2, fs, varargin)
+% Just a copy of bispecWavNew which is modified to run
+% without errors when packaged as a Python library.
+
+function [Bisp, freq, wt1, wt2, opt] = bispecWavPython(sig1, sig2, fs, varargin)
 try
     
     bstype={'111';'222';'122';'211'};
@@ -89,10 +90,35 @@ try
     if wbar==1
         delete(handles.h);
     else
+        
+        new = struct();
+        new.nv = opt.nv;
+        new.RelTo = opt.RelTol;
+        new.Padding = opt.Padding;
+        new.fmin = opt.fmin;
+        new.fmax = opt.fmax;
+        new.Preprocess = opt.Preprocess;
+        new.CutEdges = opt.CutEdges;
+        new.PadLR = opt.PadLR;
+        
+        new.t1e = opt.wp.t1e;
+        new.t2e = opt.wp.t2e;
+        
+        new.ompeak = opt.wp.ompeak;
+        
+        new.xi1 = opt.wp.xi1;
+        new.xi2 = opt.wp.xi2;
+        
+        new.t1 = opt.wp.t1;
+        new.t2 = opt.wp.t2;
+        
+        new.twf = opt.wp.twf;
+        
+        opt = new;
     end
     
 catch e
-    errordlg(e.message,'Error');
+    display(e.message);
     if wbar==1
         delete(handles.h);
     else
