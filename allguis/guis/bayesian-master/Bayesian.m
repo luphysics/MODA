@@ -77,7 +77,7 @@ guidata(hObject, handles);
 function file_read_Callback(hObject, eventdata, handles)
 % Loads time series data
 %% Load data
-[handles]=MODAread(handles,1);
+[handles]=MODAread(handles,1,"even");
 if isfield(handles,'sampling_freq')
     refresh_limits_Callback(hObject, eventdata, handles);
 else

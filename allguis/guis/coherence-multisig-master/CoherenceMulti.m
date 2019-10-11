@@ -124,7 +124,7 @@ function file_read_Callback(hObject, eventdata, handles)
     set(handles.signal_list,'Value',1);
     
     % Load data
-    [handles,sig]=MODAread(handles,1);
+    [handles,sig]=MODAread(handles,1,"even");
     
     if sig==0
     else

@@ -1,6 +1,19 @@
 % MODA data loading function
 
-function [handles,sig,E]=MODAread(handles,type)
+function [handles,sig,E]=MODAread(handles,type,varargin)
+
+% Parse varargin for whether the number of signals should be even.
+% This is used in phase coherence, bispectrum analysis and 
+% Bayesian inference.
+even = false;
+n = length(varargin);
+for k = 1:n
+    if strcmp("even", varargin{k})
+        even = true;
+        break;
+    end
+end
+
 E=1;
 set(handles.status,'String','Importing Signal...');  % Update status
 
@@ -47,6 +60,13 @@ if isempty(choice)
     return;
 end
 
+num_signals = length(sig(:,1));
+
+% If there are an odd number of signals but an even number must be 
+% supplied, remove the last one.
+if even && mod(num_signals, 2) ~= 0 
+    sig = sig(1:end-1,:);
+end
 
 handles.sig = sig;
 handles.sig_cut=handles.sig;

@@ -140,7 +140,7 @@ if A==1
     
     
     % Load data
-    [handles]=MODAread(handles,1);
+    [handles]=MODAread(handles,1,"even");
     guidata(hObject,handles);
     
     if isfield(handles,'sig')
