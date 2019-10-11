@@ -99,7 +99,9 @@ try
         new.fmax = opt.fmax;
         new.Preprocess = opt.Preprocess;
         new.CutEdges = opt.CutEdges;
-        new.PadLR = opt.PadLR;
+        
+        new.PadLR1 = opt.PadLR(1);
+        new.PadLR2 = opt.PadLR(2);
         
         new.t1e = opt.wp.t1e;
         new.t2e = opt.wp.t2e;
@@ -112,7 +114,8 @@ try
         new.t1 = opt.wp.t1;
         new.t2 = opt.wp.t2;
         
-        new.twf = opt.wp.twf;
+        new.twf1 = opt.wp.twf(1);
+        new.twf2 = opt.wp.twf(2);
         
         opt = new;
     end

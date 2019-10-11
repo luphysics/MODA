@@ -8,6 +8,9 @@ MODA (Multiscale Oscillatory Dynamics Analysis) is a numerical toolbox developed
 [Nonlinear & Biomedical Physics group](https://www.lancaster.ac.uk/physics/research/experimental-condensed-matter/nonlinear-and-biomedical-physics/) at [Lancaster University](https://www.lancaster.ac.uk/physics/) and the Nonlinear Dynamics and Synergetic Group at the Faculty of Electrical
 Engineering, University of Ljubljana, Slovenia under the supervision of Aneta Stefanovska.
 
+A Python implementation of MODA, [PyMODA](https://github.com/luphysics/PyMODA) is currently in development. PyMODA does not require a MATLAB license.
+
+### Purpose
 
 MODA is designed for analysing real-life time-series
 that are assumed to be the output of some *a priori* unknown non-autonomous dynamical system,
@@ -55,7 +58,7 @@ The source code can be downloaded by clicking [this link](https://github.com/lup
 
 #### Running MODA
 
-To use MODA, download the code and place it in a desired location. For simplicity, rename the folder to `MODA`. 
+To use MODA, download the code and place it in a desired location. For simplicity of instructions, rename the folder to `MODA`. 
 
 In your file explorer, double-click `MODA.m` inside the `MODA` folder to open it with MATLAB. MODA can then be started using the "Run" button in the MATLAB editor.
 

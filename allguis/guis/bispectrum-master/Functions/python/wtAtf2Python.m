@@ -20,8 +20,6 @@ N = length(sig); sig = sig(:);
 PadMode = opt.Padding;
 L = N; fmin = opt.fmin; fmax = opt.fmax;
 
-opt.fwt = @(xi)exp(-(q^2/2)*(log(xi).^2));
-
 % ======== Signal preprocessing: detrending, filtering and padding =========
 % [dflag] determines to do detrending and filtering before or after padding
 
