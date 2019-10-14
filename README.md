@@ -38,7 +38,6 @@ according to the dynamics of coupled phase oscillators, one obtains over a serie
 the “most likely” coupling function from within the span of a given number of orthonormal basis
 functions on the 2-torus.
 
-
 ## Getting Started
 
 #### Preparation 
@@ -54,7 +53,20 @@ You can check which toolboxes are currently installed by running the `ver` comma
 
 #### Downloading MODA
 
-The source code can be downloaded by clicking [this link](https://github.com/luphysics/MODA/zipball/master) or by cloning the repository using Git.
+There are two methods to download the code: as a zip file, or by cloning the repository with Git. The advantage of cloning with Git is that you can easily update MODA in-place by running `git pull` in the terminal, preserving any added files such as shortcuts, instead of downloading a new zip file.
+
+If you prefer the zip method:
+
+- [Click here](https://github.com/luphysics/MODA/zipball/master) to download the .zip file. 
+- Extract the zip file to a desired location.
+- For simplicity of instructions, rename the folder to `MODA`.
+
+If you prefer the Git method:
+
+- [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+- Open a terminal in a desired folder and run `git clone https://github.com/luphysics/MODA.git`.
+- The code will download as a folder named `MODA-master`. For simplicity of instructions, rename the folder to `MODA`.
+- Whenever you want to update, open a terminal in `MODA` and run `git pull`.
 
 #### Running MODA
 
