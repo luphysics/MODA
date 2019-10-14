@@ -267,6 +267,7 @@ end
         set(handles.wavlet_transform,'Enable','on')
     end
 catch e
+    delete(handles.h)
     errordlg(e.message,'Error');
     set(handles.wt_single,'Enable','on')
     set(handles.wavlet_transform,'Enable','on')
