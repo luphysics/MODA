@@ -65,7 +65,7 @@ If you prefer the Git method:
 
 - [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 - Open a terminal in a desired folder and run `git clone https://github.com/luphysics/MODA.git`.
-- The code will download as a folder named `MODA-master`. For simplicity of instructions, rename the folder to `MODA`.
+- The code will download as a folder named `MODA`.
 - Whenever you want to update, open a terminal in `MODA` and run `git pull`.
 
 #### Running MODA
