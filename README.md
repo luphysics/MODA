@@ -70,8 +70,6 @@ If you prefer the Git method:
 
 #### Running MODA
 
-To use MODA, download the code and place it in a desired location. For simplicity of instructions, rename the folder to `MODA`. 
-
 In your file explorer, double-click `MODA.m` inside the `MODA` folder to open it with MATLAB. MODA can then be started using the "Run" button in the MATLAB editor.
 
 #### Using MODA
