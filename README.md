@@ -8,7 +8,9 @@ MODA (Multiscale Oscillatory Dynamics Analysis) is a numerical toolbox developed
 [Nonlinear & Biomedical Physics group](https://www.lancaster.ac.uk/physics/research/experimental-condensed-matter/nonlinear-and-biomedical-physics/) at [Lancaster University](https://www.lancaster.ac.uk/physics/) and the Nonlinear Dynamics and Synergetic Group at the Faculty of Electrical
 Engineering, University of Ljubljana, Slovenia under the supervision of Aneta Stefanovska.
 
-A Python implementation of MODA, [PyMODA](https://github.com/luphysics/PyMODA) is currently in development. PyMODA does not require a MATLAB license.
+To get started, please see the [User Guide](/docs/user-guide.md).
+
+> Note: A Python implementation of MODA, [PyMODA](https://github.com/luphysics/PyMODA), is currently in development. PyMODA does not require a MATLAB license.
 
 ### Purpose
 
@@ -37,44 +39,6 @@ describing the joint evolution of a pair of oscillatory components (of either th
 according to the dynamics of coupled phase oscillators, one obtains over a series of time-windows
 the “most likely” coupling function from within the span of a given number of orthonormal basis
 functions on the 2-torus.
-
-## Getting Started
-
-#### Preparation 
-
-MODA requires a MATLAB installation. MATLAB R2019a or higher is recommended, but older versions may also be suitable.
-
-The following MATLAB toolboxes should be installed:
-- Signal Processing Toolbox                
-- Statistics and Machine Learning Toolbox  
-- Wavelet Toolbox         
-
-You can check which toolboxes are currently installed by running the `ver` command in the MATLAB Command Window.
-
-#### Downloading MODA
-
-There are two methods to download the code: as a zip file, or by cloning the repository with Git. The advantage of cloning with Git is that you can easily update MODA in-place by running `git pull` in the terminal, preserving any added files such as shortcuts, instead of downloading a new zip file.
-
-If you prefer the zip method:
-
-- [Click here](https://github.com/luphysics/MODA/zipball/master) to download the .zip file. 
-- Extract the zip file to a desired location.
-- For simplicity of instructions, rename the folder to `MODA`.
-
-If you prefer the Git method:
-
-- [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-- Open a terminal in a desired folder and run `git clone https://github.com/luphysics/MODA.git`.
-- The code will download as a folder named `MODA`.
-- Whenever you want to update, open a terminal in `MODA` and run `git pull`.
-
-#### Running MODA
-
-In your file explorer, double-click `MODA.m` inside the `MODA` folder to open it with MATLAB. MODA can then be started using the "Run" button in the MATLAB editor.
-
-#### Using MODA
-
-The user manual, `User Manual.pdf` will be downloaded with the source code. It can be found in the `MODA` folder.
 
 ## References
 
