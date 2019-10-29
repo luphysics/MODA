@@ -15,13 +15,19 @@ function [Bisp, freq, opt, wt1, wt2] = bispecWavNew(sig1, sig2, fs, varargin)
 % Bisp: 		bispectrum, 2 dim matrix of complex values
 % freq: 		frequencies
 % opt:			structure of optimal parameters returned by wt.m
+
 try
-    
     bstype={'111';'222';'122';'211'};
-    if nargin == 4
-        opt = varargin{1};
-        [wt1, freq, opt] = wt(sig1, fs, opt);
-        [wt2, freq, opt] = wt(sig2, fs, opt);
+    
+    if nargin > 3
+        if nargin == 4 && iscell(varargin{1})
+            in = varargin{1};
+        else
+            in = varargin;
+        end
+        
+        [wt1, freq, opt] = wt(sig1, fs, in{:});
+        [wt2, freq, opt] = wt(sig2, fs, in{:});
     else
         [wt1, freq, opt] = wt(sig1, fs);
         [wt2, freq, opt] = wt(sig2, fs);
@@ -114,5 +120,3 @@ catch e
     rethrow(e)
     
 end
-
-

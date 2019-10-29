@@ -248,8 +248,23 @@ for vn=vst:2:nargin-2
     elseif strcmpi(varargin{vn},'Plot'), if ~isempty(varargin{vn+1}), PlotMode=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'CutEdges'), if ~isempty(varargin{vn+1}), CutEdges=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'CachedDataLocation'), if ~isempty(varargin{vn+1}), CachedDataLocation=varargin{vn+1}; end
-    else error(['There is no Property ''',varargin{vn},'''']);
+    else
+        try
+            error(['There is no Property ''',varargin{vn},'''']);
+        catch
+        end
     end
+end
+
+if isnan(fmin)
+    fmin = [];
+end
+if isnan(fmax)
+    fmax = fs / 2;
+end
+
+if isnan(f0)
+    f0 = 1;
 end
 
 if exist("CachedDataLocation", "var")
