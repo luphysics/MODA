@@ -179,6 +179,12 @@ else
     return;
 end
 
+function max_freq_Callback(hObject, eventdata, handles)
+    preprocess_Callback(hObject, eventdata, handles);
+    
+function min_freq_Callback(hObject, eventdata, handles)
+    preprocess_Callback(hObject, eventdata, handles);
+
 function detrend_signal_popup_Callback(hObject, eventdata, handles)
 % Detrends the signal and plots the chosen one
 preprocess_Callback(handles.preprocess, eventdata, handles);
