@@ -63,8 +63,10 @@ end
 num_signals = length(sig(:,1));
 
 % If there are an odd number of signals but an even number must be 
-% supplied, remove the last one.
-if even && mod(num_signals, 2) ~= 0 
+% supplied, remove the last one. 
+% Only do this if there are 3 or more signals, because users may want to 
+% analyse a single signal.
+if even && num_signals > 2 && mod(num_signals, 2) ~= 0 
     sig = sig(1:end-1,:);
 end
 
