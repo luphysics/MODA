@@ -181,7 +181,7 @@ end
 
 function max_freq_Callback(hObject, eventdata, handles)
 preprocess_Callback(hObject, eventdata, handles);
-    
+
 function min_freq_Callback(hObject, eventdata, handles)
 preprocess_Callback(hObject, eventdata, handles);
 
@@ -283,7 +283,6 @@ try
     fmin = str2double(get(handles.min_freq,'String'));
     fc =  str2double(get(handles.central_freq,'String'));
     fs = handles.sampling_freq;
-    nv=str2double(get(handles.nv,'String'));
     
     if isnan(fmax);fmax=fs/2;end
     
@@ -326,16 +325,16 @@ try
         
         if strcmp(ppselect,'off')
             
-            [handles.bispxxx] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',1,'wbar',1); 
+            [handles.bispxxx] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',1,'wbar',1);
             handles.bispxxx=abs(handles.bispxxx);
             
-            [handles.bispppp] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(2,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',2,'wbar',1); 
+            [handles.bispppp] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(2,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',2,'wbar',1);
             handles.bispppp=abs(handles.bispppp);
             
-            [handles.bispxpp,handles.freqarr, handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(2,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',3,'wbar',1); 
+            [handles.bispxpp,handles.freqarr, handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(2,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',3,'wbar',1);
             handles.bispxpp=abs(handles.bispxpp);
             
-            [handles.bisppxx] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(1,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',4,'wbar',1); 
+            [handles.bisppxx] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(1,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',4,'wbar',1);
             handles.bisppxx=abs(handles.bisppxx);
             
             if handles.ns>0
@@ -352,23 +351,23 @@ try
                 for j=1:handles.ns
                     waitbar(j / handles.ns,handles.h,sprintf(['Calculating surrogate (%d/%d)'],j,handles.ns));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-
+                    
                     surr1=wavsurrogate(handles.sig_cut(1,:),'IAAFT2',1);
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
                     
                     surr2=wavsurrogate(handles.sig_cut(2,:),'IAAFT2',1);
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
                     
-                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',1));
+                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',1));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
                     
-                    handles.surrppp(:,:,j)=abs(bispecWavNew(surr2,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',2));
+                    handles.surrppp(:,:,j)=abs(bispecWavNew(surr2,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',2));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
                     
-                    handles.surrxpp(:,:,j)=abs(bispecWavNew(surr1,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',3));
+                    handles.surrxpp(:,:,j)=abs(bispecWavNew(surr1,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',3));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
                     
-                    handles.surrpxx(:,:,j)=abs(bispecWavNew(surr2,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',4));
+                    handles.surrpxx(:,:,j)=abs(bispecWavNew(surr2,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',4));
                     
                     
                 end
@@ -376,16 +375,16 @@ try
             else
             end
         else
-            [handles.bispxxx] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:),fs,'handles',handles,'hObject',hObject,'f0',fc,'nv',nv,'fmin',fmin,'fmax',fmax,'num',1,'wbar',1); 
+            [handles.bispxxx] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:),fs,'handles',handles,'hObject',hObject,'f0',fc,'fmin',fmin,'fmax',fmax,'num',1,'wbar',1);
             handles.bispxxx=abs(handles.bispxxx);
             
-            [handles.bispppp] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',2,'wbar',1); 
+            [handles.bispppp] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',2,'wbar',1);
             handles.bispppp=abs(handles.bispppp);
             
-            [handles.bispxpp,handles.freqarr,handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',3,'wbar',1); 
+            [handles.bispxpp,handles.freqarr,handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(2,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',3,'wbar',1);
             handles.bispxpp=abs(handles.bispxpp);
             
-            [handles.bisppxx] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(1,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',4,'wbar',1); 
+            [handles.bisppxx] = bispecWavNew(handles.sig_cut(2,:),handles.sig_cut(1,:),fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',4,'wbar',1);
             handles.bisppxx=abs(handles.bisppxx);
             
             if handles.ns>0
@@ -404,13 +403,13 @@ try
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
                     surr2=wavsurrogate(handles.sig_cut(2,:),'IAAFT2',1);
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',1));
+                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',1));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-                    handles.surrppp(:,:,j)=abs(bispecWavNew(surr2,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',2));
+                    handles.surrppp(:,:,j)=abs(bispecWavNew(surr2,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',2));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-                    handles.surrxpp(:,:,j)=abs(bispecWavNew(surr1,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',3));
+                    handles.surrxpp(:,:,j)=abs(bispecWavNew(surr1,surr2, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',3));
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-                    handles.surrpxx(:,:,j)=abs(bispecWavNew(surr2,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',4));
+                    handles.surrpxx(:,:,j)=abs(bispecWavNew(surr2,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',4));
                     
                     
                 end
@@ -428,7 +427,7 @@ try
         linkaxes([handles.time_series_1, handles.time_series_2])
         box(handles.time_series_2,'on')
         if strcmp(ppselect,'off')
-            [handles.bispxxx,handles.freqarr,handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'preprocess','off','handles',handles,'hObject',hObject,'num',1,'wbar',1); handles.bispxxx=abs(handles.bispxxx);
+            [handles.bispxxx,handles.freqarr,handles.wavopt,WT1, WT2] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:), fs,'fmin',fmin,'fmax',fmax,'f0',fc,'preprocess','off','handles',handles,'hObject',hObject,'num',1,'wbar',1); handles.bispxxx=abs(handles.bispxxx);
             [handles.bispppp] = NaN(size(handles.bispxxx));
             [handles.bispxpp] = NaN(size(handles.bispxxx));
             [handles.bisppxx] = NaN(size(handles.bispxxx));
@@ -448,7 +447,7 @@ try
                     surr1=wavsurrogate(handles.sig_cut(1,:),'IAAFT2',1);
                     
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',1));
+                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',1));
                     handles.surrppp(:,:,j)=NaN(size(handles.surrxxx(:,:,j)));
                     handles.surrxpp(:,:,j)=NaN(size(handles.surrxxx(:,:,j)));
                     handles.surrpxx(:,:,j)=NaN(size(handles.surrxxx(:,:,j)));
@@ -458,7 +457,7 @@ try
             else
             end
         else
-            [handles.bispxxx,handles.freqarr,handles.wavopt,WT1] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:),fs,'handles',handles,'hObject',hObject,'f0',fc,'nv',nv,'fmin',fmin,'fmax',fmax,'num',1,'wbar',1); handles.bispxxx=abs(handles.bispxxx);
+            [handles.bispxxx,handles.freqarr,handles.wavopt,WT1] = bispecWavNew(handles.sig_cut(1,:),handles.sig_cut(1,:),fs,'handles',handles,'hObject',hObject,'f0',fc,'fmin',fmin,'fmax',fmax,'num',1,'wbar',1); handles.bispxxx=abs(handles.bispxxx);
             WT2=NaN(size(WT1));
             [handles.bispppp] = NaN(size(handles.bispxxx));
             [handles.bispxpp] = NaN(size(handles.bispxxx));
@@ -479,7 +478,7 @@ try
                     surr1=wavsurrogate(handles.sig_cut(1,:),'IAAFT2',1);
                     
                     if getappdata(handles.h,'canceling');guidata(hObject,handles);break;end
-                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'nv',nv,'handles',handles,'hObject',hObject,'num',1));
+                    handles.surrxxx(:,:,j)=abs(bispecWavNew(surr1,surr1, fs,'fmin',fmin,'fmax',fmax,'f0',fc,'handles',handles,'hObject',hObject,'num',1));
                     handles.surrppp(:,:,j)=NaN(size(handles.surrxxx(:,:,j)));
                     handles.surrxpp(:,:,j)=NaN(size(handles.surrxxx(:,:,j)));
                     handles.surrpxx(:,:,j)=NaN(size(handles.surrxxx(:,:,j)));
