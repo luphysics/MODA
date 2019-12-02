@@ -34,13 +34,17 @@ If you prefer the Git method:
 
 In your file explorer, double-click `MODA.m` inside the `MODA` folder to open it with MATLAB. After the MATLAB window opens, press F5 or click the "Run" button to start MODA.
 
-> Note: You may need to click inside the section displaying the contents of `MODA.m` for the "Run" button to appear.
+If the following dialog appears, click "Change Folder":
+
+![Screenshot of the dialog stating that MODA.m is not in the current MATLAB path.](/docs/images/change_folder.png)
+
+> **Note:** You may need to click inside the section displaying the contents of `MODA.m` for the "Run" button to appear.
 
 ### Importing data
 
 When MODA opens, try clicking "Time-Frequency Analysis". After the window opens, go to "File" -> "Load time series" in the top left of the window. Using the file browser dialog, select a `.csv` or `.mat` file.
 
-> Tip: There are some example signals in the `example_sigs` folder. Try `example_sigs/6signals_10Hz.mat`.
+> **Tip:** There are some example signals in the `example_sigs` folder. Try `example_sigs/6signals_10Hz.mat`.
 
 After the file is selected, a dialog will appear: 
 
