@@ -1,0 +1,10 @@
+# Configures "pre-commit" to automatically update table of contents using "doctoc".
+repos:
+-   repo: https://github.com/thlorenz/doctoc
+    rev: v1.4.0
+    hooks:
+    -   id: doctoc
+        args: [".",                     # Apply to everything inside the root of the repository.
+        '--title=## Table of Contents', # Set the title of the table of contents.
+        "--maxlevel=2",                 # Only add sections with `#` or `##`.
+        "--github"]                     # Use GitHub formatting.
