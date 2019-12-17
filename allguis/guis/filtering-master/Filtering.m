@@ -126,6 +126,21 @@ drawnow;
 handles.output = hObject;
 guidata(hObject, handles);
 
+function time_series_ButtonDownFcn(hObject, eventdata, handles)
+% This doesn't actually do anything, but it prevents an error when the
+% signal plot is clicked.
+return;
+
+function freq_1_Callback(hObject, eventdata, handles)
+% This doesn't actually do anything, but it prevents an error when a
+% value is manually typed into the "Frequency 1" box.
+return;
+
+function freq_2_Callback(hObject, eventdata, handles)
+% This doesn't actually do anything, but it prevents an error when a
+% value is manually typed into the "Frequency 2" box.
+return;
+
 function varargout = Filtering_OutputFcn(hObject, eventdata, handles) 
 varargout{1} = handles.output;
 
