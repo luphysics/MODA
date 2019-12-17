@@ -10,13 +10,13 @@
   - [Running MODA](#running-moda)
   - [Importing time-series](#importing-time-series)
 - [References](#references)
-  - [Example applications](#example-applications)
+- [Example applications](#example-applications)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-[![DOI](https://zenodo.org/badge/194114858.svg)](https://zenodo.org/badge/latestdoi/194114858)
-
 # MODA
+
+[![DOI](https://zenodo.org/badge/194114858.svg)](https://zenodo.org/badge/latestdoi/194114858)
 
 MODA (Multiscale Oscillatory Dynamics Analysis) is a numerical toolbox developed by the
 [Nonlinear & Biomedical Physics group](https://www.lancaster.ac.uk/physics/research/experimental-condensed-matter/nonlinear-and-biomedical-physics/) at [Lancaster University](https://www.lancaster.ac.uk/physics/) and the Nonlinear Dynamics and Synergetic Group at the Faculty of Electrical
@@ -190,7 +190,7 @@ Topics* **223**, 2685-2703 (2014).
 Mod Phys* **89**, 045001 (2017).
 5. Special issue of the *Philos Trans Royal Soc A* (2019) with contributions by Kuramoto and others.
 
-## Example applications
+# Example applications
 
 #### Wavelet Phase Coherence
 1. Sheppard L W, Vuksanović V, McClintock P V E, Stefanovska A, Oscillatory dynamics of
