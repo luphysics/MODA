@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [User Guide](#user-guide)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## User Guide
 
 This guide describes how to get started with MODA. More in-depth instructions about using MODA's features can be found in the user manual, `User Manual.pdf`, which will be downloaded with the source code. 

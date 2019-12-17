@@ -1,18 +1,32 @@
-# MODA
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [MODA](#moda)
+  - [Purpose](#purpose)
+- [User Guide](#user-guide)
+  - [Requirements](#requirements)
+  - [Downloading MODA](#downloading-moda)
+  - [Running MODA](#running-moda)
+  - [Importing time-series](#importing-time-series)
+- [References](#references)
+  - [Example applications](#example-applications)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 [![DOI](https://zenodo.org/badge/194114858.svg)](https://zenodo.org/badge/latestdoi/194114858)
 
-### Introduction
+# MODA
 
 MODA (Multiscale Oscillatory Dynamics Analysis) is a numerical toolbox developed by the
 [Nonlinear & Biomedical Physics group](https://www.lancaster.ac.uk/physics/research/experimental-condensed-matter/nonlinear-and-biomedical-physics/) at [Lancaster University](https://www.lancaster.ac.uk/physics/) and the Nonlinear Dynamics and Synergetic Group at the Faculty of Electrical
 Engineering, University of Ljubljana, Slovenia under the supervision of Aneta Stefanovska.
 
-To get started, please see the [User Guide](/docs/user-guide.md).
+To get started, please see the [User Guide](#user-guide).
 
-> Note: A Python implementation of MODA, [PyMODA](https://github.com/luphysics/PyMODA), is currently in development. PyMODA does not require a MATLAB license.
+> **Note:** A Python implementation of MODA, [PyMODA](https://github.com/luphysics/PyMODA), is currently in development. PyMODA does not require a MATLAB license.
 
-### Purpose
+## Purpose
 
 MODA is designed for analysing real-life time-series
 that are assumed to be the output of some *a priori* unknown non-autonomous dynamical system,
@@ -22,25 +36,111 @@ of recordings of multiple different signals over time. In particular, it has too
 bivariate time-series consisting of the simultaneous recordings of two different signals over time,
 with a view to examining possible connections between the two signals.
 
-The foundation of most of the methods in MODA is time-frequency analysis, which describes
-the time-evolving frequency content of a signal. On the basis of this, one can examine whether
-there is either mutual interaction between or common influence on a pair of signals, by way of
-a “common” oscillatory component of possibly time-varying frequency, where “commonness” is
-measured by coherence of phases. Similarly, one can examine whether there are interactions
-between oscillatory components either within one signal or between two different signals,
-using bispectral analysis based on the coherence of the sum of the phases with the extracted
-phase from the harmonic frequency corresponding to the sum of the original frequencies; such
-analysis can detect both nonlinear interactions between oscillatory components and also linear
-interactions between nonlinear oscillatory components. Moreover, one can extract from a signal
-and reconstruct oscillatory components with time-varying frequency, together with the evolution
-of the “instantaneous phase” of such a component. From here, one can use dynamical Bayesian
-inference to reconstruct approximations of a non-autonomous stochastic differential equation
-describing the joint evolution of a pair of oscillatory components (of either the same signal or two different signals): under the approximation that phases of interacting oscillators evolve
-according to the dynamics of coupled phase oscillators, one obtains over a series of time-windows
-the “most likely” coupling function from within the span of a given number of orthonormal basis
-functions on the 2-torus.
+# User Guide
 
-## References
+This guide is aimed at users wishing to set up and use MODA. The [User Manual](/User%20Manual.pdf) provides a more in-depth explanation of MODA's functionality.
+
+If you're interested in modifying or contributing to the program, you may find the [Developer Guide](/docs/developer-guide.md) useful.
+
+## Requirements
+
+MATLAB R2017a or higher is required, but newer versions are recommended.
+
+The following MATLAB toolboxes are needed:
+- Signal Processing Toolbox                
+- Statistics and Machine Learning Toolbox  
+- Wavelet Toolbox         
+
+You can check which toolboxes are currently installed by running the `ver` command in the MATLAB Command Window.
+
+## Downloading MODA
+
+- [Click here](https://github.com/luphysics/MODA/zipball/master) to download the code as a .zip file. 
+- Extract the zip file to a desired location.
+- For simplicity of instructions, rename the folder to `MODA`. 
+
+## Running MODA
+
+In your file explorer, double-click `MODA.m` inside the `MODA` folder to open it with MATLAB. After the MATLAB window opens, press `F5` or click the "Run" button to start MODA.
+
+> **Note:** You may need to click inside the section displaying the contents of `MODA.m` for the "Run" button to appear.
+
+If the following dialog appears, click "Change Folder":
+
+![Screenshot of the dialog stating that MODA.m is not in the current MATLAB path.](/docs/images/change_folder.png)
+
+The launcher window will then open:
+
+![Screenshot of MODA's launcher window.](/docs/images/launcher_window.png)
+
+## Importing time-series
+
+In MODA, a time-series is a series of recorded values, where the sampling frequency - the frequency at which the recordings were made - is known.
+
+MODA can analyse multiple signals, provided that all signals have the same duration and sampling frequency.
+
+To import time-series into MODA, they must be saved in a compatible format: 
+
+- The file type must be a `.mat` file or `.csv` file. 
+- The file must contain a **single array, whose entries are all a single real number**. Each row or column of the array corresponds to a different time-series. 
+- For windows which inspect pairs of signals (for example, dynamical Bayesian inference), the number of time-series should be even. *If there are an odd number of time-series, the last one will be removed and pairs will be formed from the remaining time-series.*
+- For wavelet bispectrum analysis, there must be only two time-series; this is because the bispectrum computations take a prohibitively long time.
+
+> **Note:** The file should only contain the values of the time-series, because the sampling frequency is entered in the user interface.
+
+**If the array loaded into MODA is extremely large, it may run slowly or crash.** A potential way to overcome this is to downsample the signals.
+
+### Example
+
+When MODA opens, try clicking "Time-Frequency Analysis". After the window opens, go to `File` -> `Load time series` in the top left of the window. Using the file browser dialog, select a `.csv` or `.mat` file.
+
+> **Tip:** There are some example signals in the `example_sigs` folder. Try `example_sigs/6signals_10Hz.mat` (a row-wise signal).
+
+After the file is selected, a dialog will appear: 
+
+![Screenshot of the sampling frequency dialog.](/docs/images/sampling_frequency.png)
+
+After entering the sampling frequency in Hz (for example, "10"), another dialog will appear:
+
+![Screenshot of the data orientation dialog.](/docs/images/data_orientation.png)
+
+This dialog asks whether the data is row-wise or column-wise.
+
+---
+
+#### Row-wise data
+
+With row-wise data, each row corresponds to a different signal.
+
+```
+| Signal 1, Value 1 | Signal 1, Value 2 | Signal 1, Value 3 | 
+| Signal 2, Value 1 | Signal 2, Value 2 | Signal 2, Value 3 | 
+| Signal 3, Value 1 | Signal 3, Value 2 | Signal 3, Value 3 | 
+| Signal 4, Value 1 | Signal 4, Value 2 | Signal 4, Value 3 | 
+```
+
+#### Column-wise data
+
+With column-wise data, each column corresponds to a different signal.
+
+```
+| Signal 1, Value 1 | Signal 2, Value 1 | Signal 3, Value 1 | 
+| Signal 1, Value 2 | Signal 2, Value 2 | Signal 3, Value 2 | 
+| Signal 1, Value 3 | Signal 2, Value 3 | Signal 3, Value 3 | 
+| Signal 1, Value 4 | Signal 2, Value 4 | Signal 3, Value 4 | 
+```
+
+---
+
+After selecting the orientation, the data will be loaded and the first signal will be plotted at the top of the window.
+
+> **Note:** If the wrong orientation is selected, MODA may freeze while attempting to load the data as a large number of small signals.
+
+![Screenshot of the time-frequency window after data is loaded.](/docs/images/timefrequency_empty.png)
+
+The signals are listed in the "Select data" section (outlined in red), and each signal will be plotted when selected.
+
+# References
 
 #### Overview
 1. J Newman, G Lancaster and A Stefanovska, “Multiscale Oscillatory Dynamics
