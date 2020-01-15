@@ -65,9 +65,10 @@ try
                 end
                 %Pre allocate for the cell structures
                 tfsupp = ecurve(WT,freqarr,wopt);
-                
-                % Changed from "ridge" to "direct".
-                [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'direct');
+
+                % Changed back from "direct" to "ridge", because certain signals (e.g. respiration or ECG) 
+                % could cause the result of ridge extraction to exhibit spikes with negative frequencies.
+                [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'ridge');            
                 
                 handles.recon{j,k} = handles.bands_iamp{j,k}.*cos(handles.bands_iphi{j,k});
                 handles.bands_iphi{j,k} = mod(handles.bands_iphi{j,k},2*pi);
