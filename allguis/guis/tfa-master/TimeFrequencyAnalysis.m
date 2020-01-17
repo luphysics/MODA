@@ -529,8 +529,13 @@ else
                 h = child_handles(i);
                 
                 % Fix bug where limits of colorbar are set incorrectly.
-                if ~isa(h, "matlab.graphics.illustration.ColorBar")
-                    set(h,'xlim',xl);
+                if ~isa(h, "matlab.graphics.illustration.ColorBar") && ~isa(h, "matlab.graphics.shape.internal.AnnotationPane")
+                    try
+                        set(h,'xlim',xl);
+                    catch exception
+                        disp("Error, possibly introduced by changes in a new version of MATLAB:");
+                        disp(exception);
+                    end
                 end
             end
         end
