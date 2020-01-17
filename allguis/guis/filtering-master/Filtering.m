@@ -923,15 +923,14 @@ display_type_Callback(hObject, eventdata, handles)
 
 
 function mark_interval_Callback(hObject, eventdata, handles)
-% Executes when 'Mark Interval' is pressed
+% Executes when 'Mark region' is pressed.
+
 disp_select = get(handles.display_type,'Value');
 sig_select=get(handles.signal_list,'Value');
 
 if disp_select ~= 1
     return;
 end
-
-
 
 if any(sig_select == size(handles.sig,1)+1)
     
@@ -995,13 +994,20 @@ hold(handles.cum_avg,'off');
 
 
 function add_interval_Callback(hObject, eventdata, handles)
-% Executes when 'Add interval' is pressed
+% Executes when 'Add marked region' is pressed.
+
 handles.c=handles.c+1;
 f1 = str2double(get(handles.freq_1,'String'));
 f2 = str2double(get(handles.freq_2,'String'));
 
-freqmin=min(handles.freqarr);
-freqmax=max(handles.freqarr);
+if ~isfield(handles, "freqarr")
+    disp("Frequency field is missing. The marked region cannot be checked against the allowable range. Performing the transform again can dismiss this error.");
+    freqmin = f1;
+    freqmax = f2;
+else
+    freqmin=min(handles.freqarr);
+    freqmax=max(handles.freqarr);
+end
 
 if f1<freqmin || f1>freqmax
     errordlg('Selected frequencies are outside the allowable range','Parameter Error');
@@ -1013,9 +1019,15 @@ if f2<freqmin || f2>freqmax
     return;
 end
 
+if isnan(f1) || isnan(f2)
+    disp("Frequency interval contains a NaN value. Will not add marked region.");
+    return;
+end
+
 fl = sprintf('%f,%f',min(f1,f2),max(f1,f2));
 list = get(handles.interval_list,'String');
 list{end+1,1} = fl;
+
 set(handles.interval_list,'String',list);
 guidata(hObject,handles);
 drawnow;
