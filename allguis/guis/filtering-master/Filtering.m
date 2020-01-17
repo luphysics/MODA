@@ -734,9 +734,11 @@ else
             colormap(handles.cmap);
             shading(handles.freq_axis,'interp');
             ylim(handles.freq_axis,csv_to_mvar(list{int_select,1}));
-             plot(handles.freq_axis, handles.time_axis_cut,handles.bands_freq{sig_select,int_select},'color',handles.linecol(j,:),'linewidth',handles.line2width);
-        else
             
+            % This is the line representing the ridge. Use black as its colour.
+            black = [0,0,0];
+            plot(handles.freq_axis, handles.time_axis_cut,handles.bands_freq{sig_select,int_select},'color',black,'linewidth',handles.line2width);
+        else
             shading(handles.freq_axis,'interp');
             plot(handles.freq_axis, handles.time_axis_cut,handles.bands_freq{sig_select,int_select(j)},'color',handles.linecol(j,:),'linewidth',handles.line2width);
         end
