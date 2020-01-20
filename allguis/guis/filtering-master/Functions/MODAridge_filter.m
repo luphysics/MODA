@@ -65,14 +65,26 @@ try
                 end
                 %Pre allocate for the cell structures
                 tfsupp = ecurve(WT,freqarr,wopt);
-
-                % Changed back from "direct" to "ridge", because certain signals (e.g. respiration or ECG) 
-                % could cause the result of ridge extraction to exhibit spikes with negative frequencies.
-                [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'ridge');            
+                
+                % This section relates to using "ridge" or "direct" reconstruction.
+                %
+                % Comments from Dymtro Iatsenko, paraphrased:
+                %
+                % [As far as I recall], the direct method for frequency is inferred directly from exact component reconstruction.
+                %
+                % Thus, in case of signal being a(t)cos(phi(t)) with slowly varying amplitude and frequency,
+                % it will give exact amplitude, phase and frequency of this component, while the ridge method will not.
+                %
+                % Overall, the direct method is superior for signals where components are relatively clear;
+                % however, with lots of noise and interferences the ridge method is more robust.
+                
+                % TO SWITCH FROM "ridge" TO "direct" RECONSTRUCTION, CHANGE 'ridge' TO 'direct' ON THE NEXT LINE.
+                [handles.bands_iamp{j,k},handles.bands_iphi{j,k},handles.bands_freq{j,k}] = rectfr(tfsupp,WT,freqarr,wopt,'ridge');
                 
                 handles.recon{j,k} = handles.bands_iamp{j,k}.*cos(handles.bands_iphi{j,k});
                 handles.bands_iphi{j,k} = mod(handles.bands_iphi{j,k},2*pi);
             end
+            
             waitbar(j/size(handles.sig_cut,1),handles.h)
         end
         
