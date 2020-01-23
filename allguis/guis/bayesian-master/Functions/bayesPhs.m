@@ -159,6 +159,7 @@ invr=inv(E);
 
 wr=lastwarn;
 if (~isempty(wr))&&((strcmp(wr(1:18),'Matrix is singular'))||(strcmp(wr(1:27),'Matrix is close to singular')))
+    lastwarn(""); % Clear the last warning.
     display('Singular matrix can lead to wrong and imprecise results. Please check the input parameters, signals or base functions. ');
     error('Singular matrix can lead to wrong and imprecise results. Please check the input parameters, signals or base functions.');
 end

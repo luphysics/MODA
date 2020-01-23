@@ -61,10 +61,15 @@ list(interval_selected,:) = [];
 
 set(handles.interval_list_2,'String',list);
 if isfield(handles,'bands') && ~isempty(handles.bands)
-    handles.bands(:,interval_selected) = [];
-    guidata(hObject,handles);
+    try
+        handles.bands(:,interval_selected) = [];
+        guidata(hObject,handles);
+    catch exception
+        % Catch "Matrix index is out of range for deletion." exception.
+    end
 else
 end
+
 drawnow;
 handles.c=handles.c-1;
 guidata(hObject,handles);
