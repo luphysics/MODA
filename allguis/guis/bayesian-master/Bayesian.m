@@ -476,34 +476,38 @@ if disp_select==1
         end
     end
     if isfield(handles,'p1') && ~isempty(handles.p1)
-        % Plot phases
+        data_exists = size(handles.p1,2) >= int_select;
         
-        plot(handles.phi1_axes, handles.time_axis_cut, handles.p1{sig_select,int_select},'color',handles.linecol(1,:));
-        plot(handles.phi2_axes, handles.time_axis_cut, handles.p2{sig_select,int_select},'color',handles.linecol(1,:));
-        xlim(handles.phi1_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
-        xlim(handles.phi2_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
-        ylabel(handles.phi1_axes,'phi1');
-        ylabel(handles.phi2_axes,'phi2');
-        set(handles.phi1_axes,'xticklabel',[]);
-        set(handles.phi2_axes,'xticklabel',[]);
-        
-        % Plot coupling strength
-        hold(handles.coupling_strength_axis,'on');
-        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl1{sig_select,int_select},...
-            'color',handles.linecol(1,:),'linewidth',handles.line2width);
-        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl2{sig_select,int_select},...
-            'color',handles.linecol(2,:),'linewidth',handles.line2width);
-        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl1{sig_select,int_select},...
-            'color',handles.linecol(1,:),'linewidth',handles.line2width,'LineStyle','--');
-        plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl2{sig_select,int_select},...
-            'color',handles.linecol(2,:),'linewidth',handles.line2width,'LineStyle','--');
-        handles.leg1={'Data 2 -> 1','Data 1 -> 2','Surr 2 -> 1','Surr 1 -> 2'};
-        legend(handles.coupling_strength_axis,handles.leg1,'orientation','horizontal');
-        xlabel(handles.coupling_strength_axis,'Time (s)');
-        ylabel(handles.coupling_strength_axis,'Coupling Strength');
-        xlim(handles.coupling_strength_axis, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
-        linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes handles.phi2_axes handles.coupling_strength_axis],'x'); % Ensures axis limits are identical for both plots
-        
+        % Fixes an error when the user selects a parameter set which hasn't
+        % been used to perform a calculation yet.
+        if data_exists
+            % Plot phases
+            plot(handles.phi1_axes, handles.time_axis_cut, handles.p1{sig_select,int_select},'color',handles.linecol(1,:));
+            plot(handles.phi2_axes, handles.time_axis_cut, handles.p2{sig_select,int_select},'color',handles.linecol(1,:));
+            xlim(handles.phi1_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
+            xlim(handles.phi2_axes, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
+            ylabel(handles.phi1_axes,'phi1');
+            ylabel(handles.phi2_axes,'phi2');
+            set(handles.phi1_axes,'xticklabel',[]);
+            set(handles.phi2_axes,'xticklabel',[]);
+            
+            % Plot coupling strength
+            hold(handles.coupling_strength_axis,'on');
+            plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl1{sig_select,int_select},...
+                'color',handles.linecol(1,:),'linewidth',handles.line2width);
+            plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.cpl2{sig_select,int_select},...
+                'color',handles.linecol(2,:),'linewidth',handles.line2width);
+            plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl1{sig_select,int_select},...
+                'color',handles.linecol(1,:),'linewidth',handles.line2width,'LineStyle','--');
+            plot(handles.coupling_strength_axis,handles.tm{sig_select,int_select}+handles.time_axis_cut(1),handles.surr_cpl2{sig_select,int_select},...
+                'color',handles.linecol(2,:),'linewidth',handles.line2width,'LineStyle','--');
+            handles.leg1={'Data 2 -> 1','Data 1 -> 2','Surr 2 -> 1','Surr 1 -> 2'};
+            legend(handles.coupling_strength_axis,handles.leg1,'orientation','horizontal');
+            xlabel(handles.coupling_strength_axis,'Time (s)');
+            ylabel(handles.coupling_strength_axis,'Coupling Strength');
+            xlim(handles.coupling_strength_axis, [handles.time_axis_cut(1) handles.time_axis_cut(end)]);
+            linkaxes([handles.time_series_1 handles.time_series_2 handles.phi1_axes handles.phi2_axes handles.coupling_strength_axis],'x'); % Ensures axis limits are identical for both plots
+        end
     else
     end
     
