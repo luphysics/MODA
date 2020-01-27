@@ -45,6 +45,11 @@ try
             for k=1:size(list,1)
                 fl=csv_to_mvar(list{k,1});
                 
+                if(~isfield(handles, "fc"))
+                   msg = "An error has occurred. Please re-calculate the transform before proceeding.";
+                   errordlg(msg);
+                   error(msg);
+                end
                 
                 if(isnan(handles.fc))
                     if handles.calc_type == 1
