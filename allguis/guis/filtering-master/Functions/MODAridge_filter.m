@@ -46,9 +46,9 @@ try
                 fl=csv_to_mvar(list{k,1});
                 
                 if(~isfield(handles, "fc"))
-                   msg = "An error has occurred. Please re-calculate the transform before proceeding.";
-                   errordlg(msg);
-                   error(msg);
+                    msg = "An error has occurred. Please re-calculate the transform before proceeding.";
+                    errordlg(msg);
+                    error(msg);
                 end
                 
                 if(isnan(handles.fc))
@@ -89,48 +89,56 @@ try
                 
                 handles.recon{j,k} = handles.bands_iamp{j,k}.*cos(handles.bands_iphi{j,k});
                 handles.bands_iphi{j,k} = mod(handles.bands_iphi{j,k},2*pi);
-                
-                % Check if negative frequencies are present in the results.
-                for i=1:size(handles.bands_freq, 1)
-                    freq = handles.bands_freq{i};
-                    negative = find(freq < 0);
-                    
-                    if ~isempty(negative)
-                        msg = "Error: Negative frequencies are present in the result. This is an artefact of the direct reconstruction algorithm." + ...
-                            newline + newline + ...
-                            "To address this issue, please try one or more of the following:" + newline + ...
-                            "1) Switching to the 'Lognorm' wavelet." + newline + ...
-                            "2) Using a narrower frequency interval." + newline + ...
-                            "3) Using a higher frequency resolution." + ...
-                            newline + newline + ...
-                            "For more information, please check the User Guide.";
-                        
-                        title = "Error";
-                        see_docs = "Open User Guide";
-                        dismiss = "Dismiss";
-                        
-                        % Show question dialog.
-                        answer = questdlg(...
-                            msg, ...
-                            title, ...
-                            see_docs, ...
-                            dismiss, ...
-                            dismiss ...
-                            );
-                        
-                        if answer == see_docs
-                            % Launch web browser with link to the relevant
-                            % section of the User Guide.
-                            web("https://github.com/luphysics/MODA/blob/master/docs/user-guide.md#negative-frequencies");
-                        end
-                        break;
-                    end
-                end
             end
             
             waitbar(j/size(handles.sig_cut,1),handles.h)
         end
-               
+        
+        % Check if negative frequencies are present in the results.
+        shown_error = false;
+        for i=1:size(handles.bands_freq, 1)
+            for j=1:size(handles.bands_freq, 2)
+                freq = handles.bands_freq{i,j};
+                
+                negative = find(freq < 0);
+                if ~isempty(negative)
+                    msg = "Error: Negative frequencies are present in the result. This is an artefact of the direct reconstruction algorithm." + ...
+                        newline + newline + ...
+                        "To address this issue, please try one or more of the following:" + newline + ...
+                        "1) Switching to the 'Lognorm' wavelet." + newline + ...
+                        "2) Using a narrower frequency interval." + newline + ...
+                        "3) Using a higher frequency resolution." + ...
+                        newline + newline + ...
+                        "For more information, please check the User Guide.";
+                    
+                    title = "Error";
+                    see_docs = "Open User Guide";
+                    dismiss = "Dismiss";
+                    
+                    % Show question dialog.
+                    answer = questdlg(...
+                        msg, ...
+                        title, ...
+                        see_docs, ...
+                        dismiss, ...
+                        dismiss ...
+                        );
+                    
+                    if answer == see_docs
+                        % Launch web browser with link to the relevant
+                        % section of the User Guide.
+                        web("https://github.com/luphysics/MODA/blob/master/docs/user-guide.md#negative-frequencies");
+                    end
+                    
+                    shown_error = true;
+                    break;
+                end
+            end
+            
+            % If an error was shown, break the outer loop.
+            if shown_error, break; end
+        end
+        
     else
         
     end
