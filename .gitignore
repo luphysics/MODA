@@ -1,6 +1,9 @@
 # Ignore folder used for packaging code as Python libraries.
 packages/
 
+# Ignore data files in the root of the repository.
+/*.mat
+/*.csv
 
 # Created by https://www.gitignore.io/api/matlab
 # Edit at https://www.gitignore.io/?templates=matlab
