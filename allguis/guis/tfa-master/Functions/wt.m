@@ -206,6 +206,7 @@ Preprocess='on';
 DispMode='on';
 PlotMode='off';
 CutEdges='on';
+python=false;
 
 %Update if user defined
 vst=1; recflag=1;
@@ -233,6 +234,7 @@ if nargin>2 && isstruct(varargin{1})
     end
     if isfield(copt,'nvsim') && recflag==1, cvv=copt.nvsim; if ~isempty(cvv), nv=cvv; end, end
     if isfield(copt,'CachedDataLocation'), cvv=copt.CachedDataLocation; if ~isempty(cvv), CachedDataLocation=cvv; end, end
+    if isfield(copt,'python'), cvv=copt.python; if ~isempty(cvv), python=cvv; end, end
 end
 
 for vn=vst:2:nargin-2
@@ -247,6 +249,7 @@ for vn=vst:2:nargin-2
     elseif strcmpi(varargin{vn},'Preprocess'), if ~isempty(varargin{vn+1}), Preprocess=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'Plot'), if ~isempty(varargin{vn+1}), PlotMode=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'CutEdges'), if ~isempty(varargin{vn+1}), CutEdges=varargin{vn+1}; end
+    elseif strcmpi(varargin{vn},'python'), if ~isempty(varargin{vn+1}), python=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'CachedDataLocation'), if ~isempty(varargin{vn+1}), CachedDataLocation=varargin{vn+1}; end
     else
         try
@@ -622,14 +625,21 @@ end
 
 if nargout>2
     wopt=struct; %simulation parameters
-    wopt.wp=wp; %parameters of the wavelet
+    
+    % Saving these values messes up the conversion back to Python data types,
+    % so avoid if called from Python.
+    if ~python
+        wopt.wp=wp; %parameters of the wavelet
+        wopt.PadLR={padleft,padright};
+    end
+    
     wopt.TFRname='WT'; wopt.fs=fs;
     wopt.Wavelet=Wavelet;
     wopt.f0=f0;
     wopt.fmin=fmin;
     wopt.fmax=fmax;
     wopt.nv=nv; wopt.nvsim=nvsim;
-    wopt.Padding=PadMode; wopt.PadLR={padleft,padright};
+    wopt.Padding=PadMode;
     wopt.RelTol=RelTol;
     wopt.Preprocess=Preprocess;
     wopt.Plot=PlotMode;
