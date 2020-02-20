@@ -6,8 +6,10 @@ int2 = [int21, int22];
 
 [bands1,~] = loop_butter(sig1(:),int1(:),fs);
 phi1=angle(hilbert(bands1));
+
 [bands2,~] = loop_butter(sig2(:),int2(:),fs);
 phi2=angle(hilbert(bands2));
+
 p1=phi1;
 p2=phi2;
 
@@ -22,8 +24,8 @@ cf2 = q12;
 mcf1 = squeeze(mean(q21,3));
 mcf2 = squeeze(mean(q12,3));
 
-surr1 = surrcalc(phi1,ns,'CPP',0,fs);
-surr2 = surrcalc(phi2,ns,'CPP',0,fs);
+surr1 = surrcalc(phi1',ns,'CPP',0,fs);
+surr2 = surrcalc(phi2',ns,'CPP',0,fs);
 
 for n=1:ns
     [~,cc_surr{n}]=bayes_main(surr1(n,:),surr2(n,:),win,1/fs,ovr,pr,1,bn);

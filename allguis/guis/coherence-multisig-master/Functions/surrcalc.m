@@ -230,6 +230,11 @@ elseif strcmp(method,'CPP')
         endcycle=signal(dcpoints(k+1)+1:end);
         
         for sn=1:N
+            disp(size(stcycle));
+            disp(NC);
+            disp(size(cycles));
+            disp(size(endcycle));
+            
             surr(sn,:)=unwrap(horzcat(stcycle,cycles{randperm(NC)},endcycle));
         end
         

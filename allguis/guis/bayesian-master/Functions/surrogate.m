@@ -234,7 +234,7 @@ elseif strcmp(method,'PPS') % PPS surrogates
         end
     end
     
-    end
+end
     
 elseif strcmp(method,'CPP') % cycle phase permutation surrogates
     
