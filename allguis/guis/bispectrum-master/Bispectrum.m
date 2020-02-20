@@ -666,8 +666,13 @@ elseif disp_select > 2 && disp_select <7
             
             if disp_select == 3
                 S=sort(handles.surrxxx,3,'descend');
+                
                 handles.surrxxxT=S(:,:,K);
-                handles.bispxxxS=handles.bispxxx-handles.surrxxxT;n=find(handles.bispxxxS<0);handles.bispxxxS(n)=NaN;
+                handles.bispxxxS=handles.bispxxx-handles.surrxxxT;
+                
+                n=find(handles.bispxxxS<0);
+                handles.bispxxxS(n)=NaN;
+                
                 pcolor(handles.bisp, handles.freqarr, handles.freqarr, handles.bispxxxS)
                 xlabel(handles.bisp,'Frequency - Sig 1 (Hz)');
                 ylabel(handles.bisp,'Frequency - Sig 1 (Hz)');
