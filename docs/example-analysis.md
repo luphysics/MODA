@@ -1,25 +1,47 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
-
-- [Example analysis for two interacting oscillators](#example-analysis-for-two-interacting-oscillators)
-  - [Finding the frequency interval for each oscillator](#finding-the-frequency-interval-for-each-oscillator)
-  - [Wavelet phase coherence](#wavelet-phase-coherence)
-  - [Dynamical Bayesian inference](#dynamical-bayesian-inference)
-
+TODO: run doctoc.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Example analysis for two interacting oscillators 
 
-This analysis is based on time-series gathered from the heart (an ECG signal) and the lungs (with a respiration belt). The heart and the lungs can then be viewed as two oscillators, and we want to investigate their interaction by using wavelet phase coherence and dynamical Bayesian inference. 
+This analysis is based on two real time-series: an ECG signal and a respiratory signal measued with a respiration belt. The signals were measured simultaneously and the recordings lasted approximately 30minutes. The heart and the lungs can be considered as two oscillators, and we want to investigate their interaction by using wavelet based time-frequency analysis. 
+
+Sampling frequency of both signals are 300Hz, and they are saved row wise.
+
+IMAGE ecg signal
+IMAGE resp signal
 
 ## Finding the frequency interval for each oscillator
 
-The first step of the analysis is to find the frequency interval for each oscillator in order to find at what frequencies they oscillate at. This can be done by ridge extraction. 
+The first step of the analysis is to identify the frequency interval at which the oscillator is operating. This can be done by ridge extraction. 
 
-First start MODA. In the GUI press "Ridge extraction and filtering". In the top left corner press `File` -> `Load time series`. Load one of the signals (`Resp.mat` or `ECG.mat`). Put in the sampling frequency when prompted (250Hz), and then select column-wise or row wise depending on the data (row wise).
+- Start MODA. 
+- In the GUI press "Ridge extraction and filtering". 
+- In the top left corner press `File` -> `Load time series`. 
+- Load one of the signals (`Resp.mat` or `ECG.mat`). 
+- Put in the sampling frequency when prompted (300Hz)
+- Select column-wise or row wise depending on the data (row wise).
 
-In the right corner there are a box called "Transform Options", here you specify the minimum and maximum frequency for the wavelet transform. For ECG choose from 0.5Hz to 2Hz, and then press "calculate transform" in the bottom right corner. Then in the box called "Band Marking" press mark region. Make sure your marked region includes the whole frequency region where the amplitudes are high. After you have marked your region press the button "Add marked region". When you have done this you can press "Extract ridges" at the bottom right corner. Save the data as a mat file. The ridge is the `Ridge_frequency` value in the saved matlab structure.
+Click "Calculate Transform" and view the result. The result can be used to identify a proper minimum frequency, maximum frequency and frequency resolution. These values can be entered in the "Transform Options" section in the upper right corner.
+
+Higher values of frequency resolution (fr > 2) give good frequency resolution but poor time resolution; we found `fr=3` to be optimal for this signal. 
+
+Since the heartrate is around 1Hz, the maximum frequency was set to 5Hz. Similarly, the minimum frequency was set to 0.095Hz.
+
+IMAGE ecg WT
+
+The region which should be analysed can be seen in the screenshot. It is a region with higher amplitudes, where the frequency is in an expected range (for heartrate, this is around 1Hz).
+
+- Mark a band around it by clicking "Mark region", then click slightly below and above the region. 
+- Then click "Add marked region" to add it to the list of selected regions.
+- Press "Extract ridges" in the bottom right corner.
+
+You can now see the result of the ridge extraction:
+
+IMAGE ridge extraction for ECG 
+
+The results can be saved as a mat file. The ridge is the `Ridge_frequency` value in the saved matlab structure.
 
 ---
 
@@ -60,6 +82,8 @@ ECG: 0.8920Hz to 1.2820Hz
 Respiration: 0.1354Hz to 0.2875Hz
 
 ## Wavelet phase coherence
+
+To identify the minimum and maximum frequencies for wavelet phase coherence, check the frequencies of the signals. 
 
 > **Note:** You need to make a matrix containing the signals you want to find the wavelet phase coherence between, so make one with the ridge of the ECG and the respiration, and one with the ridge of ECG and ridge of respiration.
 
