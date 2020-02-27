@@ -19,7 +19,7 @@
 This analysis is based on two real time-series: 
 
 - An ECG signal, showing heart rate. 
-- A respiratory signal measured with a respiration belt, showing lung volume. 
+- A respiratory signal measured with a respiration belt. 
 
 The signals were measured simultaneously and the recordings lasted approximately 30 minutes. The heart and the lungs can be considered as two oscillators, and we will investigate their interaction by using wavelet based time-frequency analysis. 
 
@@ -61,7 +61,7 @@ The first step of the analysis is to identify the frequency interval at which th
 
 ---
 
-The result can be used to identify a proper minimum frequency, maximum frequency and frequency resolution. These values can be entered in the "Transform Options" section in the upper right corner.
+The result can be used to identify a proper **minimum frequency**, **maximum frequency** and **frequency resolution**. These values can be entered in the "Transform Options" section in the upper right corner.
 
 Higher values of frequency resolution (fr > 2) give good frequency resolution but poor time resolution; we found fr = 3 to be optimal for this signal. 
 
@@ -82,7 +82,7 @@ The region which should be analysed can be seen in the screenshot. It is a regio
 Mark a band around this region:
 
 - Click "Mark region".
-- Click slightly below and above the desired region to set the frequencies. 
+- Click on the plot, slightly below and above the desired region to set the frequencies. 
 
 ---
 
@@ -202,13 +202,15 @@ In this section, we will analyse coherence between:
 - Instantaneous heartrate and respiration.
 - Instantaneous heartrate and instantaneous respiration.
 
-The data files loaded into MODA were produced using MATLAB; they are saved in the `example_sigs/example_analysis` folder as `ihrResp.mat` and `ihrirr.mat` respectively.
+The data files loaded in the Wavelet Phase Coherence window were produced using MATLAB; they are saved in the `example_sigs/example_analysis` folder as `ihrResp.mat` and `ihrirr.mat` respectively.
 
 > **Note:** *Instantaneous* heartrate or respiration is the *extracted ridge* of the ECG or respiration signal respectively.
 
-The frequency range you choose for this analysis should include the frequency intervals of both oscillators. Hence, an appropiate choice could be 0.12Hz to 1.3Hz.
+The frequency range you choose for this analysis should include the frequency intervals of both oscillators. Hence, an appropiate choice could be **0.12Hz to 1.3Hz**.
 
-Coherence should always be tested for significance, and therefore we use surrogates (see the section on surrogates in the [User Manual](/User%20manual.pdf)). In this example we use 30 Fourier Transform surrogates.
+Coherence should always be tested for significance, and therefore we use surrogates. In this example we use **30 Fourier Transform (FT) surrogates**.
+
+> **Note:** For more information about surrogates, please see the [User Manual](/User%20Manual.pdf)).
 
 ### Instantaneous heart rate and respiration
 
@@ -222,6 +224,8 @@ Coherence should always be tested for significance, and therefore we use surroga
 - Enter `30` in the "Surrogate Count" box.
 - Choose `FT` in the surrogate "Method" dropdown.
 - Click "Coherence - all".
+
+> **Note:** Due to the number of surrogates, this calculation may take some time.
 
 The wavelet phase coherence is calculated:
 
@@ -241,12 +245,9 @@ The above process can be repeated, using the `ihrirr.mat` data file.
 
 ![Figure showing the Wavelet Phase Coherence in MODA, ECG ridge and respiration ridge.](/docs/images/example_analysis/ihrirrcoherenceav.png)
 
-*Screenshot showing the wavelet phase coherence of the ECG ridge and respiration ridge.*
+*Screenshot showing the wavelet phase coherence between the ECG ridge and respiration ridge.*
 
 ---
-
-High coherence can be seen between the two ridges from 1Hz to 1.3Hz. This is probably due to the respiration belt also measuring the heart rate. 
-
 
 ## Dynamical Bayesian inference
 
