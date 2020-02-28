@@ -148,7 +148,10 @@ if A==1
         % Plot time series
         plot(handles.time_series_1, handles.time_axis, handles.sig(1,:),'color',handles.linecol(1,:));%Plotting the time_series part afte calculation of appropriate limits
         xlim(handles.time_series_1,[0,size(handles.sig,2)./handles.sampling_freq]);
-        ylabel(handles.time_series_1,'Sig 1','FontUnits','points','FontSize',10);
+
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+        ylabel(handles.time_series_1,'Sig 1','FontUnits','points','FontSize',globalfontsize);
         
         if sum(abs(handles.sig(1,:)-handles.sig(2,:)))~=0
             plot(handles.time_series_2, handles.time_axis, handles.sig(2,:),'color',handles.linecol(1,:));%Plotting the time_series part afte calculation of appropriate limits
@@ -157,12 +160,12 @@ if A==1
         else
         end
         
-        xlabel(handles.time_series_2,'Time (s)','FontUnits','points','FontSize',10);
-        ylabel(handles.time_series_2,'Sig 2','FontUnits','points','FontSize',10);
+        xlabel(handles.time_series_2,'Time (s)','FontUnits','points','FontSize',globalfontsize);
+        ylabel(handles.time_series_2,'Sig 2','FontUnits','points','FontSize',globalfontsize);
         
-        set(handles.time_series_1,'FontUnits','points','FontSize',10);
+        set(handles.time_series_1,'FontUnits','points','FontSize',globalfontsize);
         set(handles.time_series_1,'XTickLabels',[]);
-        set(handles.time_series_2,'FontUnits','points','FontSize',10);
+        set(handles.time_series_2,'FontUnits','points','FontSize',globalfontsize);
         linkaxes([handles.time_series_1 handles.time_series_2],'x');
         
         refresh_limits_Callback(handles.refresh_limits, eventdata, handles); % Updates data limits
@@ -229,11 +232,13 @@ if ppstat==2
         
     end
     % Plotting
-    
+
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
     plot(handles.plot_pp,handles.time_axis_cut,handles.sig_cut(sig_select,:),'color',handles.linecol(1,:));
     hold(handles.plot_pp,'on');
     plot(handles.plot_pp,handles.time_axis_cut, handles.sig_pp(sig_select,:),'color',handles.linecol(2,:));
-    legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',8,'Location','Best','units','points');
+    legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',globalfontsize-2,'Location','Best','units','points');
     xlim(handles.plot_pp,[handles.time_axis_cut(1) handles.time_axis_cut(end)]);
     xlabel(handles.plot_pp,{'Time (s)'});
     
@@ -716,7 +721,7 @@ elseif disp_select > 2 && disp_select <7
         
         colormap(handles.bisp,handles.cmap);
         shading(handles.bisp,'interp');
-        set(handles.bisp,'fontunits','points','fontsize',10);
+        set(handles.bisp,'fontunits','points','fontsize',globalfontsize);
         
         
         
@@ -1070,7 +1075,7 @@ elseif disp_select>=3 && disp_select<=6
         
         
     end
-    legend(handles.bisp_amp_axis,handles.leg_bisp,'FontSize',10);
+    legend(handles.bisp_amp_axis,handles.leg_bisp,'FontSize',globalfontsize);
     
 end
 
@@ -1114,8 +1119,8 @@ end
 
 cla(handles.bisp_amp_axis,'reset');
 cla(handles.bisp_phase_axis,'reset');
-set(handles.bisp_amp_axis,'fontunits','points','fontsize',10);
-set(handles.bisp_phase_axis,'fontunits','points','fontsize',10);
+set(handles.bisp_amp_axis,'fontunits','points','fontsize',globalfontsize);
+set(handles.bisp_phase_axis,'fontunits','points','fontsize',globalfontsize);
 clear_axes_points(handles.bisp);
 
 %% Saving
@@ -1495,7 +1500,9 @@ lines = findobj(gcf,'Type','Line');
 for i = 1:numel(lines)
     set(lines(i),'LineWidth',2);
 end
-legend(ax,handles.leg_bisp,'FontSize',10);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+legend(ax,handles.leg_bisp,'FontSize',globalfontsize);
 
 
 function save_biphase_Callback(hObject, eventdata, handles)
@@ -1507,7 +1514,8 @@ lines = findobj(gcf,'Type','Line');
 for i = 1:numel(lines)
     set(lines(i),'LineWidth',2);
 end
-legend(ax,handles.leg_bisp,'FontSize',10);
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+legend(ax,handles.leg_bisp,'FontSize',globalfontsize);
 
 
 function save_bispect_biamp_biphase_Callback(hObject, eventdata, handles)
@@ -1525,7 +1533,8 @@ lines = findobj(gca,'Type','Line');
 for i = 1:numel(lines)
     set(lines(i),'LineWidth',2);
 end
-set(ax2,'YTickMode', 'auto', 'YTickLabelMode', 'auto','XTickLabelMode','auto','FontUnits','points','FontSize',10);
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+set(ax2,'YTickMode', 'auto', 'YTickLabelMode', 'auto','XTickLabelMode','auto','FontUnits','points','FontSize',globalfontsize);
 
 ax3 = copyobj(handles.bisp_phase_axis, Fig);
 subplot(2,2,4,ax3);
@@ -1534,10 +1543,10 @@ lines = findobj(gca,'Type','Line');
 for i = 1:numel(lines)
     set(lines(i),'LineWidth',2);
 end
-xlabel(ax3,'Time (s)','FontUnits','points','FontSize',10);
-set(ax3,'YTickMode', 'auto', 'YTickLabelMode', 'auto','FontUnits','points','FontSize',10);
+xlabel(ax3,'Time (s)','FontUnits','points','FontSize',globalfontsize);
+set(ax3,'YTickMode', 'auto', 'YTickLabelMode', 'auto','FontUnits','points','FontSize',globalfontsize);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.9 0.5]);
-legend(ax2,handles.leg_bisp,'FontSize',10);
+legend(ax2,handles.leg_bisp,'FontSize',globalfontsize);
 
 
 function save_all_plots_Callback(hObject, eventdata, handles)
@@ -1562,7 +1571,7 @@ colormap(ax4,handles.cmap);
 ax5 = copyobj(handles.wt_1, Fig);
 subplot(2,3,3,ax5);
 colormap(ax5,handles.cmap);
-set(ax5,'XTickLabelMode','auto','FontUnits','points','FontSize',10);
+set(ax5,'XTickLabelMode','auto','FontUnits','points','FontSize',globalfontsize);
 
 ax6 = copyobj(handles.wt_2, Fig);
 subplot(2,3,6,ax6);

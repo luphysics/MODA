@@ -853,12 +853,13 @@ for j=1:size(c1,3)
         handles.cfmin=cfmin2;
     end
     
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
     
     subplot(1,2,1)
     surf(squeeze(c1(:,:,j)))
     title('Oscillator 2 to oscillator 1')
     view([-40 50])
-    set(gca,'fontname','Helvetica','fontsize',12,'Xgrid','off','Ygrid','off')
+    set(gca,'fontname','Helvetica','fontsize',globalfontsize,'Xgrid','off','Ygrid','off')
     xlabel('\phi_1');ylabel('\phi_2');zlabel('q_1(\phi_1,\phi_2)');axis tight
     grid on
     if get(handles.scaleon,'Value')==1
@@ -869,7 +870,7 @@ for j=1:size(c1,3)
     surf(squeeze(c2(:,:,j)))
     title('Oscillator 1 to oscillator 2')
     view([-40 50])
-    set(gca,'fontname','Helvetica','fontsize',12,'Xgrid','off','Ygrid','off')
+    set(gca,'fontname','Helvetica','fontsize',globalfontsize,'Xgrid','off','Ygrid','off')
     xlabel('\phi_1');ylabel('\phi_2');zlabel('q_2(\phi_1,\phi_2)');axis tight
     grid on
     if get(handles.scaleon,'Value')==1
@@ -882,7 +883,7 @@ for j=1:size(c1,3)
     ax2=axes('Position',[.45 .1 .15 .15],'visible','off');
     %currt=[num2str(t{sig_select,int_select}-floor(win/2)),' - ',num2str(t{sig_select,int_select}+floor(win/2)),' s'];
     currt=[num2str(t(j)-floor(win/2)),' - ',num2str(t(j)+floor(win/2)),' s'];
-    text(0.2, 0.2,currt,'fontsize',12,'fontweight','bold')
+    text(0.2, 0.2,currt,'fontsize',globalfontsize,'fontweight','bold')
     set(gca,'nextplot','replacechildren');
     currFrame = getframe(gcf);
     writeVideo(v,currFrame)

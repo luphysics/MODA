@@ -141,9 +141,12 @@ if A==1
         list{size(sig,1)+1,1} = sprintf('Average Plot (All)');
         set(handles.signal_list,'String',list);
         
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
         
         % Plot time series
         plot(handles.time_series,handles.time_axis,sig(1,:),'color',handles.linecol(1,:));
+        set(handles.time_series, "FontSize", globalfontsize);
+
         xlim(handles.time_series,[0,size(sig,2)./handles.sampling_freq]);
         xlabel(handles.time_series,'Time (s)');
         guidata(hObject,handles);
@@ -217,6 +220,7 @@ end
 handles.sig = sigBackup; % Restore full signal.
 
 %%%% Plotting %%%%
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
 
 % Plot original signal on preprocessing plot.
 plot(handles.plot_pp,handles.time_axis,handles.sig(signal_selected,:),'color',handles.linecol(1,:));
@@ -228,10 +232,10 @@ pp_sig = handles.sig_pp{signal_selected,1};
 pp_sig = pp_sig(1:size(find(1 == indices),2));
 plot(handles.plot_pp, pp_times, pp_sig,'color',handles.linecol(2,:));
 
-legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',8,'Location','Best','units','normalized');
+legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',globalfontsize-2,'Location','Best','units','normalized');
 xlim(handles.plot_pp,[0,size(handles.sig,2)./fs]);
-set(handles.plot_pp,'FontUnits','points','FontSize',8);
-xlabel(handles.plot_pp,{'Time (s)'},'FontUnits','points','FontSize',8);
+set(handles.plot_pp,'FontUnits','points','FontSize',globalfontsize);
+xlabel(handles.plot_pp,{'Time (s)'},'FontUnits','points','FontSize',globalfontsize-2);
 xl = csv_to_mvar(get(handles.xlim,'String'));
 xl = xl.*fs;
 xl(2) = min(xl(2),size(handles.sig,2));
@@ -262,7 +266,12 @@ end
 
 if any(signal_selected ~= size(handles.sig,1)+1) && length(signal_selected) == 1
     set(handles.save_WT_coeff,'Enable','on')
+    
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
     plot(handles.time_series, handles.time_axis, handles.sig(signal_selected,:),'color',handles.linecol(1,:));
+    set(handles.time_series, "FontSize", globalfontsize);
+
     xl = csv_to_mvar(get(handles.xlim, 'String'));
     xlim(handles.time_series, xl);
     xlabel(handles.time_series, 'Time (s)');
@@ -315,6 +324,8 @@ if any(signal_selected == size(handles.sig,1)+1) && isfield(handles,'freqarr')
     set(handles.save_both_plot,'Enable','off')
     set(handles.save_avg_plot,'Enable','off')
     set(handles.save_mm_plot,'Enable','on')
+
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
     
     hold(handles.cum_avg,'on');
     uistack(handles.cum_avg,'top');
@@ -327,8 +338,8 @@ if any(signal_selected == size(handles.sig,1)+1) && isfield(handles,'freqarr')
             plot(handles.cum_avg, handles.freqarr, mean(cell2mat(handles.pow_arr)),'-','Linewidth',3,'color',handles.linecol(1,:));
             plot(handles.cum_avg, handles.freqarr, median(cell2mat(handles.pow_arr)),'--','Linewidth',3,'color',handles.linecol(2,:));
         end
-        ylabel(handles.cum_avg,'Average Power','FontUnits','points','FontSize',10);
-        xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',10);
+        ylabel(handles.cum_avg,'Average Power','FontUnits','points','FontSize',globalfontsize);
+        xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',globalfontsize);
     else
         if size(handles.sig,1) == 1
             plot(handles.cum_avg, handles.freqarr, cell2mat(handles.amp_arr),'-','Linewidth',3,'color',handles.linecol(1,:));
@@ -337,12 +348,12 @@ if any(signal_selected == size(handles.sig,1)+1) && isfield(handles,'freqarr')
             plot(handles.cum_avg, handles.freqarr, mean(cell2mat(handles.amp_arr)),'-','Linewidth',3,'color',handles.linecol(1,:));
             plot(handles.cum_avg, handles.freqarr, median(cell2mat(handles.amp_arr)),'--','Linewidth',3,'color',handles.linecol(2,:));
         end
-        ylabel(handles.cum_avg,'Average Amplitude','FontUnits','points','FontSize',10);
-        xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',10);
+        ylabel(handles.cum_avg,'Average Amplitude','FontUnits','points','FontSize',globalfontsize);
+        xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',globalfontsize);
     end
     handles.leg1={'Mean','Median'};
     % legend(handles.cum_avg,handles.leg1,'FontUnits','points','FontSize',10)
-    legend(handles.cum_avg,handles.leg1,'FontSize',10)
+    legend(handles.cum_avg,handles.leg1,'FontSize',globalfontsize)
     ind=2;
     ls=1;
     sty='-';
@@ -360,16 +371,16 @@ if any(signal_selected == size(handles.sig,1)+1) && isfield(handles,'freqarr')
         end
         if(handles.plot_type == 1 && signal_selected(i) <= size(handles.sig,1))
             plot(handles.cum_avg, handles.freqarr, handles.pow_arr{signal_selected(i),1},sty,'color',handles.linecol(ind,:),'LineWidth',handles.line2width);
-            ylabel(handles.cum_avg,'Average Power','FontUnits','points','FontSize',10);
-            xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',10);
+            ylabel(handles.cum_avg,'Average Power','FontUnits','points','FontSize',globalfontsize);
+            xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',globalfontsize);
             [M,I] = max(handles.pow_arr{signal_selected(i),1});
             handles.leg1{i+2}=['Signal ',num2str(signal_selected(i))];
             legend(handles.cum_avg,handles.leg1)
             
         elseif signal_selected(i) <= size(handles.sig,1)
             plot(handles.cum_avg, handles.freqarr, handles.amp_arr{signal_selected(i),1},sty,'color',handles.linecol(ind,:),'LineWidth',handles.line2width);
-            ylabel(handles.cum_avg,'Average Amplitude','FontUnits','points','FontSize',10);
-            xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',10);
+            ylabel(handles.cum_avg,'Average Amplitude','FontUnits','points','FontSize',globalfontsize);
+            xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','points','FontSize',globalfontsize);
             [M,I] = max(handles.amp_arr{signal_selected(i),1});
             handles.leg1{i+2}=['Signal ',num2str(signal_selected(i))];
             legend(handles.cum_avg,handles.leg1)
@@ -439,9 +450,13 @@ end
 grid(handles.plot3d,'on');
 grid(handles.plot_pow,'off');
 grid(handles.cum_avg,'off');
-set(handles.plot3d,'FontUnits','points','FontSize',10);
-set(handles.plot_pow,'FontUnits','points','FontSize',10);
-set(handles.cum_avg,'FontUnits','points','FontSize',10);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+set(handles.plot3d,'FontUnits','points','FontSize',globalfontsize);
+set(handles.plot_pow,'FontUnits','points','FontSize',globalfontsize);
+set(handles.cum_avg,'FontUnits','points','FontSize',globalfontsize);
+
 guidata(hObject,handles);
 
 function intervals_Callback(hObject, eventdata, handles)
@@ -662,7 +677,10 @@ guidata(hObject,handles);
 function plot_TS_Callback(hObject, eventdata, handles)
 Fig = figure;
 ax = copyobj(handles.time_series, Fig);
-set(ax,'Units', 'normalized', 'Position', [0.1,0.25,.85,.6],'FontUnits','points','FontSize',10);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+set(ax,'Units', 'normalized', 'Position', [0.1,0.25,.85,.6],'FontUnits','points','FontSize',globalfontsize);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.5 0.3]);
 
 

@@ -281,11 +281,13 @@ if ppstat==2
         handles.sig_pp(j,:) = ifft(fx)';
         
         % Plotting
+
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
         
         plot(handles.plot_pp,handles.time_axis_cut,handles.sig_cut(sig_select,:),'color',handles.linecol(1,:));
         hold(handles.plot_pp,'on');
         plot(handles.plot_pp,handles.time_axis_cut, handles.sig_pp(sig_select,:),'color',handles.linecol(2,:));
-        legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',8,'Location','Best','units','points');
+        legend(handles.plot_pp,{'Original','Pre-Processed'},'FontSize',globalfontsize,'Location','Best','units','points');
         xlim(handles.plot_pp,[handles.time_axis_cut(1) handles.time_axis_cut(end)]);
         xlabel(handles.plot_pp,{'Time (s)'});
         
@@ -320,13 +322,16 @@ if sig_select ~= size(handles.sig,1)+1 && length(sig_select)==1
     plot(handles.time_series,handles.time_axis_cut,handles.sig_cut(sig_select,:),'color',handles.linecol(1,:));
     xlim(handles.time_series,handles.xl)
     xlabel(handles.time_series,'Time (s)')
-    
+
     detrend_signal_Callback(hObject, eventdata, handles)
     
     if isfield(handles,'freqarr')
         display_type_Callback(hObject, eventdata, handles)
     else
     end
+
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+    set(handles.time_series, "FontSize", globalfontsize);
 else
     display_type_Callback(hObject, eventdata, handles)
 end
@@ -594,6 +599,10 @@ if disp_select==1 && sig_select~=size(handles.sig_cut,1)+1
     ylabel(handles.plot_pow,'Frequency (Hz)');
     ylim(handles.plot_pow,[min(handles.freqarr) max(handles.freqarr)]);
     set(handles.status,'String','Done Plotting');
+
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+    set(handles.plot_pow, "FontSize", globalfontsize);
+    set(handles.plot3d, "FontSize", globalfontsize);
     
     % If average plot and time-frequency display are selected
 elseif disp_select==1 && sig_select==size(handles.sig_cut,1)+1
@@ -710,12 +719,14 @@ elseif disp_select==2
             handles.f1{j}=fb(j,1:4);
             handles.f2{j}=fb(j,10:13);
         end
+
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
         
         if extype==1
             for j=1:size(int_select,2)
                 plot(handles.amp_axis,handles.time_axis_cut,handles.recon{sig_select,int_select(j)},'color',handles.linecol(j,:),'linewidth',handles.line2width);
                 handles.leg3{j}=[handles.f1{int_select(j)},' - ',handles.f2{int_select(j)},' Hz'];
-                legend(handles.amp_axis,handles.leg3,'FontSize',10,'Orientation','Vertical','position',[0.89 0.5 0.05 0.05])
+                legend(handles.amp_axis,handles.leg3,'FontSize',globalfontsize,'Orientation','Vertical','position',[0.89 0.5 0.05 0.05])
                 plot(handles.phase_axis, handles.time_axis_cut,handles.bands_iphi{sig_select,int_select(j)},'color',handles.linecol(j,:),'linewidth',handles.line2width);
                 
                 
@@ -750,6 +761,7 @@ elseif disp_select==2
             else
                 set(handles.freq_axis,'yscale','log');
             end
+
             linkaxes([handles.amp_axis handles.phase_axis handles.freq_axis handles.time_series],'x');
             xlim(handles.amp_axis,handles.xl);
             xlim(handles.phase_axis,handles.xl);
@@ -758,14 +770,19 @@ elseif disp_select==2
             ylabel(handles.amp_axis,'Filtered Signal');
             ylabel(handles.freq_axis,'Frequency (Hz)');
             set(handles.phase_axis,'yticklabel',{'-\pi','-0.5\pi','0', '0.5\pi', '\pi'},'ytick',[-pi, -0.5*pi, 0, 0.5*pi, pi],'fontunits','normalized');
-            set(handles.amp_axis,'fontunits','points','fontsize',10);
+
+            globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+            
+            set(handles.freq_axis, "FontSize", globalfontsize);
+            set(handles.amp_axis,'fontunits','points','fontsize',globalfontsize);
+            set(handles.phase_axis,'fontunits','points','fontsize',globalfontsize);
             
             
         elseif extype==2
             for j=1:size(int_select,2)
                 plot(handles.amp_axis,handles.time_axis_cut,handles.bands{sig_select,int_select(j)},'color',handles.linecol(j,:),'linewidth',handles.line2width);
                 handles.leg3{j}=[handles.f1{int_select(j)},' - ',handles.f2{int_select(j)},' Hz'];
-                legend(handles.amp_axis,handles.leg3,'FontSize',10,'Orientation','Vertical','position',[0.89 0.5 0.05 0.05])
+                legend(handles.amp_axis,handles.leg3,'FontSize',globalfontsize,'Orientation','Vertical','position',[0.89 0.5 0.05 0.05])
                 plot(handles.phase_axis, handles.time_axis_cut, handles.extract_phase{sig_select,int_select(j)},'color',handles.linecol(j,:),'linewidth',handles.line2width);
                 plot(handles.freq_axis,handles.time_axis_cut,handles.extract_amp{sig_select,int_select(j)},'color',handles.linecol(j,:),'linewidth',handles.line2width);
             end
@@ -777,7 +794,12 @@ elseif disp_select==2
             ylabel(handles.phase_axis,'Phase');
             ylabel(handles.amp_axis,'Filtered Signal');
             ylabel(handles.freq_axis,'Amplitude');
-            set(handles.amp_axis,'fontunits','points','fontsize',10);
+
+            globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+            set(handles.freq_axis, "FontSize", globalfontsize);
+            set(handles.amp_axis,'fontunits','points','fontsize',globalfontsize);
+            set(handles.phase_axis,'fontunits','points','fontsize',globalfontsize);
         else
         end
     end
@@ -824,8 +846,10 @@ elseif disp_select==3
             [ftorig, ft_freq] = Fourier(handles.sig(sig_select,:),handles.sampling_freq);
         end
         
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
         plot(handles.fourier_plot,ft_freq,ftorig,'linewidth',2,'color',handles.linecol(1,:));
-        set(handles.fourier_plot,'fontunits','points','fontsize',10,'visible','on','xscale','log','yscale','log','xlim',[handles.freqarr(1) handles.freqarr(end)]);
+        set(handles.fourier_plot,'fontunits','points','fontsize',globalfontsize,'visible','on','xscale','log','yscale','log','xlim',[handles.freqarr(1) handles.freqarr(end)]);
         
         extype = handles.etype;
         handles.leg2={'Original'};
@@ -839,13 +863,13 @@ elseif disp_select==3
             handles.f2{j}=fb(j,10:13);
         end
         
-        legend(handles.fourier_plot,handles.leg2,'FontSize',10)
+        legend(handles.fourier_plot,handles.leg2,'FontSize',globalfontsize)
         if isfield(handles,'bands') && extype==2
             for j = 1:size(int_select,2)
                 [ft, ft_freq] = Fourier(handles.bands{sig_select,int_select(j)},handles.sampling_freq);
                 plot(handles.fourier_plot,ft_freq,ft,'Linewidth',2,'color',handles.linecol(j+1,:));
                 handles.leg2{j+1}=[handles.f1{int_select(j)},' - ',handles.f2{int_select(j)},' Hz'];
-                legend(handles.fourier_plot,handles.leg2,'FontSize',10)
+                legend(handles.fourier_plot,handles.leg2,'FontSize',globalfontsize)
             end
             
             
@@ -859,20 +883,22 @@ elseif disp_select==3
             %             plot(handles.fourier_plot,x,yl,'-k');
             %         end
         end
+
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
         
         if isfield(handles,'bands_iphi') && extype==1
             for j = 1:size(int_select,2)
                 [ft, ft_freq] = Fourier(handles.recon{sig_select,int_select(j)},handles.sampling_freq);
                 plot(handles.fourier_plot,ft_freq,ft,'Linewidth',2,'color',handles.linecol(j+1,:));
                 handles.leg2{j+1}=[handles.f1{int_select(j)},' - ',handles.f2{int_select(j)},' Hz'];
-                legend(handles.fourier_plot,handles.leg2,'FontSize',10)
+                legend(handles.fourier_plot,handles.leg2,'FontSize',globalfontsize)
                 set(handles.fourier_plot,'ylim',[min(abs(ft)) max(abs(ft))]);
             end
         end
         
         %fourier_scale_Callback(hObject, eventdata, handles)
-        xlabel(handles.fourier_plot,'Frequency (Hz)','fontunits','points','fontsize',10)
-        ylabel(handles.fourier_plot,'FT Power','fontunits','points','fontsize',10)
+        xlabel(handles.fourier_plot,'Frequency (Hz)','fontunits','points','fontsize',globalfontsize)
+        ylabel(handles.fourier_plot,'FT Power','fontunits','points','fontsize',globalfontsize)
         
         guidata(hObject,handles);
         
@@ -1044,7 +1070,10 @@ display_type_Callback(hObject, eventdata, handles)
 function plot_TS_Callback(hObject, eventdata, handles)
 Fig = figure;
 ax = copyobj(handles.time_series, Fig);
-set(ax,'Units', 'normalized', 'Position', [0.1,0.25,.85,.6],'FontUnits','points','FontSize',10);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+set(ax,'Units', 'normalized', 'Position', [0.1,0.25,.85,.6],'FontUnits','points','FontSize',globalfontsize);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.5 0.3]);
 
 
@@ -1080,9 +1109,12 @@ colormap(Fig,handles.cmap);
 function save_mm_plot_Callback(hObject, eventdata, handles)
 Fig = figure;
 ax = copyobj(handles.cum_avg, Fig);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
 set(ax,'Units', 'normalized', 'Position', [0.1,0.2,.85,.7]);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.5 0.5]);
-legend(ax,handles.leg1,'FontSize',10)
+legend(ax,handles.leg1,'FontSize',globalfontsize)
 
 function save_filtered_sig_plot_Callback(hObject, eventdata, handles)
 Fig = figure;

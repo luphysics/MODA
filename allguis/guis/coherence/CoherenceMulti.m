@@ -1091,8 +1091,11 @@ function xyplot_Callback(hObject, eventdata, handles)
             plot(handles.cum_avg, handles.freqarr, cell2mat(handles.time_avg_wpc),'-','Linewidth',3,'color',handles.linecol(1,:));
             plot(handles.cum_avg, handles.freqarr, cell2mat(handles.time_avg_wpc),'--','Linewidth',3,'color',handles.linecol(2,:));
         end
-        ylabel(handles.cum_avg,'Overall Coherence','FontUnits','Points','Fontsize',10);
-        xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','Points','Fontsize',10);
+
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+        ylabel(handles.cum_avg,'Overall Coherence','FontUnits','Points','Fontsize',globalfontsize);
+        xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','Points','Fontsize',globalfontsize);
         handles.leg1={'Mean','Median'};
         legend(handles.cum_avg,handles.leg1)
         ind=2;
@@ -1112,8 +1115,8 @@ function xyplot_Callback(hObject, eventdata, handles)
             end
             if(signal_selected(i) <= size(handles.sig,1)/2)                                
                 plot(handles.cum_avg, handles.freqarr, handles.time_avg_wpc{signal_selected(i),1},sty,'color',handles.linecol(ind,:),'LineWidth',handles.line2width);                     
-                ylabel(handles.cum_avg,'Overall Coherence','FontUnits','Points','Fontsize',10);
-                xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','Points','Fontsize',10);            
+                ylabel(handles.cum_avg,'Overall Coherence','FontUnits','Points','Fontsize',globalfontsize);
+                xlabel(handles.cum_avg,'Frequency (Hz)','FontUnits','Points','Fontsize',globalfontsize);            
                 [M,I] = max(handles.time_avg_wpc{signal_selected(i),1});
                 handles.leg1{i+2}=['Pair ',num2str(signal_selected(i))];
                 legend(handles.cum_avg,handles.leg1)
@@ -1145,26 +1148,28 @@ function xyplot_Callback(hObject, eventdata, handles)
         handles.peak_value = max(handles.TPC{signal_selected,1}(:))+.1;
         pcolor(handles.plot3d, handles.time_axis_ds , handles.freqarr, handles.TPC{signal_selected,1});    
         
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
         plot(handles.plot_pow, handles.time_avg_wpc{signal_selected,1}, handles.freqarr,'LineWidth',2,'color',handles.linecol(1,:));
-        set(handles.plot3d,'FontUnits','Points','Fontsize',10);
-        set(handles.plot_pow,'FontUnits','Points','Fontsize',10);
+        set(handles.plot3d,'FontUnits','Points','Fontsize',globalfontsize);
+        set(handles.plot_pow,'FontUnits','Points','Fontsize',globalfontsize);
         hold(handles.plot_pow,'on');
         if str2double(get(handles.surrogate_count,'String'))>1            
             plot(handles.plot_pow,handles.TPC_surr_avg_max{signal_selected,1} , handles.freqarr,'LineWidth',2,'color',handles.linecol(2,:));
             handles.leg = {'Original Signal','Surrogate'};
             pow_plot_leg = legend(handles.plot_pow, handles.leg);
-            set(pow_plot_leg,'fontsize',8,'Position',[0.855 0.92 0.05 0.05]);
+            set(pow_plot_leg,'fontsize',globalfontsize-2,'Position',[0.855 0.92 0.05 0.05]);
         else
         end
         hold(handles.plot_pow,'off');
-        xlabel(handles.plot_pow,'Overall Coherence','FontUnits','Points','Fontsize',10);       
+        xlabel(handles.plot_pow,'Overall Coherence','FontUnits','Points','Fontsize',globalfontsize);       
         
         
-        xlabel(handles.plot3d,'Time (s)','FontUnits','Points','Fontsize',10);
-        ylabel(handles.plot3d,'Frequency (Hz)','FontUnits','Points','Fontsize',10);    
-        ylabel(handles.plot_pow,'Frequency (Hz)','FontUnits','Points','Fontsize',10);
-        set(handles.plot3d,'FontUnits','Points','Fontsize',10);
-        set(handles.plot_pow,'FontUnits','Points','Fontsize',10);
+        xlabel(handles.plot3d,'Time (s)','FontUnits','Points','Fontsize',globalfontsize);
+        ylabel(handles.plot3d,'Frequency (Hz)','FontUnits','Points','Fontsize',globalfontsize);    
+        ylabel(handles.plot_pow,'Frequency (Hz)','FontUnits','Points','Fontsize',globalfontsize);
+        set(handles.plot3d,'FontUnits','Points','Fontsize',globalfontsize);
+        set(handles.plot_pow,'FontUnits','Points','Fontsize',globalfontsize);
         
         colormap(handles.plot3d,handles.cmap);
         shading(handles.plot3d,'interp');       
@@ -1183,9 +1188,9 @@ function xyplot_Callback(hObject, eventdata, handles)
         
     end
     
-    set(handles.plot3d,'FontUnits','Points','Fontsize',10);
-    set(handles.plot_pow,'FontUnits','Points','Fontsize',10);
-    set(handles.cum_avg,'FontUnits','Points','Fontsize',10);
+    set(handles.plot3d,'FontUnits','Points','Fontsize',globalfontsize);
+    set(handles.plot_pow,'FontUnits','Points','Fontsize',globalfontsize);
+    set(handles.cum_avg,'FontUnits','Points','Fontsize',globalfontsize);
     
     guidata(hObject,handles);
     end
@@ -1290,11 +1295,14 @@ if toggle == get(handles.subtract_surrogates,'Max')
     idx_first = find(sum(~isnan(handles.time_avg_wpc{signal_selected,1}),1) > 0, 1 ,'first');
     idx_last = find(sum(~isnan(handles.time_avg_wpc{signal_selected,1}),1) > 0, 1 , 'last');      
     ylim(handles.plot_pow,[handles.freqarr(idx_first) handles.freqarr(idx_last)]);
-    xlabel(handles.plot_pow,'Overall Coherence','FontUnits','Points','Fontsize',10);
-    ylabel(handles.plot_pow,'Frequency (Hz)','FontUnits','Points','Fontsize',10); 
+
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+    xlabel(handles.plot_pow,'Overall Coherence','FontUnits','Points','Fontsize',globalfontsize);
+    ylabel(handles.plot_pow,'Frequency (Hz)','FontUnits','Points','Fontsize',globalfontsize); 
     handles.leg = {'Surrogate Subtracted'};
     pow_plot_leg = legend(handles.plot_pow, handles.leg);
-    set(pow_plot_leg,'fontsize',8,'Position',[0.855 0.92 0.05 0.05]);
+    set(pow_plot_leg,'fontsize',globalfontsize-2,'Position',[0.855 0.92 0.05 0.05]);
     
 else
     cla(handles.plot_pow);
@@ -1309,17 +1317,24 @@ else
     idx_last = find(sum(~isnan(handles.time_avg_wpc{signal_selected,1}),1) > 0, 1 , 'last');      
     ylim(handles.plot_pow,[handles.freqarr(idx_first) handles.freqarr(idx_last)]);
     set(handles.status,'String','Done Plotting');
-    xlabel(handles.plot_pow,'Overall Coherence','FontUnits','Points','Fontsize',10);   
-    ylabel(handles.plot_pow,'Frequency (Hz)','FontUnits','Points','Fontsize',10); 
+
+    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+    xlabel(handles.plot_pow,'Overall Coherence','FontUnits','Points','Fontsize',globalfontsize);   
+    ylabel(handles.plot_pow,'Frequency (Hz)','FontUnits','Points','Fontsize',globalfontsize); 
+
     handles.leg = {'Original Signal','Surrogate'};
     pow_plot_leg = legend(handles.plot_pow, handles.leg);
-    set(pow_plot_leg,'fontsize',8,'Position',[0.855 0.92 0.05 0.05]);
+    set(pow_plot_leg,'fontsize',globalfontsize-2,'Position',[0.855 0.92 0.05 0.05]);
     
 end
     end
 grid(handles.plot_pow,'off');
 intervals_Callback(hObject, eventdata, handles)
-set(handles.plot_pow,'FontUnits','Points','Fontsize',10);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+set(handles.plot_pow,'FontUnits','Points','Fontsize',globalfontsize);
 guidata(hObject,handles);
 
 function detrend_signal_popup_Callback(hObject, eventdata, handles)
@@ -1449,8 +1464,11 @@ function plot_TS_Callback(hObject, eventdata, handles)
 Fig = figure;
 ax1 = copyobj(handles.time_series_1, Fig);
 ax2 = copyobj(handles.time_series_2, Fig);
-set(ax1,'Units', 'normalized', 'Position', [0.1,0.55,.85,.35],'FontUnits','points','FontSize',10);
-set(ax2,'Units', 'normalized', 'Position', [0.1,0.15,.85,.35],'FontUnits','points','FontSize',10);
+
+globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+
+set(ax1,'Units', 'normalized', 'Position', [0.1,0.55,.85,.35],'FontUnits','points','FontSize',globalfontsize);
+set(ax2,'Units', 'normalized', 'Position', [0.1,0.15,.85,.35],'FontUnits','points','FontSize',globalfontsize);
 set(Fig,'Units','normalized','Position', [0.2 0.2 0.5 0.5]);
 
 
