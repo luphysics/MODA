@@ -719,11 +719,11 @@ elseif disp_select > 2 && disp_select <7
         xlim(handles.bisp,[handles.freqarr(idx_first) handles.freqarr(idx_last)]);
         ylim(handles.bisp,[handles.freqarr(idx_first) handles.freqarr(idx_last)]);
         
+        globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
+        
         colormap(handles.bisp,handles.cmap);
         shading(handles.bisp,'interp');
         set(handles.bisp,'fontunits','points','fontsize',globalfontsize);
-        
-        
         
         guidata(hObject,handles);
     end
