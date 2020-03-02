@@ -329,9 +329,6 @@ if sig_select ~= size(handles.sig,1)+1 && length(sig_select)==1
         display_type_Callback(hObject, eventdata, handles)
     else
     end
-
-    globalfontsize = 12; % Do not edit this line manually. See scripts/fontsize.py.
-    set(handles.time_series, "FontSize", globalfontsize);
 else
     display_type_Callback(hObject, eventdata, handles)
 end
