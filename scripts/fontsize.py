@@ -22,9 +22,9 @@ from typing import List
 assert sys.version_info >= (3, 6), "Please run with Python 3.6 or above."
 
 args = sys.argv[1:]
-assert (
-    args
-), "Font size must be supplied as an argument. For example, 'python fontsize.py 1' for a font size of 12."
+if not args:
+    print("ERROR: Font size must be supplied as an argument. For example, run 'python fontsize.py 12' for a font size of 12.")
+    sys.exit(1)
 
 # Set working directory to MODA folder.
 here = path.abspath(path.dirname(__file__))
