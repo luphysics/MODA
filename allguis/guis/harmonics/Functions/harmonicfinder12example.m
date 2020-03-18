@@ -23,12 +23,13 @@ ressurr=NaN(surrnumber,m,m);
 for sigb=1:surrnumber
     surrsig=aaft4(detsig');
     transsurr=modbasicwavelet_flow_cmplx4(surrsig, parametri);
-    %
+    
     sigb
     
     for a1=1:m
         margin=ceil((sum(isnan(angle(trans1(a1,1:n)))))/2);
         phase1=angle(trans1(a1,1+margin:n-margin)); %slow
+        
         for a2=1:a1
             phase2=angle(transsurr(a2,1+margin:n-margin)); %fast
             
@@ -41,11 +42,14 @@ for sigb=1:surrnumber
 end %sigb
 
 figure
-mesh(scalefrequency1,scalefrequency1,res')
+s = mesh(scalefrequency1,scalefrequency1,res');
+s.FaceColor = "flat";
+
 set(gca,'xscale','log')
 set(gca,'yscale','log')
 title([savedata ' raw harmonics'])
-shading interp; view(2)
+% shading interp; 
+view(2)
 axis tight
 %            [Y,I] = SORT(X,DIM,MODE) also returns an index matrix I.
 %     If X is a vector, then Y = X(I).
@@ -60,11 +64,14 @@ for a1=1:m
     end
 end
 figure
-mesh(scalefrequency1,scalefrequency1,pos')
+s = mesh(scalefrequency1,scalefrequency1,pos');
+s.FaceColor = "flat";
+
 set(gca,'xscale','log')
 set(gca,'yscale','log')
 title([savedata ' higher than how many aaft surrogates'])
-shading interp; view(2)
+% shading interp; 
+view(2)
 axis tight
 
 for a1=1:m
@@ -77,11 +84,14 @@ for a1=1:m
     end
 end
 figure
-mesh(scalefrequency1,scalefrequency1,pos')
+s = mesh(scalefrequency1,scalefrequency1,pos');
+s.FaceColor = "flat";
+
 set(gca,'xscale','log')
 set(gca,'yscale','log')
 title([savedata ' relative to mean and std of surr distribution'])
-shading interp; view(2)
+% shading interp; 
+view(2)
 axis tight
 
 outputa=res;
