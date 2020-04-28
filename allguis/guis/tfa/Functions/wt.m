@@ -233,7 +233,6 @@ if nargin>2 && isstruct(varargin{1})
         wp=copt.wp;
     end
     if isfield(copt,'nvsim') && recflag==1, cvv=copt.nvsim; if ~isempty(cvv), nv=cvv; end, end
-    if isfield(copt,'CachedDataLocation'), cvv=copt.CachedDataLocation; if ~isempty(cvv), CachedDataLocation=cvv; end, end
     if isfield(copt,'python'), cvv=copt.python; if ~isempty(cvv), python=cvv; end, end
 end
 
@@ -250,7 +249,6 @@ for vn=vst:2:nargin-2
     elseif strcmpi(varargin{vn},'Plot'), if ~isempty(varargin{vn+1}), PlotMode=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'CutEdges'), if ~isempty(varargin{vn+1}), CutEdges=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'python'), if ~isempty(varargin{vn+1}), python=varargin{vn+1}; end
-    elseif strcmpi(varargin{vn},'CachedDataLocation'), if ~isempty(varargin{vn+1}), CachedDataLocation=varargin{vn+1}; end
     else
         try
             error(['There is no Property ''',varargin{vn},'''']);
@@ -268,15 +266,6 @@ end
 
 if isnan(f0)
     f0 = 1;
-end
-
-if exist("CachedDataLocation", "var")
-    load(CachedDataLocation, "signal");
-    
-    times = zeros(length(signal),1);
-    for i = 1:length(signal)
-        times(i) = (i-1) / fs;
-    end
 end
 
 L=length(signal);
@@ -631,9 +620,13 @@ if nargout>2
     if ~python
         wopt.wp=wp; %parameters of the wavelet
         wopt.PadLR={padleft,padright};
+    else
+        wp = rmfield(wp, "fwt");
+        varargout{2} = wp;
     end
     
-    wopt.TFRname='WT'; wopt.fs=fs;
+    wopt.TFRname='WT'; 
+    wopt.fs=fs;
     wopt.Wavelet=Wavelet;
     wopt.f0=f0;
     wopt.fmin=fmin;
@@ -647,20 +640,6 @@ if nargout>2
     wopt.CutEdges=CutEdges;
     
     varargout{1}=wopt;
-end
-
-if exist("CachedDataLocation", "var")
-    transform = WT;
-    
-    ampl = abs(transform);
-    powers = ampl.^2;
-    avg_ampl = mean(ampl,2);
-    avg_pow = mean(powers, 2);
-    
-    save(CachedDataLocation, "transform", "times", "freq", "ampl", "powers", "avg_pow", "avg_ampl");
-    
-    WT = 0;
-    freq = 0;
 end
 
 
