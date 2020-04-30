@@ -621,7 +621,7 @@ if nargout>2
         wopt.wp=wp; %parameters of the wavelet
         wopt.PadLR={padleft,padright};
     else
-        wp = rmfield(wp, "fwt");
+        wp.fwt = func2str(wp.fwt);
         varargout{2} = wp;
     end
     

@@ -88,11 +88,26 @@
 function [iamp,iphi,ifreq,varargout] = rectfr(tfsupp,TFR,freq,wopt,varargin)
 
 [NF,L]=size(TFR); freq=freq(:); fs=wopt.fs; wp=wopt.wp; method=1;
+
+% If called from Python, the 'fwt' field is a string.
+try
+    wp.fwt = str2func(wp.fwt);
+catch
+end
+
 if nargin>4 && ~isempty(varargin{1})
     if strcmpi(varargin{1},'direct'), method=1;
     elseif strcmpi(varargin{1},'ridge'), method=2;
+        
     else method=0; end
 end
+
+% If called from Python, reconstruct complex array.
+% (MATLAB doesn't allow complex arrays to be passed.)
+if nargin > 5 && ~isempty(varargin{2})
+    TFR = complex(TFR, varargin{2});
+end
+
 idt=1:L; if iscell(tfsupp), idt=tfsupp{2}; tfsupp=tfsupp{1}; end
 
 %Define component parameters and find time-limits

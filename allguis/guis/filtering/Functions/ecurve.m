@@ -201,7 +201,7 @@ if nargin>3 && isstruct(varargin{1})
     if isfield(copt,'AmpFunc'), cvv=copt.AmpFunc; if ~isempty(cvv), AmpFunc=cvv; end, end
     if isfield(copt,'PenalFunc'), cvv=copt.PenalFunc; if ~isempty(cvv), PenalFunc=cvv; end, end
     if isfield(copt,'MaxIter'), cvv=copt.MaxIter; if ~isempty(cvv), MaxIter=cvv; end, end
-    if isfield(copt,'CachedDataLocation'), cvv=copt.CachedDataLocation; if ~isempty(cvv), CachedDataLocation=cvv; end, end
+    if isfield(copt,'python'), cvv=copt.python; if ~isempty(cvv), python=cvv; end, end
 end
 for vn=vst:2:nargin-3
     if strcmpi(varargin{vn},'Display'), if ~isempty(varargin{vn+1}), DispMode=varargin{vn+1}; end
@@ -214,15 +214,9 @@ for vn=vst:2:nargin-3
     elseif strcmpi(varargin{vn},'AmpFunc'), if ~isempty(varargin{vn+1}), AmpFunc=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'PenalFunc'), if ~isempty(varargin{vn+1}), PenalFunc=varargin{vn+1}; end
     elseif strcmpi(varargin{vn},'MaxIter'), if ~isempty(varargin{vn+1}), MaxIter=varargin{vn+1}; end
-    elseif strcmpi(varargin{vn},'CachedDataLocation'), if ~isempty(varargin{vn+1}), CachedDataLocation=varargin{vn+1}; end
+    elseif strcmpi(varargin{vn},'python'), if ~isempty(varargin{vn+1}), python=varargin{vn+1}; end
     else error(['There is no Property ''',varargin{vn},'''']);
     end
-end
-
-if exist("CachedDataLocation", "var")
-    load(CachedDataLocation, "cached_wt", "cached_freq");
-    TFR = cached_wt;
-    freq = cached_freq;
 end
 
 [NF,L]=size(TFR); freq=freq(:);
